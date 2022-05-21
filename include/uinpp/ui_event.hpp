@@ -55,7 +55,7 @@ public:
   int get_code() const { return code; }
   uint32_t get_device_id() const;
 
-private:
+public: // FIXME: temporarily made public for compatiblity
   uint16_t m_slot_id;
   uint16_t m_device_id;
   bool m_device_id_resolved;
