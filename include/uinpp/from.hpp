@@ -1,8 +1,16 @@
 #ifndef HEADER_UINPP_FROM_HPP
 #define HEADER_UINPP_FROM_HPP
 
+#include <vector>
+#include <linux/input.h>
+
+#include <strut/split.hpp>
+#include <uinpp/ui_event.hpp>
+#include <uinpp/ui_event_sequence.hpp>
+
 #include "evdev_helper.hpp"
 
+inline
 UIEvent
 UIEvent_from_char(char c)
 {
@@ -61,6 +69,7 @@ UIEvent_from_char(char c)
   return ev;
 }
 
+inline
 UIEvent
 UIEvent_from_string(const std::string& str)
 {
@@ -73,10 +82,11 @@ UIEvent_from_string(const std::string& str)
   }
 }
 
+inline
 UIEventSequence
 UIEventSequence_from_string(const std::string& value)
 {
-  UIEvents sequence;
+  std::vector<UIEvent> sequence;
 
   auto ev_tokens = strut::split(value, '+');
   int k = 0;
@@ -88,6 +98,7 @@ UIEventSequence_from_string(const std::string& value)
   return sequence;
 }
 
+inline
 UIEventSequence
 UIEventSequence_from_char(char c)
 {
