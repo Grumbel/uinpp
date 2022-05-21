@@ -26,8 +26,8 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in rec {
         packages = flake-utils.lib.flattenTree {
-          uinputcpp = pkgs.stdenv.mkDerivation {
-            pname = "uinputcpp";
+          uinpp = pkgs.stdenv.mkDerivation {
+            pname = "uinpp";
             version = "0.1.0";
             src = nixpkgs.lib.cleanSource ./.;
             cmakeFlags = [ "-DBUILD_TESTS=ON" ];
@@ -47,6 +47,6 @@
             ];
            };
         };
-        defaultPackage = packages.uinputcpp;
+        defaultPackage = packages.uinpp;
       });
 }

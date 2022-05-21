@@ -1,4 +1,4 @@
-# uinputcpp
+# uinpp
 # Copyright (C) 2022 Ingo Ruhnke <grumbel@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 3.0)
-project(uinput VERSION 0.1.0)
+project(uinpp VERSION 0.1.0)
 
 set(TINYCMMC_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/external/cmake-modules/modules/")
 find_package(tinycmmc CONFIG)
@@ -42,53 +42,53 @@ function(build_dependencies)
 endfunction()
 build_dependencies()
 
-file(GLOB UINPUT_SOURCES src/*.cpp)
-file(GLOB UINPUT_HEADER_SOURCES include/uinput/*.hpp)
-add_library(uinput STATIC ${UINPUT_SOURCES})
-set_target_properties(uinput PROPERTIES
+file(GLOB UINPP_SOURCES src/*.cpp)
+file(GLOB UINPP_HEADER_SOURCES include/uinpp/*.hpp)
+add_library(uinpp STATIC ${UINPP_SOURCES})
+set_target_properties(uinpp PROPERTIES
   CXX_STANDARD 20
   CXX_STANDARD_REQUIRED ON
   CXX_EXTENSIONS OFF)
-set_target_properties(uinput PROPERTIES PUBLIC_HEADER "${UINPUT_HEADER_SOURCES}")
-target_compile_options(uinput PRIVATE ${WARNINGS_CXX_FLAGS})
-target_link_libraries(uinput PUBLIC
+set_target_properties(uinpp PROPERTIES PUBLIC_HEADER "${UINPP_HEADER_SOURCES}")
+target_compile_options(uinpp PRIVATE ${WARNINGS_CXX_FLAGS})
+target_link_libraries(uinpp PUBLIC
   logmich::logmich
   )
-target_include_directories(uinput SYSTEM PUBLIC
+target_include_directories(uinpp SYSTEM PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
-file(GLOB UINPUT_UTIL_SOURCES extra/*.cpp)
-add_executable(uinput-util ${UINPUT_UTIL_SOURCES})
-set_target_properties(uinput-util PROPERTIES
+file(GLOB UINPP_UTIL_SOURCES extra/*.cpp)
+add_executable(uinpp-util ${UINPP_UTIL_SOURCES})
+set_target_properties(uinpp-util PROPERTIES
   CXX_STANDARD 20
   CXX_STANDARD_REQUIRED ON
   CXX_EXTENSIONS OFF)
-target_include_directories(uinput-util PRIVATE src/)
-target_link_libraries(uinput-util uinput)
+target_include_directories(uinpp-util PRIVATE src/)
+target_link_libraries(uinpp-util uinpp)
 
 if(BUILD_TESTS)
   find_package(GTest REQUIRED)
 
-  # build uinput tests
-  file(GLOB TEST_UINPUT_SOURCES tests/*.cpp)
-  add_executable(test_uinput ${TEST_UINPUT_SOURCES})
-  set_target_properties(test_uinput PROPERTIES
+  # build uinpp tests
+  file(GLOB TEST_UINPP_SOURCES tests/*.cpp)
+  add_executable(test_uinpp ${TEST_UINPP_SOURCES})
+  set_target_properties(test_uinpp PROPERTIES
     CXX_STANDARD 20
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF)
-  target_compile_options(test_uinput PRIVATE ${WARNINGS_CXX_FLAGS})
-  target_include_directories(test_uinput PUBLIC src/)
-  target_link_libraries(test_uinput
+  target_compile_options(test_uinpp PRIVATE ${WARNINGS_CXX_FLAGS})
+  target_include_directories(test_uinpp PUBLIC src/)
+  target_link_libraries(test_uinpp
     GTest::GTest
     GTest::Main
-    uinput)
+    uinpp)
 
   # add 'make test' target, use 'make test ARGS="-V"' or 'ctest -V' for verbose
   enable_testing()
-  add_test(NAME test_uinput
+  add_test(NAME test_uinpp
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND test_uinput)
+    COMMAND test_uinpp)
 endif()
 
 include(ExportAndInstallLibrary)
