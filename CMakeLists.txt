@@ -26,9 +26,6 @@ include(GNUInstallDirs)
 # include(MaximumWarnings)
 # include(ClangTidy)
 
-find_package(PkgConfig REQUIRED)
-pkg_search_module(DBUSGLIB REQUIRED dbus-glib-1 IMPORTED_TARGET)
-
 # Build dependencies
 function(build_dependencies)
   set(BUILD_TESTS OFF)
@@ -56,7 +53,6 @@ set_target_properties(uinput PROPERTIES PUBLIC_HEADER "${UINPUT_HEADER_SOURCES}"
 target_compile_options(uinput PRIVATE ${WARNINGS_CXX_FLAGS})
 target_link_libraries(uinput PUBLIC
   logmich::logmich
-  PkgConfig::DBUSGLIB
   )
 target_include_directories(uinput SYSTEM PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

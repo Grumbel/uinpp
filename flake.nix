@@ -44,9 +44,6 @@
               pkgs.util-linux
               pkgs.gtest
               pkgs.fmt
-              pkgs.glib
-              pkgs.dbus-glib
-              pkgs.pcre
             ];
            };
         };
