@@ -28,7 +28,6 @@
 #include <fmt/format.h>
 #include <logmich/log.hpp>
 
-//#include "evdev_helper.hpp"
 #include "force_feedback_handler.hpp"
 
 LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,

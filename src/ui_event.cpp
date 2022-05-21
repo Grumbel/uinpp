@@ -21,7 +21,6 @@
 #include <assert.h>
 #include <fmt/format.h>
 
-//#include "evdev_helper.hpp"
 #include "uinput.hpp"
 
 bool
@@ -46,83 +45,6 @@ UIEvent::create(uint16_t device_id, int type, int code)
   ev.type      = type;
   ev.code      = code;
   return ev;
-}
-
-UIEvent
-UIEvent::from_char(char c)
-{
-#if FIXME_DISABLED_WHEN_MOVED_OUT_OF_XBOXDRV
-  UIEvent ev;
-  ev.m_slot_id = SLOTID_AUTO;
-  ev.m_device_id = DEVICEID_AUTO;
-  ev.m_device_id_resolved = false;
-  ev.type = EV_KEY;
-
-  // FIXME: not very complete, should use UIEventSequence and do a bit more magic
-  switch(c)
-  {
-    case 'a': ev.code = str2key("XK_a"); break;
-    case 'b': ev.code = str2key("XK_b"); break;
-    case 'c': ev.code = str2key("XK_c"); break;
-    case 'd': ev.code = str2key("XK_d"); break;
-    case 'e': ev.code = str2key("XK_e"); break;
-    case 'f': ev.code = str2key("XK_f"); break;
-    case 'g': ev.code = str2key("XK_g"); break;
-    case 'h': ev.code = str2key("XK_h"); break;
-    case 'i': ev.code = str2key("XK_i"); break;
-    case 'j': ev.code = str2key("XK_j"); break;
-    case 'k': ev.code = str2key("XK_k"); break;
-    case 'l': ev.code = str2key("XK_l"); break;
-    case 'm': ev.code = str2key("XK_m"); break;
-    case 'n': ev.code = str2key("XK_n"); break;
-    case 'o': ev.code = str2key("XK_o"); break;
-    case 'p': ev.code = str2key("XK_p"); break;
-    case 'q': ev.code = str2key("XK_q"); break;
-    case 'r': ev.code = str2key("XK_r"); break;
-    case 's': ev.code = str2key("XK_s"); break;
-    case 't': ev.code = str2key("XK_t"); break;
-    case 'u': ev.code = str2key("XK_u"); break;
-    case 'v': ev.code = str2key("XK_v"); break;
-    case 'w': ev.code = str2key("XK_w"); break;
-    case 'x': ev.code = str2key("XK_x"); break;
-    case 'y': ev.code = str2key("XK_y"); break;
-    case 'z': ev.code = str2key("XK_z"); break;
-    case '0': ev.code = str2key("XK_0"); break;
-    case '1': ev.code = str2key("XK_1"); break;
-    case '2': ev.code = str2key("XK_2"); break;
-    case '3': ev.code = str2key("XK_3"); break;
-    case '4': ev.code = str2key("XK_4"); break;
-    case '5': ev.code = str2key("XK_5"); break;
-    case '6': ev.code = str2key("XK_6"); break;
-    case '7': ev.code = str2key("XK_7"); break;
-    case '8': ev.code = str2key("XK_8"); break;
-    case '9': ev.code = str2key("XK_9"); break;
-
-    case '.': ev.code = str2key("XK_period"); break;
-
-    case '\n': ev.code = str2key("XK_enter"); break;
-
-    default:  ev.code = str2key("XK_space"); break;
-  }
-  return ev;
-#endif
-
-  throw std::runtime_error("not implemented");
-}
-
-UIEvent
-UIEvent::from_string(const std::string& str)
-{
-#if FIXME_DISABLED_WHEN_MOVED_OUT_OF_XBOXDRV
-  switch(get_event_type(str))
-  {
-    case EV_REL: return str2rel_event(str); break;
-    case EV_ABS: return str2abs_event(str); break;
-    case EV_KEY: return str2key_event(str); break;
-    default: throw std::runtime_error("unknown event type");
-  }
-#endif
-  throw std::runtime_error("not implemented");
 }
 
 UIEvent
