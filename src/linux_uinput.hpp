@@ -32,34 +32,6 @@ class LinuxUinput
 public:
   enum DeviceType { kGenericDevice, kKeyboardDevice, kMouseDevice, kJoystickDevice };
 
-private:
-  DeviceType  m_device_type;
-  std::string name;
-  struct input_id usbid;
-
-  bool m_finished;
-
-  int m_fd;
-  GIOChannel* m_io_channel;
-  guint m_source_id;
-
-  uinput_user_dev user_dev;
-  bool key_bit;
-  bool rel_bit;
-  bool abs_bit;
-  bool led_bit;
-  bool ff_bit;
-
-  bool abs_lst[ABS_CNT];
-  bool rel_lst[REL_CNT];
-  bool key_lst[KEY_CNT];
-  bool ff_lst[FF_CNT];
-
-  ForceFeedbackHandler* m_ff_handler;
-  std::function<void (uint8_t, uint8_t)> m_ff_callback;
-
-  bool needs_sync;
-
 public:
   LinuxUinput(DeviceType device_type, const std::string& name,
               const struct input_id& usbid_);
@@ -88,21 +60,46 @@ public:
   /** Sends out a sync event if there is a need for it. */
   void sync();
 
+  /** Update force feedback */
   void update(int msec_delta);
 
-private:
-  gboolean on_read_data(GIOChannel* source,
-                        GIOCondition condition);
-  static gboolean on_read_data_wrap(GIOChannel* source,
-                                    GIOCondition condition,
-                                    gpointer userdata)
-  {
-    return static_cast<LinuxUinput*>(userdata)->on_read_data(source, condition);
-  }
+  /** Read incoming data (force feedback, led, etc.) */
+  void read();
+
+  /** file handle to the underlying device */
+  int get_fd() const { return m_fd; }
 
 private:
-  LinuxUinput (const LinuxUinput&);
-  LinuxUinput& operator= (const LinuxUinput&);
+  DeviceType  m_device_type;
+  std::string name;
+  struct input_id usbid;
+
+  bool m_finished;
+
+  int m_fd;
+  GIOChannel* m_io_channel;
+  guint m_source_id;
+
+  uinput_user_dev user_dev;
+  bool key_bit;
+  bool rel_bit;
+  bool abs_bit;
+  bool led_bit;
+  bool ff_bit;
+
+  bool abs_lst[ABS_CNT];
+  bool rel_lst[REL_CNT];
+  bool key_lst[KEY_CNT];
+  bool ff_lst[FF_CNT];
+
+  ForceFeedbackHandler* m_ff_handler;
+  std::function<void (uint8_t, uint8_t)> m_ff_callback;
+
+  bool needs_sync;
+
+private:
+  LinuxUinput (const LinuxUinput&) = delete;
+  LinuxUinput& operator= (const LinuxUinput&) = delete;
 };
 
 #endif

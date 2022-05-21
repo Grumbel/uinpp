@@ -285,7 +285,10 @@ LinuxUinput::finish()
 
     m_source_id = g_io_add_watch(m_io_channel,
                                  static_cast<GIOCondition>(G_IO_IN | G_IO_ERR | G_IO_HUP),
-                                 &LinuxUinput::on_read_data_wrap, this);
+                                 [](GIOChannel* source, GIOCondition condition, gpointer userdata) -> gboolean {
+                                   static_cast<LinuxUinput*>(userdata)->read();
+                                   return TRUE;
+                                 }, this);
   }
 }
 
@@ -338,13 +341,13 @@ LinuxUinput::update(int msec_delta)
   }
 }
 
-gboolean
-LinuxUinput::on_read_data(GIOChannel* source, GIOCondition condition)
+void
+LinuxUinput::read()
 {
   struct input_event ev;
   ssize_t ret;
 
-  while((ret = read(m_fd, &ev, sizeof(ev))) == sizeof(ev))
+  while((ret = ::read(m_fd, &ev, sizeof(ev))) == sizeof(ev))
   {
     switch(ev.type)
     {
@@ -437,8 +440,6 @@ LinuxUinput::on_read_data(GIOChannel* source, GIOCondition condition)
   {
     log_error("short read: {}", ret);
   }
-
-  return TRUE;
 }
 
 /* EOF */

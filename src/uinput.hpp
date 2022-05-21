@@ -126,11 +126,6 @@ private:
   std::string get_device_name(uint32_t device_id) const;
   struct input_id get_device_usbid(uint32_t device_id) const;
 
-  bool on_timeout();
-  static gboolean on_timeout_wrap(gpointer data) {
-    return static_cast<UInput*>(data)->on_timeout();
-  }
-
   UIEventEmitterPtr create_emitter(int device_id, int type, int code);
 
 private:
