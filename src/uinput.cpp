@@ -135,26 +135,12 @@ UInput::UInput(bool extra_events) :
   m_device_usbids(),
   m_collectors(),
   m_rel_repeat_lst(),
-  m_extra_events(extra_events),
-  m_timeout_id(),
-  m_timer(g_timer_new())
+  m_extra_events(extra_events)
 {
-  // FIXME: hardcoded timeout is kind of evil
-  // FIXME: would be nicer if UInput didn't depend on glib
-  m_timeout_id = g_timeout_add(10,
-                               [](gpointer data) -> gboolean {
-                                 UInput* const self = static_cast<UInput*>(data);
-                                 int const msec_delta = static_cast<int>(g_timer_elapsed(self->m_timer, NULL) * 1000.0f);
-                                 g_timer_reset(self->m_timer);
-                                 self->update(msec_delta);
-                                 return true; // do not remove the callback
-                               }, this);
 }
 
 UInput::~UInput()
 {
-  g_source_remove(m_timeout_id);
-  g_timer_destroy(m_timer);
 }
 
 struct input_id

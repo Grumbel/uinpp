@@ -73,9 +73,6 @@ private:
 
   bool m_extra_events;
 
-  guint m_timeout_id;
-  GTimer* m_timer;
-
 public:
   UInput(bool extra_events);
   ~UInput();

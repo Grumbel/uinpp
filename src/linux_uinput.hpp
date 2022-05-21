@@ -22,7 +22,6 @@
 #include <string>
 #include <functional>
 #include <linux/uinput.h>
-#include <glib.h>
 #include <stdint.h>
 
 class ForceFeedbackHandler;
@@ -77,8 +76,6 @@ private:
   bool m_finished;
 
   int m_fd;
-  GIOChannel* m_io_channel;
-  guint m_source_id;
 
   uinput_user_dev user_dev;
   bool key_bit;

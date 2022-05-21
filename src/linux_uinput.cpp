@@ -38,8 +38,6 @@ LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
   usbid(usbid_),
   m_finished(false),
   m_fd(-1),
-  m_io_channel(),
-  m_source_id(),
   user_dev(),
   key_bit(false),
   rel_bit(false),
@@ -96,8 +94,6 @@ LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
 
 LinuxUinput::~LinuxUinput()
 {
-  g_source_remove(m_source_id);
-
   ioctl(m_fd, UI_DEV_DESTROY);
   close(m_fd);
 }
@@ -268,28 +264,6 @@ LinuxUinput::finish()
   }
 
   m_finished = true;
-
-  {
-    // start g_io_channel
-    m_io_channel = g_io_channel_unix_new(m_fd);
-
-    // set encoding to binary
-    GError* error = NULL;
-    if (g_io_channel_set_encoding(m_io_channel, NULL, &error) != G_IO_STATUS_NORMAL)
-    {
-      log_error(error->message);
-      g_error_free(error);
-    }
-
-    g_io_channel_set_buffered(m_io_channel, false);
-
-    m_source_id = g_io_add_watch(m_io_channel,
-                                 static_cast<GIOCondition>(G_IO_IN | G_IO_ERR | G_IO_HUP),
-                                 [](GIOChannel* source, GIOCondition condition, gpointer userdata) -> gboolean {
-                                   static_cast<LinuxUinput*>(userdata)->read();
-                                   return TRUE;
-                                 }, this);
-  }
 }
 
 void
