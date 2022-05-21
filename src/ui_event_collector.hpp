@@ -23,7 +23,7 @@
 #include <stdint.h>
 #include <vector>
 
-#include "uinput/ui_event_emitter.hpp"
+#include "ui_event_emitter.hpp"
 
 class UIEventCollector;
 class UInput;

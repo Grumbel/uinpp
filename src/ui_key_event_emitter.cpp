@@ -16,11 +16,11 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uinput/ui_key_event_emitter.hpp"
+#include "ui_key_event_emitter.hpp"
 
 #include <assert.h>
 
-#include "uinput/ui_key_event_collector.hpp"
+#include "ui_key_event_collector.hpp"
 
 UIKeyEventEmitter::UIKeyEventEmitter(UIKeyEventCollector& collector) :
   m_collector(collector),

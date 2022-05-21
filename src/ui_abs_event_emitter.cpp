@@ -16,9 +16,9 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uinput/ui_abs_event_emitter.hpp"
+#include "ui_abs_event_emitter.hpp"
 
-#include "uinput/ui_abs_event_collector.hpp"
+#include "ui_abs_event_collector.hpp"
 
 UIAbsEventEmitter::UIAbsEventEmitter(UIAbsEventCollector& collector) :
   m_collector(collector),

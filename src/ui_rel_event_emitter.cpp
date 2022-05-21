@@ -16,9 +16,9 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uinput/ui_rel_event_emitter.hpp"
+#include "ui_rel_event_emitter.hpp"
 
-#include "uinput/ui_rel_event_collector.hpp"
+#include "ui_rel_event_collector.hpp"
 
 UIRelEventEmitter::UIRelEventEmitter(UIRelEventCollector& collector) :
   m_collector(collector)

@@ -16,9 +16,9 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uinput/ui_abs_event_collector.hpp"
+#include "ui_abs_event_collector.hpp"
 
-#include "uinput/uinput.hpp"
+#include "uinput.hpp"
 
 UIAbsEventCollector::UIAbsEventCollector(UInput& uinput, uint32_t device_id, int type, int code) :
   UIEventCollector(uinput, device_id, type, code),

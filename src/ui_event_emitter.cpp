@@ -16,11 +16,12 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uinput/ui_event_emitter.hpp"
+#include "ui_event_emitter.hpp"
 
 #include <assert.h>
 
-#include "log.hpp"
-#include "uinput/uinput.hpp"
+#include <logmich/log.hpp>
+
+#include "uinput.hpp"
 
 /* EOF */

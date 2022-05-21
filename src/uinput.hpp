@@ -21,10 +21,10 @@
 
 #include <map>
 
-#include "uinput/ui_event.hpp"
-#include "uinput/linux_uinput.hpp"
-#include "uinput/ui_event_emitter.hpp"
-#include "uinput/ui_event_collector.hpp"
+#include "ui_event.hpp"
+#include "linux_uinput.hpp"
+#include "ui_event_emitter.hpp"
+#include "ui_event_collector.hpp"
 
 class UInput
 {

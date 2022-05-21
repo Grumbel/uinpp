@@ -16,7 +16,7 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uinput/uinput.hpp"
+#include "uinput.hpp"
 
 #include <assert.h>
 #include <iostream>
@@ -24,15 +24,43 @@
 #include <stdexcept>
 #include <stdio.h>
 #include <unistd.h>
+#include <sstream>
 
-#include "uinput/ui_abs_event_collector.hpp"
-#include "uinput/ui_key_event_collector.hpp"
-#include "uinput/ui_rel_event_collector.hpp"
+#include <strut/split.hpp>
+#include <logmich/log.hpp>
 
-#include "log.hpp"
-#include "raise_exception.hpp"
-#include "util/string.hpp"
-
+#include "ui_abs_event_collector.hpp"
+#include "ui_key_event_collector.hpp"
+#include "ui_rel_event_collector.hpp"
+
+namespace {
+
+int hexstr2int(const std::string& str)
+{
+  unsigned int value = 0;
+  if (sscanf(str.c_str(), "%x", &value) == 1)
+  {
+    return value;
+  }
+  else if (sscanf(str.c_str(), "0x%x", &value) == 1)
+  {
+    return value;
+  }
+  else
+  {
+    std::ostringstream err;
+    err << "couldn't convert '" << str << "' to int";
+    throw std::runtime_error(err.str());
+  }
+}
+
+uint16_t hexstr2uint16(const std::string& str)
+{
+  return static_cast<uint16_t>(hexstr2int(str));
+}
+
+} // namespace
+
 struct input_id
 UInput::parse_input_id(const std::string& str)
 {
@@ -45,7 +73,7 @@ UInput::parse_input_id(const std::string& str)
   usbid.version = 0;
 
   // split string at ':'
-  std::vector<std::string> args = string_split(str, ":");
+  std::vector<std::string> args = strut::split(str, ':');
 
   if (args.size() == 2)
   { // VENDOR:PRODUCT
@@ -67,7 +95,7 @@ UInput::parse_input_id(const std::string& str)
   }
   else
   {
-    raise_exception(std::runtime_error, "incorrect number of arguments");
+    throw std::runtime_error("incorrect number of arguments");
   }
 
   return usbid;
@@ -282,7 +310,7 @@ UInput::create_uinput_device(uint32_t device_id)
   }
   else
   {
-    log_debug("create device: " << device_id);
+    log_debug("create device: {}", device_id);
     LinuxUinput::DeviceType device_type;
 
     if (!m_extra_events)
@@ -315,7 +343,7 @@ UInput::create_uinput_device(uint32_t device_id)
     std::shared_ptr<LinuxUinput> dev(new LinuxUinput(device_type, dev_name, get_device_usbid(device_id)));
     m_uinput_devs.insert(std::pair<int, std::shared_ptr<LinuxUinput> >(device_id, dev));
 
-    log_debug("created uinput device: " << device_id << " - '" << dev_name << "'");
+    log_debug("created uinput device: {} - '{}`", device_id, dev_name);
 
     return dev.get();
   }

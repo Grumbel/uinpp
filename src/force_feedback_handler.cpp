@@ -18,8 +18,9 @@
 
 #include "force_feedback_handler.hpp"
 
-#include "log.hpp"
-#include "options.hpp"
+#include <logmich/log.hpp>
+
+//#include "options.hpp"
 
 std::ostream& operator<<(std::ostream& out, const struct ff_envelope& envelope)
 {
@@ -197,7 +198,7 @@ ForceFeedbackEffect::ForceFeedbackEffect(const struct ff_effect& effect) :
       // case FF_FRICTION:
       // case FF_DAMPER
       // case FF_INERTIA:
-      log_info("unsupported effect: " << effect);
+      log_info("unsupported effect: {}", effect);
       start_weak_magnitude   = 0;
       start_strong_magnitude = 0;
       end_weak_magnitude     = 0;
@@ -293,11 +294,8 @@ ForceFeedbackHandler::get_max_effects()
 void
 ForceFeedbackHandler::upload(const struct ff_effect& effect)
 {
-  log_debug("FF_UPLOAD("
-            << "effect_id:" << effect.id
-            << ", effect_type:" << effect.type
-            << ",\n          "  << effect
-            << ")");
+  log_debug("FF_UPLOAD(effect_id: {}, effect_type: {}, effect: {})",
+            effect.id, effect.type, effect);
 
   std::map<int, ForceFeedbackEffect>::iterator i = effects.find(effect.id);
   if (i == effects.end())
@@ -323,7 +321,7 @@ ForceFeedbackHandler::upload(const struct ff_effect& effect)
 void
 ForceFeedbackHandler::erase(int id)
 {
-  log_debug("FF_ERASE(effect_id:" << id << ")");
+  log_debug("FF_ERASE(effect_id: {})", id);
 
   std::map<int, ForceFeedbackEffect>::iterator i = effects.find(id);
   if (i != effects.end())
@@ -332,14 +330,14 @@ ForceFeedbackHandler::erase(int id)
   }
   else
   {
-    log_warn("unknown id " << id);
+    log_warn("unknown id {}", id);
   }
 }
 
 void
 ForceFeedbackHandler::play(int id)
 {
-  log_debug("FFPlay(effect_id:" << id << ")");
+  log_debug("FFPlay(effect_id: })", id);
 
   std::map<int, ForceFeedbackEffect>::iterator i = effects.find(id);
   if (i != effects.end())
@@ -348,14 +346,14 @@ ForceFeedbackHandler::play(int id)
   }
   else
   {
-    log_warn("unknown id " << id);
+    log_warn("unknown id {}", id);
   }
 }
 
 void
 ForceFeedbackHandler::stop(int id)
 {
-  log_debug("FFStop(effect_id:" << id << ")");
+  log_debug("FFStop(effect_id:{})", id);
 
   std::map<int, ForceFeedbackEffect>::iterator i = effects.find(id);
   if (i != effects.end())
@@ -364,7 +362,7 @@ ForceFeedbackHandler::stop(int id)
   }
   else
   {
-    log_warn("unknown id " << id);
+    log_warn("unknown id {}", id);
   }
 }
 

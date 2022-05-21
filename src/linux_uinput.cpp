@@ -16,17 +16,20 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uinput/linux_uinput.hpp"
+#include "linux_uinput.hpp"
 
 #include <assert.h>
-#include <fmt/format.h>
-#include <unistd.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <sstream>
+#include <unistd.h>
+#include <stdexcept>
 
-#include "evdev_helper.hpp"
+#include <fmt/format.h>
+#include <logmich/log.hpp>
+
+//#include "evdev_helper.hpp"
 #include "force_feedback_handler.hpp"
-#include "raise_exception.hpp"
 
 LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
                          const struct input_id& usbid_) :
@@ -47,7 +50,7 @@ LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
   m_ff_callback(),
   needs_sync(true)
 {
-  log_debug(name << " " << usbid.vendor << ":" << usbid.product);
+  log_debug("{} {}:{}", name, usbid.vendor, usbid.product);
 
   std::fill_n(abs_lst, ABS_CNT, false);
   std::fill_n(rel_lst, REL_CNT, false);
@@ -102,7 +105,7 @@ LinuxUinput::~LinuxUinput()
 void
 LinuxUinput::add_abs(uint16_t code, int min, int max, int fuzz, int flat)
 {
-  log_debug("add_abs: " << abs2str(code) << " (" << min << ", " << max << ") " << name);
+  log_debug("add_abs: {} ({}, {})", code, min, max);
 
   if (!abs_lst[code])
   {
@@ -126,7 +129,7 @@ LinuxUinput::add_abs(uint16_t code, int min, int max, int fuzz, int flat)
 void
 LinuxUinput::add_rel(uint16_t code)
 {
-  log_debug("add_rel: " << rel2str(code) << " " << name);
+  log_debug("add_rel: {} {}", code, name);
 
   if (!rel_lst[code])
   {
@@ -145,7 +148,7 @@ LinuxUinput::add_rel(uint16_t code)
 void
 LinuxUinput::add_key(uint16_t code)
 {
-  log_debug("add_key: " << key2str(code) << " " << name);
+  log_debug("add_key: {} {}", code, name);
 
   if (!key_lst[code])
   {
@@ -236,7 +239,7 @@ LinuxUinput::finish()
   user_dev.id.vendor  = usbid.vendor;
   user_dev.id.product = usbid.product;
 
-  log_debug("'" << user_dev.name << "' " << user_dev.id.vendor << ":" << user_dev.id.product);
+  log_debug("'{}' {}:{}", user_dev.name, user_dev.id.vendor, user_dev.id.product);
 
   if (ff_bit)
   {
@@ -251,7 +254,7 @@ LinuxUinput::finish()
     }
     else
     {
-      log_debug("write return value: " << write_ret);
+      log_debug("write return value: {}", write_ret);
     }
   }
 
@@ -261,7 +264,7 @@ LinuxUinput::finish()
   log_debug("finish");
   if (ioctl(m_fd, UI_DEV_CREATE))
   {
-    raise_exception(std::runtime_error, "unable to create uinput device: '" << name << "': " << strerror(errno));
+    throw std::runtime_error(fmt::format("unable to create uinput device: '{}': ", name, strerror(errno)));
   }
 
   m_finished = true;
@@ -325,7 +328,7 @@ LinuxUinput::update(int msec_delta)
 
     m_ff_handler->update(msec_delta);
 
-    log_info(fmt::format("{:5d} {:5d}", m_ff_handler->get_strong_magnitude(), m_ff_handler->get_weak_magnitude()));
+    log_info("{:5d} {:5d}", m_ff_handler->get_strong_magnitude(), m_ff_handler->get_weak_magnitude());
 
     if (m_ff_callback)
     {
@@ -349,7 +352,7 @@ LinuxUinput::on_read_data(GIOChannel* source, GIOCondition condition)
         if (ev.code == LED_MISC)
         {
           // FIXME: implement this
-          log_info("unimplemented: set LED status: " << ev.value);
+          log_info("unimplemented: set LED status: {}", ev.value);
         }
         break;
 
@@ -414,7 +417,7 @@ LinuxUinput::on_read_data(GIOChannel* source, GIOCondition condition)
         break;
 
       default:
-        log_warn("unhandled event type read: " << ev.type);
+        log_warn("unhandled event type read: {}", ev.type);
         break;
     }
   }
@@ -427,12 +430,12 @@ LinuxUinput::on_read_data(GIOChannel* source, GIOCondition condition)
   {
     if (errno != EAGAIN)
     {
-      log_error("failed to read from file description: " << ret << ": " << strerror(errno));
+      log_error("failed to read from file description: {}: {}", ret, strerror(errno));
     }
   }
   else
   {
-    log_error("short read: " << ret);
+    log_error("short read: {}", ret);
   }
 
   return TRUE;

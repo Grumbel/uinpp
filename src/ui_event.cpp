@@ -16,13 +16,13 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uinput/ui_event.hpp"
+#include "ui_event.hpp"
 
 #include <assert.h>
 #include <fmt/format.h>
 
-#include "evdev_helper.hpp"
-#include "uinput/uinput.hpp"
+//#include "evdev_helper.hpp"
+#include "uinput.hpp"
 
 bool
 UIEvent::is_mouse_button(int ev_code)
@@ -51,6 +51,7 @@ UIEvent::create(uint16_t device_id, int type, int code)
 UIEvent
 UIEvent::from_char(char c)
 {
+#if FIXME_DISABLED_WHEN_MOVED_OUT_OF_XBOXDRV
   UIEvent ev;
   ev.m_slot_id = SLOTID_AUTO;
   ev.m_device_id = DEVICEID_AUTO;
@@ -104,11 +105,15 @@ UIEvent::from_char(char c)
     default:  ev.code = str2key("XK_space"); break;
   }
   return ev;
+#endif
+
+  throw std::runtime_error("not implemented");
 }
 
 UIEvent
 UIEvent::from_string(const std::string& str)
 {
+#if FIXME_DISABLED_WHEN_MOVED_OUT_OF_XBOXDRV
   switch(get_event_type(str))
   {
     case EV_REL: return str2rel_event(str); break;
@@ -116,6 +121,8 @@ UIEvent::from_string(const std::string& str)
     case EV_KEY: return str2key_event(str); break;
     default: throw std::runtime_error("unknown event type");
   }
+#endif
+  throw std::runtime_error("not implemented");
 }
 
 UIEvent

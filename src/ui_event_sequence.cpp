@@ -16,19 +16,23 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uinput/ui_event_sequence.hpp"
+#include "ui_event_sequence.hpp"
 
-#include "evdev_helper.hpp"
-#include "uinput/ui_event.hpp"
-#include "uinput/uinput.hpp"
-#include "util/string.hpp"
+#include <strut/split.hpp>
+#include <sstream>
+
+//#include "evdev_helper.hpp"
+#include "ui_event.hpp"
+#include "uinput.hpp"
+//#include "util/string.hpp"
 
 UIEventSequence
 UIEventSequence::from_string(const std::string& value)
 {
+#if FIXME_DISABLED_WHEN_MOVED_OUT_OF_XBOXDRV
   UIEvents sequence;
 
-  auto ev_tokens = string_split(value, "+");
+  auto ev_tokens = strut::split(value, '+');
   int k = 0;
   for(auto m = ev_tokens.begin(); m != ev_tokens.end(); ++m, ++k)
   {
@@ -36,6 +40,9 @@ UIEventSequence::from_string(const std::string& value)
   }
 
   return sequence;
+#endif
+
+  throw std::runtime_error("not implemented");
 }
 
 UIEventSequence

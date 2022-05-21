@@ -19,7 +19,7 @@
 #ifndef HEADER_XBOXDRV_UI_KEY_EVENT_EMITTER_HPP
 #define HEADER_XBOXDRV_UI_KEY_EVENT_EMITTER_HPP
 
-#include "uinput/ui_event_emitter.hpp"
+#include "ui_event_emitter.hpp"
 
 class UIKeyEventCollector;
 

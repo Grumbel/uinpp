@@ -19,8 +19,8 @@
 #ifndef HEADER_XBOXDRV_UI_KEY_EVENT_COLLECTOR_HPP
 #define HEADER_XBOXDRV_UI_KEY_EVENT_COLLECTOR_HPP
 
-#include "uinput/ui_event_collector.hpp"
-#include "uinput/ui_key_event_emitter.hpp"
+#include "ui_event_collector.hpp"
+#include "ui_key_event_emitter.hpp"
 
 #include <vector>
 
