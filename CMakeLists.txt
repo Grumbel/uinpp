@@ -58,6 +58,15 @@ target_include_directories(uinput SYSTEM PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
 
+file(GLOB UINPUT_UTIL_SOURCES extra/*.cpp)
+add_executable(uinput-util ${UINPUT_UTIL_SOURCES})
+set_target_properties(uinput-util PROPERTIES
+  CXX_STANDARD 20
+  CXX_STANDARD_REQUIRED ON
+  CXX_EXTENSIONS OFF)
+target_include_directories(uinput-util PRIVATE src/)
+target_link_libraries(uinput-util uinput)
+
 if(BUILD_TESTS)
   find_package(GTest REQUIRED)
 
