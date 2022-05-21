@@ -55,7 +55,7 @@ target_link_libraries(uinpp PUBLIC
   logmich::logmich
   )
 target_include_directories(uinpp SYSTEM PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/uinpp>
   $<INSTALL_INTERFACE:include>)
 
 file(GLOB UINPP_UTIL_SOURCES extra/*.cpp)

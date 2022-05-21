@@ -21,10 +21,9 @@
 
 #include <map>
 
+#include "fwd.hpp"
 #include "ui_event.hpp"
 #include "linux_uinput.hpp"
-#include "ui_event_emitter.hpp"
-#include "ui_event_collector.hpp"
 
 class UInput
 {
