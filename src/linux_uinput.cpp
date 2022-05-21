@@ -30,7 +30,7 @@
 
 //#include "evdev_helper.hpp"
 #include "force_feedback_handler.hpp"
-
+
 LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
                          const struct input_id& usbid_) :
   m_device_type(device_type),
@@ -288,7 +288,7 @@ LinuxUinput::finish()
                                  &LinuxUinput::on_read_data_wrap, this);
   }
 }
-
+
 void
 LinuxUinput::send(uint16_t type, uint16_t code, int32_t value)
 {
@@ -318,7 +318,7 @@ LinuxUinput::sync()
     needs_sync = false;
   }
 }
-
+
 void
 LinuxUinput::update(int msec_delta)
 {
@@ -441,5 +441,4 @@ LinuxUinput::on_read_data(GIOChannel* source, GIOCondition condition)
   return TRUE;
 }
 
-
 /* EOF */

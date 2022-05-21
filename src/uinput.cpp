@@ -128,7 +128,7 @@ UInput::parse_device_id(const std::string& str)
 
   return UInput::create_device_id(slot_id, device_id);
 }
-
+
 UInput::UInput(bool extra_events) :
   m_uinput_devs(),
   m_device_names(),
@@ -580,7 +580,7 @@ UInput::set_ff_callback(int device_id, const std::function<void (uint8_t, uint8_
 {
   get_uinput(device_id)->set_ff_callback(callback);
 }
-
+
 int
 UInput::find_jsdev_number()
 {
@@ -610,5 +610,5 @@ UInput::find_evdev_number()
       return i;
   }
 }
-
+
 /* EOF */

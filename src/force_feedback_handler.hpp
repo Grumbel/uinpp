@@ -21,7 +21,7 @@
 
 #include <linux/input.h>
 #include <map>
-
+
 class ForceFeedbackEffect
 {
 public:
@@ -79,8 +79,7 @@ public:
   void play();
   void stop();
 };
-
-/** */
+
 class ForceFeedbackHandler
 {
 private:
@@ -111,7 +110,7 @@ public:
   int get_weak_magnitude() const;
   int get_strong_magnitude() const;
 };
-
+
 #endif
 
 /* EOF */
