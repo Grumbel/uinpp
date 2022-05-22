@@ -157,7 +157,7 @@ UInput::get_device_usbid(uint32_t device_id) const
   uint16_t slot_id = get_slot_id(device_id);
   uint16_t type_id = get_type_id(device_id);
 
-  DeviceUSBId::const_iterator it = m_device_usbids.find(device_id);
+  auto it = m_device_usbids.find(device_id);
   if (it != m_device_usbids.end())
   {
     // found an exact match, return it
@@ -196,7 +196,7 @@ UInput::get_device_name(uint32_t device_id) const
   uint16_t slot_id = get_slot_id(device_id);
   uint16_t type_id = get_type_id(device_id);
 
-  DeviceNames::const_iterator it = m_device_names.find(device_id);
+  auto it = m_device_names.find(device_id);
   if (it != m_device_names.end())
   {
     // found an exact match, return it
@@ -294,7 +294,7 @@ UInput::create_uinput_device(uint32_t device_id)
   // have called resolve_device_id()
   assert(device_id != DEVICEID_AUTO);
 
-  UInputDevs::iterator it = m_uinput_devs.find(device_id);
+  auto const it = m_uinput_devs.find(device_id);
   if (it != m_uinput_devs.end())
   {
     // device already exist, so return it
@@ -403,7 +403,7 @@ UIEventEmitterPtr
 UInput::create_emitter(int device_id, int type, int code)
 {
   // search for an already existing emitter
-  for(Collectors::iterator i = m_collectors.begin(); i != m_collectors.end(); ++i)
+  for(auto i = m_collectors.begin(); i != m_collectors.end(); ++i)
   {
     if (static_cast<int>((*i)->get_device_id()) == device_id &&
         (*i)->get_type() == type &&
@@ -446,7 +446,7 @@ UInput::create_emitter(int device_id, int type, int code)
 void
 UInput::finish()
 {
-  for(UInputDevs::iterator i = m_uinput_devs.begin(); i != m_uinput_devs.end(); ++i)
+  for(auto i = m_uinput_devs.begin(); i != m_uinput_devs.end(); ++i)
   {
     i->second->finish();
   }
@@ -471,7 +471,7 @@ UInput::send(uint32_t device_id, int ev_type, int ev_code, int value)
 void
 UInput::update(int msec_delta)
 {
-  for(std::map<UIEvent, RelRepeat>::iterator i = m_rel_repeat_lst.begin(); i != m_rel_repeat_lst.end(); ++i)
+  for(auto i = m_rel_repeat_lst.begin(); i != m_rel_repeat_lst.end(); ++i)
   {
     i->second.time_count += msec_delta;
 
@@ -490,7 +490,7 @@ UInput::update(int msec_delta)
     }
   }
 
-  for(UInputDevs::iterator i = m_uinput_devs.begin(); i != m_uinput_devs.end(); ++i)
+  for(auto i = m_uinput_devs.begin(); i != m_uinput_devs.end(); ++i)
   {
     i->second->update(msec_delta);
   }
@@ -499,12 +499,12 @@ UInput::update(int msec_delta)
 void
 UInput::sync()
 {
-  for(Collectors::iterator i = m_collectors.begin(); i != m_collectors.end(); ++i)
+  for(auto i = m_collectors.begin(); i != m_collectors.end(); ++i)
   {
     (*i)->sync();
   }
 
-  for(UInputDevs::iterator i = m_uinput_devs.begin(); i != m_uinput_devs.end(); ++i)
+  for(auto i = m_uinput_devs.begin(); i != m_uinput_devs.end(); ++i)
   {
     i->second->sync();
   }
@@ -521,7 +521,7 @@ UInput::send_rel_repetitive(const UIEvent& code, float value, int repeat_interva
   }
   else
   { // add rel_repeats to list
-    std::map<UIEvent, RelRepeat>::iterator it = m_rel_repeat_lst.find(code);
+    auto const it = m_rel_repeat_lst.find(code);
 
     if (it == m_rel_repeat_lst.end())
     {
@@ -551,7 +551,7 @@ UInput::send_rel_repetitive(const UIEvent& code, float value, int repeat_interva
 LinuxUinput*
 UInput::get_uinput(uint32_t device_id) const
 {
-  UInputDevs::const_iterator it = m_uinput_devs.find(device_id);
+  auto const it = m_uinput_devs.find(device_id);
   if (it != m_uinput_devs.end())
   {
     return it->second.get();

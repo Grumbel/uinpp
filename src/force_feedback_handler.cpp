@@ -297,7 +297,7 @@ ForceFeedbackHandler::upload(const struct ff_effect& effect)
   log_debug("FF_UPLOAD(effect_id: {}, effect_type: {}, effect: {})",
             effect.id, effect.type, effect);
 
-  std::map<int, ForceFeedbackEffect>::iterator i = effects.find(effect.id);
+  auto const i = effects.find(effect.id);
   if (i == effects.end())
   {
     effects[effect.id] = ForceFeedbackEffect(effect);
@@ -323,7 +323,7 @@ ForceFeedbackHandler::erase(int id)
 {
   log_debug("FF_ERASE(effect_id: {})", id);
 
-  std::map<int, ForceFeedbackEffect>::iterator i = effects.find(id);
+  auto const i = effects.find(id);
   if (i != effects.end())
   {
     effects.erase(i);
@@ -339,7 +339,7 @@ ForceFeedbackHandler::play(int id)
 {
   log_debug("FFPlay(effect_id: })", id);
 
-  std::map<int, ForceFeedbackEffect>::iterator i = effects.find(id);
+  auto const i = effects.find(id);
   if (i != effects.end())
   {
     i->second.play();
@@ -355,7 +355,7 @@ ForceFeedbackHandler::stop(int id)
 {
   log_debug("FFStop(effect_id:{})", id);
 
-  std::map<int, ForceFeedbackEffect>::iterator i = effects.find(id);
+  auto const i = effects.find(id);
   if (i != effects.end())
   {
     i->second.stop();
@@ -380,7 +380,7 @@ ForceFeedbackHandler::update(int msec_delta)
 
   if (!effects.empty())
   {
-    for(Effects::iterator i = effects.begin(); i != effects.end(); ++i)
+    for(auto i = effects.begin(); i != effects.end(); ++i)
     {
       i->second.update(msec_delta);
 

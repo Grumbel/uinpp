@@ -47,7 +47,7 @@ UIEventSequence::UIEventSequence(const UIEvent& event) :
 void
 UIEventSequence::init(UInput& uinput, int slot, bool extra_devices)
 {
-  for(UIEvents::iterator i = m_sequence.begin(); i != m_sequence.end(); ++i)
+  for(auto i = m_sequence.begin(); i != m_sequence.end(); ++i)
   {
     i->resolve_device_id(slot, extra_devices);
     m_emitters.push_back(uinput.add_key(i->get_device_id(), i->code));
@@ -59,7 +59,7 @@ UIEventSequence::send(int value)
 {
   if (value)
   {
-    for(UIEventEmitters::iterator i = m_emitters.begin(); i != m_emitters.end(); ++i)
+    for(auto i = m_emitters.begin(); i != m_emitters.end(); ++i)
     {
       (*i)->send(value);
     }
@@ -67,7 +67,7 @@ UIEventSequence::send(int value)
   else
   {
     // on release, send events in reverse order
-    for(UIEventEmitters::reverse_iterator i = m_emitters.rbegin(); i != m_emitters.rend(); ++i)
+    for(auto i = m_emitters.rbegin(); i != m_emitters.rend(); ++i)
     {
       (*i)->send(value);
     }
@@ -85,7 +85,7 @@ UIEventSequence::str() const
 {
   std::ostringstream out;
 
-  for(UIEvents::const_iterator i = m_sequence.begin(); i != m_sequence.end(); ++i)
+  for(auto i = m_sequence.begin(); i != m_sequence.end(); ++i)
   {
     out << i->get_device_id() << "-" << i->code;
 
