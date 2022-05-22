@@ -22,11 +22,7 @@
 #include <memory>
 #include <stdint.h>
 
-class UInput;
-class UIEventEmitter;
-class UIEventCollector;
-
-typedef std::shared_ptr<UIEventEmitter> UIEventEmitterPtr;
+#include "fwd.hpp"
 
 class UIEventEmitter
 {

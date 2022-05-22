@@ -21,9 +21,10 @@
 
 #include <memory>
 
-class UInput;
-class UIEventEmitter;
+class ForceFeedbackHandler;
 class UIEventCollector;
+class UIEventEmitter;
+class UInput;
 
 typedef std::shared_ptr<UIEventEmitter> UIEventEmitterPtr;
 typedef std::shared_ptr<UIEventCollector> UIEventCollectorPtr;

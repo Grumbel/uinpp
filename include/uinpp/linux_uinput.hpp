@@ -24,7 +24,7 @@
 #include <linux/uinput.h>
 #include <stdint.h>
 
-class ForceFeedbackHandler;
+#include "fwd.hpp"
 
 class LinuxUinput
 {
