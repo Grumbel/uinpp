@@ -26,6 +26,8 @@
 
 #include "fwd.hpp"
 
+namespace uinpp {
+
 class LinuxUinput
 {
 public:
@@ -99,6 +101,8 @@ private:
   LinuxUinput (const LinuxUinput&) = delete;
   LinuxUinput& operator= (const LinuxUinput&) = delete;
 };
+
+} // namespace uinpp
 
 #endif
 

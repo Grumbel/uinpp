@@ -23,6 +23,8 @@
 
 #include "uinput.hpp"
 
+namespace uinpp {
+
 bool
 UIEvent::is_mouse_button(int ev_code)
 {
@@ -225,5 +227,7 @@ void split_event_name(const std::string& str, std::string* event_str, int* slot_
     }
   }
 }
+
+} // namespace uinpp
 
 /* EOF */

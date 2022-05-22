@@ -24,6 +24,8 @@
 
 #include "uinput.hpp"
 
+namespace uinpp {
+
 UIKeyEventCollector::UIKeyEventCollector(UInput& uinput, uint32_t device_id, int type, int code) :
   UIEventCollector(uinput, device_id, type, code),
   m_emitters(),
@@ -78,5 +80,7 @@ void
 UIKeyEventCollector::sync()
 {
 }
+
+} // namespace uinpp
 
 /* EOF */

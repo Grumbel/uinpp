@@ -25,6 +25,8 @@
 #include "ui_event.hpp"
 #include "linux_uinput.hpp"
 
+namespace uinpp {
+
 /** UInput bundle multiple LinuxUinput devices to make it easier to create
     virtual devices that spread across different categories of input, e.g. a
     keyboard with a trackball would both need a mouse device as well as
@@ -134,6 +136,8 @@ private:
   UInput(const UInput&);
   UInput& operator=(const UInput&);
 };
+
+} // namespace uinpp
 
 #endif
 

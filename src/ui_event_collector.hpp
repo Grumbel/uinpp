@@ -25,6 +25,8 @@
 
 #include "ui_event_emitter.hpp"
 
+namespace uinpp {
+
 class UIEventCollector;
 class UInput;
 
@@ -53,6 +55,8 @@ private:
   UIEventCollector(const UIEventCollector&);
   UIEventCollector& operator=(const UIEventCollector&);
 };
+
+} // namespace uinpp
 
 #endif
 

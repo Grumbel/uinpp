@@ -22,6 +22,8 @@
 #include <linux/input.h>
 #include <map>
 
+namespace uinpp {
+
 class ForceFeedbackEffect
 {
 public:
@@ -110,6 +112,8 @@ public:
   int get_weak_magnitude() const;
   int get_strong_magnitude() const;
 };
+
+} // namespace uinpp
 
 #endif
 

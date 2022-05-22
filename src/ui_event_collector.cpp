@@ -24,6 +24,8 @@
 
 #include "uinput.hpp"
 
+namespace uinpp {
+
 UIEventCollector::UIEventCollector(UInput& uinput,
                                uint32_t device_id,
                                int type,
@@ -39,5 +41,7 @@ UIEventCollector::UIEventCollector(UInput& uinput,
 UIEventCollector::~UIEventCollector()
 {
 }
+
+} // namespace uinpp
 
 /* EOF */

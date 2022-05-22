@@ -20,6 +20,8 @@
 
 #include "uinput.hpp"
 
+namespace uinpp {
+
 UIRelEventCollector::UIRelEventCollector(UInput& uinput, uint32_t device_id, int type, int code) :
   UIEventCollector(uinput, device_id, type, code),
   m_emitters()
@@ -44,5 +46,7 @@ void
 UIRelEventCollector::sync()
 {
 }
+
+} // namespace uinpp
 
 /* EOF */

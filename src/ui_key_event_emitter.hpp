@@ -21,6 +21,8 @@
 
 #include "ui_event_emitter.hpp"
 
+namespace uinpp {
+
 class UIKeyEventCollector;
 
 class UIKeyEventEmitter : public UIEventEmitter
@@ -40,6 +42,8 @@ private:
 };
 
 typedef std::shared_ptr<UIKeyEventEmitter> UIKeyEventEmitterPtr;
+
+} // namespace uinpp
 
 #endif
 

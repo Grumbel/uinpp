@@ -33,6 +33,8 @@
 #include "ui_key_event_collector.hpp"
 #include "ui_rel_event_collector.hpp"
 
+namespace uinpp {
+
 namespace {
 
 int hexstr2int(const std::string& str)
@@ -604,5 +606,7 @@ UInput::find_evdev_number()
       return i;
   }
 }
+
+} // namespace uinpp
 
 /* EOF */

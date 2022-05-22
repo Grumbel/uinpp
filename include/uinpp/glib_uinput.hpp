@@ -8,6 +8,8 @@
 #include <uinpp/uinput.hpp>
 #include <uinpp/linux_uinput.hpp>
 
+namespace uinpp {
+
 class GlibLinuxUinput;
 
 /** Wrap LinuxUinput for Glib */
@@ -100,6 +102,8 @@ public:
   GlibUInput(const GlibUInput&) = delete;
   GlibUInput& operator=(const GlibUInput&) = delete;
 };
+
+} //  namespace uinpp
 
 #endif
 

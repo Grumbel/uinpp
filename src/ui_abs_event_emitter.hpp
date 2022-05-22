@@ -21,6 +21,10 @@
 
 #include "ui_event_emitter.hpp"
 
+#include "fwd.hpp"
+
+namespace uinpp {
+
 class UIAbsEventCollector;
 
 class UIAbsEventEmitter : public UIEventEmitter
@@ -40,6 +44,8 @@ private:
 };
 
 typedef std::shared_ptr<UIAbsEventEmitter> UIAbsEventEmitterPtr;
+
+} // namespace uinpp
 
 #endif
 

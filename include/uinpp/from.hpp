@@ -10,6 +10,8 @@
 
 #include "evdev_helper.hpp"
 
+namespace uinpp {
+
 inline
 UIEvent
 UIEvent_from_char(char c)
@@ -174,6 +176,8 @@ UIEventSequence_from_char(char c)
     default:  return UIEventSequence_from_string("XK_space"); break;
   }
 }
+
+} // namespace uinpp
 
 #endif
 

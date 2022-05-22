@@ -24,6 +24,8 @@
 
 #include "fwd.hpp"
 
+namespace uinpp {
+
 class UIEventEmitter
 {
 public:
@@ -43,8 +45,9 @@ private:
 
 public:
   UIRelEmitter();
-
 };
+
+} // namespace uinpp
 
 #endif
 

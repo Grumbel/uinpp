@@ -22,6 +22,8 @@
 #include "ui_event_collector.hpp"
 #include "ui_rel_event_emitter.hpp"
 
+namespace uinpp {
+
 class UIRelEventCollector : public UIEventCollector
 {
 private:
@@ -39,6 +41,8 @@ private:
   UIRelEventCollector(const UIRelEventCollector&);
   UIRelEventCollector& operator=(const UIRelEventCollector&);
 };
+
+} // namespace uinpp
 
 #endif
 

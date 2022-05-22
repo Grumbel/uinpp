@@ -20,6 +20,8 @@
 
 #include "ui_abs_event_collector.hpp"
 
+namespace uinpp {
+
 UIAbsEventEmitter::UIAbsEventEmitter(UIAbsEventCollector& collector) :
   m_collector(collector),
   m_value(0)
@@ -35,5 +37,7 @@ UIAbsEventEmitter::send(int value)
     m_collector.send(m_value);
   }
 }
+
+} // namespace uinpp
 
 /* EOF */

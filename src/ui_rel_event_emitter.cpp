@@ -20,6 +20,8 @@
 
 #include "ui_rel_event_collector.hpp"
 
+namespace uinpp {
+
 UIRelEventEmitter::UIRelEventEmitter(UIRelEventCollector& collector) :
   m_collector(collector)
 {
@@ -30,5 +32,7 @@ UIRelEventEmitter::send(int value)
 {
   m_collector.send(value);
 }
+
+} // namespace uinpp
 
 /* EOF */

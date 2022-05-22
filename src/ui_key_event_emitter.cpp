@@ -22,6 +22,8 @@
 
 #include "ui_key_event_collector.hpp"
 
+namespace uinpp {
+
 UIKeyEventEmitter::UIKeyEventEmitter(UIKeyEventCollector& collector) :
   m_collector(collector),
   m_value(0)
@@ -39,5 +41,7 @@ UIKeyEventEmitter::send(int value)
     m_collector.send(m_value);
   }
 }
+
+} // namespace uinpp
 
 /* EOF */

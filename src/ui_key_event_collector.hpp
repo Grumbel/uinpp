@@ -24,6 +24,8 @@
 
 #include <vector>
 
+namespace uinpp {
+
 class UIKeyEventCollector : public UIEventCollector
 {
 private:
@@ -43,6 +45,8 @@ private:
   UIKeyEventCollector(const UIKeyEventCollector&);
   UIKeyEventCollector& operator=(const UIKeyEventCollector&);
 };
+
+} // namespace uinpp
 
 #endif
 

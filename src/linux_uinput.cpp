@@ -30,6 +30,8 @@
 
 #include "force_feedback_handler.hpp"
 
+namespace uinpp {
+
 LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
                          const struct input_id& usbid_) :
   m_device_type(device_type),
@@ -414,5 +416,7 @@ LinuxUinput::read()
     log_error("short read: {}", ret);
   }
 }
+
+} // namespace uinpp
 
 /* EOF */

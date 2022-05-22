@@ -24,7 +24,7 @@
 #include "ui_event.hpp"
 #include "ui_event_emitter.hpp"
 
-class UInput;
+namespace uinpp {
 
 /**
     A sequence of UIEvents (only key events allowed right now)
@@ -51,6 +51,8 @@ public:
 
   std::string str() const;
 };
+
+} // namespace uinpp
 
 #endif
 

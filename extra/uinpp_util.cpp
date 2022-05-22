@@ -6,14 +6,14 @@
 
 int main()
 {
-  UInput uinput(false);
-  uinput.add_key(DEVICEID_KEYBOARD, KEY_A);
+  uinpp::UInput uinput(false);
+  uinput.add_key(uinpp::DEVICEID_KEYBOARD, KEY_A);
   uinput.finish();
 
   while(1) {
-    uinput.send(DEVICEID_KEYBOARD, EV_KEY, KEY_A, 1);
+    uinput.send(uinpp::DEVICEID_KEYBOARD, EV_KEY, KEY_A, 1);
     uinput.sync();
-    uinput.send(DEVICEID_KEYBOARD, EV_KEY, KEY_A, 0);
+    uinput.send(uinpp::DEVICEID_KEYBOARD, EV_KEY, KEY_A, 0);
     uinput.sync();
     sleep(1);
   }

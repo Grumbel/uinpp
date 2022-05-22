@@ -24,6 +24,8 @@
 #include "ui_event.hpp"
 #include "uinput.hpp"
 
+namespace uinpp {
+
 UIEventSequence::UIEventSequence() :
   m_sequence(),
   m_emitters()
@@ -93,5 +95,7 @@ UIEventSequence::str() const
 
   return out.str();
 }
+
+} // namespace uinpp
 
 /* EOF */

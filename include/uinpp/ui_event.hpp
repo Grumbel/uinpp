@@ -22,6 +22,8 @@
 #include <stdint.h>
 #include <string>
 
+namespace uinpp {
+
 enum {
   DEVICEID_INVALID  = static_cast<uint16_t>(-5),
   DEVICEID_KEYBOARD = static_cast<uint16_t>(-4),
@@ -71,6 +73,8 @@ void split_event_name(const std::string& str, std::string* event_str, int* slot_
 
 uint16_t str2deviceid(const std::string& device);
 uint16_t str2slotid(const std::string& slot);
+
+} // namespace uinpp
 
 #endif
 

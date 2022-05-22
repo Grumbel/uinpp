@@ -21,6 +21,8 @@
 
 #include "ui_event_emitter.hpp"
 
+namespace uinpp {
+
 class UIRelEventCollector;
 
 class UIRelEventEmitter : public UIEventEmitter
@@ -39,6 +41,8 @@ private:
 };
 
 typedef std::shared_ptr<UIRelEventEmitter> UIRelEventEmitterPtr;
+
+} // namespace uinpp
 
 #endif
 

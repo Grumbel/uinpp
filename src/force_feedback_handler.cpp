@@ -107,6 +107,8 @@ std::ostream& operator<<(std::ostream& out, const struct ff_effect& effect)
   return out;
 }
 
+namespace uinpp {
+
 ForceFeedbackEffect::ForceFeedbackEffect() :
   delay(),
   length(),
@@ -402,5 +404,7 @@ ForceFeedbackHandler::get_strong_magnitude() const
 {
   return strong_magnitude * gain / 0xffff;
 }
+
+} // namespace uinpp
 
 /* EOF */

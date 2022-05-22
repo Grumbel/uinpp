@@ -22,6 +22,8 @@
 #include "ui_event_collector.hpp"
 #include "ui_abs_event_emitter.hpp"
 
+namespace uinpp {
+
 class UIAbsEventCollector : public UIEventCollector
 {
 private:
@@ -39,6 +41,8 @@ private:
   UIAbsEventCollector(const UIAbsEventCollector&);
   UIAbsEventCollector& operator=(const UIAbsEventCollector&);
 };
+
+} // namespace uinpp
 
 #endif
 
