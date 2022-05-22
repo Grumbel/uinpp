@@ -40,8 +40,6 @@ private:
   UIRelEventEmitter& operator=(const UIRelEventEmitter&);
 };
 
-typedef std::shared_ptr<UIRelEventEmitter> UIRelEventEmitterPtr;
-
 } // namespace uinpp
 
 #endif

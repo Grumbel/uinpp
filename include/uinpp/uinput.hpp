@@ -71,10 +71,10 @@ public:
 
   /** Device construction functions
       @{*/
-  UIEventEmitterPtr add(const UIEvent& ev);
-  UIEventEmitterPtr add_rel(uint32_t device_id, int ev_code);
-  UIEventEmitterPtr add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat);
-  UIEventEmitterPtr add_key(uint32_t device_id, int ev_code);
+  UIEventEmitter* add(const UIEvent& ev);
+  UIEventEmitter* add_rel(uint32_t device_id, int ev_code);
+  UIEventEmitter* add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat);
+  UIEventEmitter* add_key(uint32_t device_id, int ev_code);
   void add_ff(uint32_t device_id, uint16_t code);
 
   /** needs to be called to finish device creation and create the
@@ -107,7 +107,7 @@ private:
   std::string get_device_name(uint32_t device_id) const;
   struct input_id get_device_usbid(uint32_t device_id) const;
 
-  UIEventEmitterPtr create_emitter(int device_id, int type, int code);
+  UIEventEmitter* create_emitter(int device_id, int type, int code);
 
 private:
   struct RelRepeat
@@ -120,10 +120,10 @@ private:
   };
 
 private:
-  std::map<uint32_t, std::shared_ptr<LinuxUinput> > m_uinput_devs;
+  std::map<uint32_t, std::unique_ptr<LinuxUinput> > m_uinput_devs;
   std::map<uint32_t, std::string> m_device_names;
   std::map<uint32_t, struct input_id> m_device_usbids;
-  std::vector<UIEventCollectorPtr> m_collectors;
+  std::vector<std::unique_ptr<UIEventCollector>> m_collectors;
 
   std::map<UIEvent, RelRepeat> m_rel_repeat_lst;
 

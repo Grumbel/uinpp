@@ -33,12 +33,11 @@ UIKeyEventCollector::UIKeyEventCollector(UInput& uinput, uint32_t device_id, int
 {
 }
 
-UIEventEmitterPtr
+UIEventEmitter*
 UIKeyEventCollector::create_emitter()
 {
-  UIKeyEventEmitterPtr emitter(new UIKeyEventEmitter(*this));
-  m_emitters.push_back(emitter);
-  return m_emitters.back();
+  m_emitters.emplace_back(std::make_unique<UIKeyEventEmitter>(*this));
+  return m_emitters.back().get();
 }
 
 void

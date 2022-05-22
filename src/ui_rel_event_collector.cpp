@@ -28,12 +28,11 @@ UIRelEventCollector::UIRelEventCollector(UInput& uinput, uint32_t device_id, int
 {
 }
 
-UIEventEmitterPtr
+UIEventEmitter*
 UIRelEventCollector::create_emitter()
 {
-  UIRelEventEmitterPtr emitter(new UIRelEventEmitter(*this));
-  m_emitters.push_back(emitter);
-  return m_emitters.back();
+  m_emitters.emplace_back(std::make_unique<UIRelEventEmitter>(*this));
+  return m_emitters.back().get();
 }
 
 void

@@ -28,17 +28,16 @@ namespace uinpp {
 
 class UIKeyEventCollector : public UIEventCollector
 {
-private:
-  std::vector<UIKeyEventEmitterPtr> m_emitters;
-
-  int m_value;
-
 public:
   UIKeyEventCollector(UInput& uinput, uint32_t device_id, int type, int code);
 
-  UIEventEmitterPtr create_emitter();
+  UIEventEmitter* create_emitter();
   void send(int value);
   void sync();
+
+private:
+  std::vector<std::unique_ptr<UIKeyEventEmitter>> m_emitters;
+  int m_value;
 
 private:
   UIKeyEventCollector(const UIKeyEventCollector&);

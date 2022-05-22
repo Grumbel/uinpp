@@ -332,16 +332,17 @@ UInput::create_uinput_device(uint32_t device_id)
     }
 
     std::string dev_name = get_device_name(device_id);
-    std::shared_ptr<LinuxUinput> dev(new LinuxUinput(device_type, dev_name, get_device_usbid(device_id)));
-    m_uinput_devs.insert(std::pair<int, std::shared_ptr<LinuxUinput> >(device_id, dev));
+    auto dev = std::make_unique<LinuxUinput>(device_type, dev_name, get_device_usbid(device_id));
+    LinuxUinput* dev_tmp = dev.get();
+    m_uinput_devs.insert(std::pair<int, std::unique_ptr<LinuxUinput> >(device_id, std::move(dev)));
 
     log_debug("created uinput device: {} - '{}`", device_id, dev_name);
 
-    return dev.get();
+    return dev_tmp;
   }
 }
 
-UIEventEmitterPtr
+UIEventEmitter*
 UInput::add(const UIEvent& ev)
 {
   LinuxUinput* dev = create_uinput_device(ev.get_device_id());
@@ -365,7 +366,7 @@ UInput::add(const UIEvent& ev)
   return create_emitter(ev.get_device_id(), ev.get_type(), ev.get_code());
 }
 
-UIEventEmitterPtr
+UIEventEmitter*
 UInput::add_key(uint32_t device_id, int ev_code)
 {
   LinuxUinput* dev = create_uinput_device(device_id);
@@ -374,7 +375,7 @@ UInput::add_key(uint32_t device_id, int ev_code)
   return create_emitter(device_id, EV_KEY, ev_code);
 }
 
-UIEventEmitterPtr
+UIEventEmitter*
 UInput::add_rel(uint32_t device_id, int ev_code)
 {
   LinuxUinput* dev = create_uinput_device(device_id);
@@ -383,7 +384,7 @@ UInput::add_rel(uint32_t device_id, int ev_code)
   return create_emitter(device_id, EV_REL, ev_code);
 }
 
-UIEventEmitterPtr
+UIEventEmitter*
 UInput::add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat)
 {
   LinuxUinput* dev = create_uinput_device(device_id);
@@ -399,7 +400,7 @@ UInput::add_ff(uint32_t device_id, uint16_t code)
   dev->add_ff(code);
 }
 
-UIEventEmitterPtr
+UIEventEmitter*
 UInput::create_emitter(int device_id, int type, int code)
 {
   // search for an already existing emitter
@@ -418,23 +419,20 @@ UInput::create_emitter(int device_id, int type, int code)
   {
     case EV_ABS:
       {
-        UIEventCollectorPtr collector(new UIAbsEventCollector(*this, device_id, type, code));
-        m_collectors.push_back(collector);
-        return collector->create_emitter();
+        m_collectors.push_back(std::make_unique<UIAbsEventCollector>(*this, device_id, type, code));
+        return m_collectors.back()->create_emitter();
       }
 
     case EV_KEY:
       {
-        UIEventCollectorPtr collector(new UIKeyEventCollector(*this, device_id, type, code));
-        m_collectors.push_back(collector);
-        return collector->create_emitter();
+        m_collectors.push_back(std::make_unique<UIKeyEventCollector>(*this, device_id, type, code));
+        return m_collectors.back()->create_emitter();
       }
 
     case EV_REL:
       {
-        UIEventCollectorPtr collector(new UIRelEventCollector(*this, device_id, type, code));
-        m_collectors.push_back(collector);
-        return collector->create_emitter();
+        m_collectors.push_back(std::make_unique<UIRelEventCollector>(*this, device_id, type, code));
+        return m_collectors.back()->create_emitter();
       }
 
     default:

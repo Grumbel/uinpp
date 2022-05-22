@@ -47,7 +47,7 @@ public:
 
 private:
   std::vector<UIEvent> m_sequence;
-  std::vector<UIEventEmitterPtr> m_emitters;
+  std::vector<UIEventEmitter*> m_emitters;
 };
 
 } // namespace uinpp

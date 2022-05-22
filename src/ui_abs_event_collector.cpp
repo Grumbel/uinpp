@@ -28,12 +28,11 @@ UIAbsEventCollector::UIAbsEventCollector(UInput& uinput, uint32_t device_id, int
 {
 }
 
-UIEventEmitterPtr
+UIEventEmitter*
 UIAbsEventCollector::create_emitter()
 {
-  UIAbsEventEmitterPtr emitter(new UIAbsEventEmitter(*this));
-  m_emitters.push_back(emitter);
-  return m_emitters.back();
+  m_emitters.emplace_back(std::make_unique<UIAbsEventEmitter>(*this));
+  return m_emitters.back().get();
 }
 
 void

@@ -27,21 +27,19 @@ class UIKeyEventCollector;
 
 class UIKeyEventEmitter : public UIEventEmitter
 {
-private:
-  UIKeyEventCollector& m_collector;
-  bool m_value;
-
 public:
   UIKeyEventEmitter(UIKeyEventCollector& collector);
 
   void send(int value);
 
 private:
+  UIKeyEventCollector& m_collector;
+  bool m_value;
+
+private:
   UIKeyEventEmitter(const UIKeyEventEmitter&);
   UIKeyEventEmitter& operator=(const UIKeyEventEmitter&);
 };
-
-typedef std::shared_ptr<UIKeyEventEmitter> UIKeyEventEmitterPtr;
 
 } // namespace uinpp
 

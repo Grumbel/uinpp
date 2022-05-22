@@ -23,14 +23,10 @@
 #include <stdint.h>
 #include <vector>
 
+#include "fwd.hpp"
 #include "ui_event_emitter.hpp"
 
 namespace uinpp {
-
-class UIEventCollector;
-class UInput;
-
-typedef std::shared_ptr<UIEventCollector> UIEventCollectorPtr;
 
 class UIEventCollector
 {
@@ -48,7 +44,7 @@ public:
   int      get_type() const { return m_type; }
   int      get_code() const { return m_code; }
 
-  virtual UIEventEmitterPtr create_emitter() = 0;
+  virtual UIEventEmitter* create_emitter() = 0;
   virtual void sync() = 0;
 
 private:
