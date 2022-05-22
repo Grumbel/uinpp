@@ -110,11 +110,6 @@ private:
   UIEventEmitterPtr create_emitter(int device_id, int type, int code);
 
 private:
-  typedef std::map<uint32_t, std::shared_ptr<LinuxUinput> > UInputDevs;
-  typedef std::map<uint32_t, std::string> DeviceNames;
-  typedef std::map<uint32_t, struct input_id> DeviceUSBId;
-  typedef std::vector<UIEventCollectorPtr> Collectors;
-
   struct RelRepeat
   {
     UIEvent code;
@@ -125,10 +120,10 @@ private:
   };
 
 private:
-  UInputDevs m_uinput_devs;
-  DeviceNames m_device_names;
-  DeviceUSBId m_device_usbids;
-  Collectors m_collectors;
+  std::map<uint32_t, std::shared_ptr<LinuxUinput> > m_uinput_devs;
+  std::map<uint32_t, std::string> m_device_names;
+  std::map<uint32_t, struct input_id> m_device_usbids;
+  std::vector<UIEventCollectorPtr> m_collectors;
 
   std::map<UIEvent, RelRepeat> m_rel_repeat_lst;
 

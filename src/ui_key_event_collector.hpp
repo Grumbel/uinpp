@@ -29,8 +29,7 @@ namespace uinpp {
 class UIKeyEventCollector : public UIEventCollector
 {
 private:
-  typedef std::vector<UIKeyEventEmitterPtr> Emitters;
-  Emitters m_emitters;
+  std::vector<UIKeyEventEmitterPtr> m_emitters;
 
   int m_value;
 

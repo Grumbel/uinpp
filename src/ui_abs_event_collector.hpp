@@ -27,8 +27,7 @@ namespace uinpp {
 class UIAbsEventCollector : public UIEventCollector
 {
 private:
-  typedef std::vector<UIAbsEventEmitterPtr> Emitters;
-  Emitters m_emitters;
+  std::vector<UIAbsEventEmitterPtr> m_emitters;
 
 public:
   UIAbsEventCollector(UInput& uinput, uint32_t device_id, int type, int code);

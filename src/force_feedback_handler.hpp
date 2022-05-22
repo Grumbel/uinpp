@@ -87,8 +87,7 @@ class ForceFeedbackHandler
 private:
   int gain;
   int max_effects;
-  typedef std::map<int, ForceFeedbackEffect> Effects;
-  Effects effects;
+  std::map<int, ForceFeedbackEffect> effects;
 
   int weak_magnitude;
   int strong_magnitude;

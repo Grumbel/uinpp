@@ -27,8 +27,7 @@ namespace uinpp {
 class UIRelEventCollector : public UIEventCollector
 {
 private:
-  typedef std::vector<UIRelEventEmitterPtr> Emitters;
-  Emitters m_emitters;
+  std::vector<UIRelEventEmitterPtr> m_emitters;
 
 public:
   UIRelEventCollector(UInput& uinput, uint32_t device_id, int type, int code);

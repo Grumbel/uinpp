@@ -33,16 +33,10 @@ namespace uinpp {
  */
 class UIEventSequence
 {
-private:
-  typedef std::vector<UIEvent> UIEvents;
-  typedef std::vector<UIEventEmitterPtr> UIEventEmitters;
-  UIEvents m_sequence;
-  UIEventEmitters m_emitters;
-
 public:
   UIEventSequence();
-  UIEventSequence(const UIEvents& sequence);
-  UIEventSequence(const UIEvent& event);
+  UIEventSequence(std::vector<UIEvent> const& sequence);
+  UIEventSequence(UIEvent const& event);
 
   void init(UInput& uinput, int slot, bool extra_devices);
   void send(int value);
@@ -50,6 +44,10 @@ public:
   void clear();
 
   std::string str() const;
+
+private:
+  std::vector<UIEvent> m_sequence;
+  std::vector<UIEventEmitterPtr> m_emitters;
 };
 
 } // namespace uinpp

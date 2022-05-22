@@ -32,13 +32,13 @@ UIEventSequence::UIEventSequence() :
 {
 }
 
-UIEventSequence::UIEventSequence(const UIEvents& sequence) :
+UIEventSequence::UIEventSequence(std::vector<UIEvent> const& sequence) :
   m_sequence(sequence),
   m_emitters()
 {
 }
 
-UIEventSequence::UIEventSequence(const UIEvent& event) :
+UIEventSequence::UIEventSequence(UIEvent const& event) :
   m_sequence(1, event),
   m_emitters()
 {
