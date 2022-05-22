@@ -131,18 +131,24 @@ UInput::parse_device_id(const std::string& str)
   return UInput::create_device_id(slot_id, device_id);
 }
 
-UInput::UInput(bool extra_events) :
+UInput::UInput() :
   m_uinput_devs(),
   m_device_names(),
   m_device_usbids(),
   m_collectors(),
   m_rel_repeat_lst(),
-  m_extra_events(extra_events)
+  m_extra_events(true)
 {
 }
 
 UInput::~UInput()
 {
+}
+
+void
+UInput::set_extra_events(bool extra_events)
+{
+  m_extra_events = extra_events;
 }
 
 struct input_id

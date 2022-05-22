@@ -79,7 +79,7 @@ private:
   bool m_extra_events;
 
 public:
-  UInput(bool extra_events);
+  UInput();
   ~UInput();
 
   /** guess the number of the next unused /dev/input/jsX device */
@@ -87,6 +87,9 @@ public:
 
   /** guess the number of the next unused /dev/input/eventX device */
   static int  find_evdev_number();
+
+  /** Create the usual events that would be present for a device of the given type automatically */
+  void set_extra_events(bool extra_events);
 
   void set_device_names(const std::map<uint32_t, std::string>& device_names);
   void set_device_usbids(const std::map<uint32_t, struct input_id>& device_usbids);

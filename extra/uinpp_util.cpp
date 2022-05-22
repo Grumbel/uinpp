@@ -6,7 +6,7 @@
 
 int main()
 {
-  uinpp::UInput uinput(false);
+  uinpp::UInput uinput;
   uinput.add_key(uinpp::DEVICEID_KEYBOARD, KEY_A);
   uinput.finish();
 
