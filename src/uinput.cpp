@@ -444,6 +444,16 @@ UInput::finish()
   }
 }
 
+std::vector<LinuxUinput*>
+UInput::get_linux_uinputs() const
+{
+  std::vector<LinuxUinput*> result;
+  for (auto& it : m_uinput_devs) {
+    result.emplace_back(it.second.get());
+  }
+  return result;
+}
+
 void
 UInput::send(uint32_t device_id, int ev_type, int ev_code, int value)
 {

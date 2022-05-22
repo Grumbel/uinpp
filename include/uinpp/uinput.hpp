@@ -25,6 +25,10 @@
 #include "ui_event.hpp"
 #include "linux_uinput.hpp"
 
+/** UInput bundle multiple LinuxUinput devices to make it easier to create
+    virtual devices that spread across different categories of input, e.g. a
+    keyboard with a trackball would both need a mouse device as well as
+    a keyboard one */
 class UInput
 {
 public:
@@ -109,9 +113,11 @@ public:
   void sync();
   /** @} */
 
-private:
+  std::vector<LinuxUinput*> get_linux_uinputs() const;
+
   void update(int msec_delta);
 
+private:
   /** create a LinuxUinput with the given device_id, if some already
       exist return a pointer to it */
   LinuxUinput* create_uinput_device(uint32_t device_id);

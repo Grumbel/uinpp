@@ -54,6 +54,7 @@ public:
   void finish();
   /*@}*/
 
+  /** Send an input event */
   void send(uint16_t type, uint16_t code, int32_t value);
 
   /** Sends out a sync event if there is a need for it. */
@@ -62,7 +63,7 @@ public:
   /** Update force feedback */
   void update(int msec_delta);
 
-  /** Read incoming data (force feedback, led, etc.) */
+  /** Read incoming data (force feedback, led, etc.), non-blocking */
   void read();
 
   /** file handle to the underlying device */
