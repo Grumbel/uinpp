@@ -52,41 +52,15 @@ public:
     return static_cast<uint16_t>(((device_id) >> 16) & 0xffff);
   }
 
-private:
-  typedef std::map<uint32_t, std::shared_ptr<LinuxUinput> > UInputDevs;
-  UInputDevs m_uinput_devs;
-
-  typedef std::map<uint32_t, std::string> DeviceNames;
-  DeviceNames m_device_names;
-
-  typedef std::map<uint32_t, struct input_id> DeviceUSBId;
-  DeviceUSBId m_device_usbids;
-
-  typedef std::vector<UIEventCollectorPtr> Collectors;
-  Collectors m_collectors;
-
-  struct RelRepeat
-  {
-    UIEvent code;
-    float value;
-    float rest;
-    int time_count;
-    int repeat_interval;
-  };
-
-  std::map<UIEvent, RelRepeat> m_rel_repeat_lst;
-
-  bool m_extra_events;
-
-public:
-  UInput();
-  ~UInput();
-
   /** guess the number of the next unused /dev/input/jsX device */
   static int  find_jsdev_number();
 
   /** guess the number of the next unused /dev/input/eventX device */
   static int  find_evdev_number();
+
+public:
+  UInput();
+  ~UInput();
 
   /** Create the usual events that would be present for a device of the given type automatically */
   void set_extra_events(bool extra_events);
@@ -134,6 +108,31 @@ private:
   struct input_id get_device_usbid(uint32_t device_id) const;
 
   UIEventEmitterPtr create_emitter(int device_id, int type, int code);
+
+private:
+  typedef std::map<uint32_t, std::shared_ptr<LinuxUinput> > UInputDevs;
+  typedef std::map<uint32_t, std::string> DeviceNames;
+  typedef std::map<uint32_t, struct input_id> DeviceUSBId;
+  typedef std::vector<UIEventCollectorPtr> Collectors;
+
+  struct RelRepeat
+  {
+    UIEvent code;
+    float value;
+    float rest;
+    int time_count;
+    int repeat_interval;
+  };
+
+private:
+  UInputDevs m_uinput_devs;
+  DeviceNames m_device_names;
+  DeviceUSBId m_device_usbids;
+  Collectors m_collectors;
+
+  std::map<UIEvent, RelRepeat> m_rel_repeat_lst;
+
+  bool m_extra_events;
 
 private:
   UInput(const UInput&);
