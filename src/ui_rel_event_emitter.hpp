@@ -31,7 +31,7 @@ private:
 public:
   UIRelEventEmitter(UIRelEventCollector& collector);
 
-  void send(int value);
+  void send(int value) override;
 
 private:
   UIRelEventEmitter(const UIRelEventEmitter&);

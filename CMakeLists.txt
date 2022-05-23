@@ -23,8 +23,8 @@ message(STATUS "tinycmmc module path: ${TINYCMMC_MODULE_PATH}")
 list(APPEND CMAKE_MODULE_PATH ${TINYCMMC_MODULE_PATH})
 
 include(GNUInstallDirs)
-# include(MaximumWarnings)
-# include(ClangTidy)
+include(MaximumWarnings)
+include(ClangTidy)
 
 # Build dependencies
 function(build_dependencies)

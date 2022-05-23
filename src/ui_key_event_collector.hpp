@@ -29,9 +29,10 @@ class UIKeyEventCollector : public UIEventCollector
 public:
   UIKeyEventCollector(UInput& uinput, uint32_t device_id, int type, int code);
 
-  UIEventEmitter* create_emitter();
+  UIEventEmitter* create_emitter() override;
+  void sync() override;
+
   void send(int value);
-  void sync();
 
 private:
   std::vector<std::unique_ptr<UIKeyEventEmitter>> m_emitters;

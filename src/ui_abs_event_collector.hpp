@@ -28,9 +28,10 @@ class UIAbsEventCollector : public UIEventCollector
 public:
   UIAbsEventCollector(UInput& uinput, uint32_t device_id, int type, int code);
 
-  UIEventEmitter* create_emitter();
+  UIEventEmitter* create_emitter() override;
+  void sync() override;
+
   void send(int value);
-  void sync();
 
 private:
   std::vector<std::unique_ptr<UIAbsEventEmitter>> m_emitters;

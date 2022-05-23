@@ -43,7 +43,7 @@ LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
   abs_bit(false),
   led_bit(false),
   ff_bit(false),
-  m_ff_handler(0),
+  m_ff_handler(nullptr),
   m_ff_callback(),
   needs_sync(true)
 {
@@ -170,7 +170,7 @@ LinuxUinput::add_ff(uint16_t code)
     {
       ioctl(m_fd, UI_SET_EVBIT, EV_FF);
       ff_bit = true;
-      assert(m_ff_handler == 0);
+      assert(m_ff_handler == nullptr);
       m_ff_handler = new ForceFeedbackHandler();
     }
 

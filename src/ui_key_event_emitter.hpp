@@ -28,7 +28,7 @@ class UIKeyEventEmitter : public UIEventEmitter
 public:
   UIKeyEventEmitter(UIKeyEventCollector& collector);
 
-  void send(int value);
+  void send(int value) override;
 
 private:
   UIKeyEventCollector& m_collector;

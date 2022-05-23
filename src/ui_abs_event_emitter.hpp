@@ -30,7 +30,7 @@ class UIAbsEventEmitter : public UIEventEmitter
 public:
   UIAbsEventEmitter(UIAbsEventCollector& collector);
 
-  void send(int value);
+  void send(int value) override;
 
 private:
   UIAbsEventCollector& m_collector;
