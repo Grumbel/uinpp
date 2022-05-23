@@ -14,28 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_UI_REL_EVENT_EMITTER_HPP
-#define HEADER_UINPP_UI_REL_EVENT_EMITTER_HPP
+#ifndef HEADER_UINPP_REL_EVENT_EMITTER_HPP
+#define HEADER_UINPP_REL_EVENT_EMITTER_HPP
 
-#include "ui_event_emitter.hpp"
+#include "event_emitter.hpp"
 
 namespace uinpp {
 
-class UIRelEventCollector;
+class RelEventCollector;
 
-class UIRelEventEmitter : public UIEventEmitter
+class RelEventEmitter : public EventEmitter
 {
 private:
-  UIRelEventCollector& m_collector;
+  RelEventCollector& m_collector;
 
 public:
-  UIRelEventEmitter(UIRelEventCollector& collector);
+  RelEventEmitter(RelEventCollector& collector);
 
   void send(int value) override;
 
 private:
-  UIRelEventEmitter(const UIRelEventEmitter&);
-  UIRelEventEmitter& operator=(const UIRelEventEmitter&);
+  RelEventEmitter(const RelEventEmitter&);
+  RelEventEmitter& operator=(const RelEventEmitter&);
 };
 
 } // namespace uinpp

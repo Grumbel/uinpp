@@ -14,37 +14,37 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ui_event_sequence.hpp"
+#include "event_sequence.hpp"
 
 #include <sstream>
 
 #include <strut/split.hpp>
 
-#include "ui_event.hpp"
+#include "event.hpp"
 #include "multi_device.hpp"
 
 namespace uinpp {
 
-UIEventSequence::UIEventSequence() :
+EventSequence::EventSequence() :
   m_sequence(),
   m_emitters()
 {
 }
 
-UIEventSequence::UIEventSequence(std::vector<UIEvent> const& sequence) :
+EventSequence::EventSequence(std::vector<Event> const& sequence) :
   m_sequence(sequence),
   m_emitters()
 {
 }
 
-UIEventSequence::UIEventSequence(UIEvent const& event) :
+EventSequence::EventSequence(Event const& event) :
   m_sequence(1, event),
   m_emitters()
 {
 }
 
 void
-UIEventSequence::init(MultiDevice& uinput, int slot, bool extra_devices)
+EventSequence::init(MultiDevice& uinput, int slot, bool extra_devices)
 {
   for(auto i = m_sequence.begin(); i != m_sequence.end(); ++i)
   {
@@ -54,7 +54,7 @@ UIEventSequence::init(MultiDevice& uinput, int slot, bool extra_devices)
 }
 
 void
-UIEventSequence::send(int value)
+EventSequence::send(int value)
 {
   if (value)
   {
@@ -74,13 +74,13 @@ UIEventSequence::send(int value)
 }
 
 void
-UIEventSequence::clear()
+EventSequence::clear()
 {
   m_sequence.clear();
 }
 
 std::string
-UIEventSequence::str() const
+EventSequence::str() const
 {
   std::ostringstream out;
 

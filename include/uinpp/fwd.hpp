@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_FWD_HPP
-#define HEADER_UINPP_FWD_HPP
+#ifndef HEADER_NPP_FWD_HPP
+#define HEADER_NPP_FWD_HPP
 
 #include <memory>
 
 namespace uinpp {
 
 class ForceFeedbackHandler;
-class UIEventCollector;
-class UIEventEmitter;
+class EventCollector;
+class EventEmitter;
 class MultiDevice;
 class Device;
 

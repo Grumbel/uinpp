@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ui_key_event_collector.hpp"
+#include "key_event_collector.hpp"
 
 #include <cassert>
 
@@ -24,22 +24,22 @@
 
 namespace uinpp {
 
-UIKeyEventCollector::UIKeyEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code) :
-  UIEventCollector(uinput, device_id, type, code),
+KeyEventCollector::KeyEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code) :
+  EventCollector(uinput, device_id, type, code),
   m_emitters(),
   m_value(0)
 {
 }
 
-UIEventEmitter*
-UIKeyEventCollector::create_emitter()
+EventEmitter*
+KeyEventCollector::create_emitter()
 {
-  m_emitters.emplace_back(std::make_unique<UIKeyEventEmitter>(*this));
+  m_emitters.emplace_back(std::make_unique<KeyEventEmitter>(*this));
   return m_emitters.back().get();
 }
 
 void
-UIKeyEventCollector::send(int value)
+KeyEventCollector::send(int value)
 {
   assert(value == 0 || value == 1);
 
@@ -74,7 +74,7 @@ UIKeyEventCollector::send(int value)
 }
 
 void
-UIKeyEventCollector::sync()
+KeyEventCollector::sync()
 {
 }
 

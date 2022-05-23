@@ -14,27 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_UI_EVENT_SEQUENCE_HPP
-#define HEADER_UINPP_UI_EVENT_SEQUENCE_HPP
+#ifndef HEADER_NPP_EVENT_SEQUENCE_HPP
+#define HEADER_NPP_EVENT_SEQUENCE_HPP
 
 #include <vector>
 
-#include "ui_event.hpp"
-#include "ui_event_emitter.hpp"
+#include "event.hpp"
+#include "event_emitter.hpp"
 
 namespace uinpp {
 
 /**
-    A sequence of UIEvents (only key events allowed right now)
+    A sequence of Events (only key events allowed right now)
 
     FIXME: class name is kind of wrong
  */
-class UIEventSequence
+class EventSequence
 {
 public:
-  UIEventSequence();
-  UIEventSequence(std::vector<UIEvent> const& sequence);
-  UIEventSequence(UIEvent const& event);
+  EventSequence();
+  EventSequence(std::vector<Event> const& sequence);
+  EventSequence(Event const& event);
 
   void init(MultiDevice& uinput, int slot, bool extra_devices);
   void send(int value);
@@ -44,8 +44,8 @@ public:
   std::string str() const;
 
 private:
-  std::vector<UIEvent> m_sequence;
-  std::vector<UIEventEmitter*> m_emitters;
+  std::vector<Event> m_sequence;
+  std::vector<EventEmitter*> m_emitters;
 };
 
 } // namespace uinpp

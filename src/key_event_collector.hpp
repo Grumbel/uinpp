@@ -14,12 +14,37 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ui_event_emitter.hpp"
+#ifndef HEADER_UINPP_KEY_EVENT_COLLECTOR_HPP
+#define HEADER_UINPP_KEY_EVENT_COLLECTOR_HPP
 
-#include <cassert>
+#include "event_collector.hpp"
+#include "key_event_emitter.hpp"
 
-#include <logmich/log.hpp>
+#include <vector>
 
-#include "multi_device.hpp"
+namespace uinpp {
+
+class KeyEventCollector : public EventCollector
+{
+public:
+  KeyEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code);
+
+  EventEmitter* create_emitter() override;
+  void sync() override;
+
+  void send(int value);
+
+private:
+  std::vector<std::unique_ptr<KeyEventEmitter>> m_emitters;
+  int m_value;
+
+private:
+  KeyEventCollector(const KeyEventCollector&);
+  KeyEventCollector& operator=(const KeyEventCollector&);
+};
+
+} // namespace uinpp
+
+#endif
 
 /* EOF */

@@ -14,36 +14,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ui_abs_event_collector.hpp"
+#ifndef HEADER_UINPP_ABS_EVENT_EMITTER_HPP
+#define HEADER_UINPP_ABS_EVENT_EMITTER_HPP
 
-#include "multi_device.hpp"
+#include "event_emitter.hpp"
+
+#include "fwd.hpp"
 
 namespace uinpp {
 
-UIAbsEventCollector::UIAbsEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code) :
-  UIEventCollector(uinput, device_id, type, code),
-  m_emitters()
-{
-}
+class AbsEventCollector;
 
-UIEventEmitter*
-UIAbsEventCollector::create_emitter()
+class AbsEventEmitter : public EventEmitter
 {
-  m_emitters.emplace_back(std::make_unique<UIAbsEventEmitter>(*this));
-  return m_emitters.back().get();
-}
+public:
+  AbsEventEmitter(AbsEventCollector& collector);
 
-void
-UIAbsEventCollector::send(int value)
-{
-  m_uinput.send(get_device_id(), get_type(), get_code(), value);
-}
+  void send(int value) override;
 
-void
-UIAbsEventCollector::sync()
-{
-}
+private:
+  AbsEventCollector& m_collector;
+  int m_value;
+
+private:
+  AbsEventEmitter(const AbsEventEmitter&);
+  AbsEventEmitter& operator=(const AbsEventEmitter&);
+};
 
 } // namespace uinpp
+
+#endif
 
 /* EOF */

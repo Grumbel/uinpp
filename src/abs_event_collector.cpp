@@ -14,44 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_UI_EVENT_COLLECTOR_HPP
-#define HEADER_UINPP_UI_EVENT_COLLECTOR_HPP
+#include "abs_event_collector.hpp"
 
-#include <cstdint>
-#include <memory>
-#include <vector>
-
-#include "fwd.hpp"
-#include "ui_event_emitter.hpp"
+#include "multi_device.hpp"
 
 namespace uinpp {
 
-class UIEventCollector
+AbsEventCollector::AbsEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code) :
+  EventCollector(uinput, device_id, type, code),
+  m_emitters()
 {
-protected:
-  MultiDevice& m_uinput;
-  uint32_t m_device_id;
-  int m_type;
-  int m_code;
+}
 
-public:
-  UIEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code);
-  virtual ~UIEventCollector();
+EventEmitter*
+AbsEventCollector::create_emitter()
+{
+  m_emitters.emplace_back(std::make_unique<AbsEventEmitter>(*this));
+  return m_emitters.back().get();
+}
 
-  uint32_t get_device_id() const { return m_device_id; }
-  int      get_type() const { return m_type; }
-  int      get_code() const { return m_code; }
+void
+AbsEventCollector::send(int value)
+{
+  m_uinput.send(get_device_id(), get_type(), get_code(), value);
+}
 
-  virtual UIEventEmitter* create_emitter() = 0;
-  virtual void sync() = 0;
-
-private:
-  UIEventCollector(const UIEventCollector&);
-  UIEventCollector& operator=(const UIEventCollector&);
-};
+void
+AbsEventCollector::sync()
+{
+}
 
 } // namespace uinpp
-
-#endif
 
 /* EOF */

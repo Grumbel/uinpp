@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_GLIB_UINPUT_HPP
-#define HEADER_UINPP_GLIB_UINPUT_HPP
+#ifndef HEADER_NPP_GLIB_NPUT_HPP
+#define HEADER_NPP_GLIB_NPUT_HPP
 
 #include <iostream>
 
 #include <glib.h>
 
 #include <uinpp/device.hpp>
-#include <uinpp/uinput.hpp>
+#include <uinpp/multi_device.hpp>
 
 namespace uinpp {
 

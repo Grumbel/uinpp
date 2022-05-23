@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ui_event.hpp"
+#include "event.hpp"
 
 #include <cassert>
 #include <fmt/format.h>
@@ -25,10 +25,10 @@
 
 namespace uinpp {
 
-UIEvent
-UIEvent::create(uint16_t device_id, int type, int code)
+Event
+Event::create(uint16_t device_id, int type, int code)
 {
-  UIEvent ev;
+  Event ev;
   ev.m_slot_id = SLOTID_AUTO;
   ev.m_device_id = device_id;
   ev.m_device_id_resolved = false;
@@ -37,10 +37,10 @@ UIEvent::create(uint16_t device_id, int type, int code)
   return ev;
 }
 
-UIEvent
-UIEvent::invalid()
+Event
+Event::invalid()
 {
-  UIEvent ev;
+  Event ev;
   ev.m_slot_id = SLOTID_AUTO;
   ev.m_device_id = DEVICEID_INVALID;
   ev.m_device_id_resolved = false;
@@ -50,7 +50,7 @@ UIEvent::invalid()
 }
 
 bool
-UIEvent::operator<(const UIEvent& rhs)  const
+Event::operator<(const Event& rhs)  const
 {
   // BROKEN: must take all members into account
   if (m_device_id == rhs.m_device_id)
@@ -79,7 +79,7 @@ UIEvent::operator<(const UIEvent& rhs)  const
 }
 
 void
-UIEvent::resolve_device_id(int slot, bool extra_devices)
+Event::resolve_device_id(int slot, bool extra_devices)
 {
   assert(!m_device_id_resolved);
 
@@ -128,7 +128,7 @@ UIEvent::resolve_device_id(int slot, bool extra_devices)
 }
 
 uint32_t
-UIEvent::get_device_id() const
+Event::get_device_id() const
 {
   assert(m_device_id_resolved);
 

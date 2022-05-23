@@ -14,36 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ui_rel_event_collector.hpp"
+#include "event_emitter.hpp"
+
+#include <cassert>
+
+#include <logmich/log.hpp>
 
 #include "multi_device.hpp"
-
-namespace uinpp {
-
-UIRelEventCollector::UIRelEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code) :
-  UIEventCollector(uinput, device_id, type, code),
-  m_emitters()
-{
-}
-
-UIEventEmitter*
-UIRelEventCollector::create_emitter()
-{
-  m_emitters.emplace_back(std::make_unique<UIRelEventEmitter>(*this));
-  return m_emitters.back().get();
-}
-
-void
-UIRelEventCollector::send(int value)
-{
-  m_uinput.send(get_device_id(), get_type(), get_code(), value);
-}
-
-void
-UIRelEventCollector::sync()
-{
-}
-
-} // namespace uinpp
 
 /* EOF */

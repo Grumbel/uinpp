@@ -14,33 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_UI_KEY_EVENT_COLLECTOR_HPP
-#define HEADER_UINPP_UI_KEY_EVENT_COLLECTOR_HPP
+#ifndef HEADER_UINPP_KEY_EVENT_EMITTER_HPP
+#define HEADER_UINPP_KEY_EVENT_EMITTER_HPP
 
-#include "ui_event_collector.hpp"
-#include "ui_key_event_emitter.hpp"
-
-#include <vector>
+#include "event_emitter.hpp"
 
 namespace uinpp {
 
-class UIKeyEventCollector : public UIEventCollector
+class KeyEventCollector;
+
+class KeyEventEmitter : public EventEmitter
 {
 public:
-  UIKeyEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code);
+  KeyEventEmitter(KeyEventCollector& collector);
 
-  UIEventEmitter* create_emitter() override;
-  void sync() override;
-
-  void send(int value);
+  void send(int value) override;
 
 private:
-  std::vector<std::unique_ptr<UIKeyEventEmitter>> m_emitters;
-  int m_value;
+  KeyEventCollector& m_collector;
+  bool m_value;
 
 private:
-  UIKeyEventCollector(const UIKeyEventCollector&);
-  UIKeyEventCollector& operator=(const UIKeyEventCollector&);
+  KeyEventEmitter(const KeyEventEmitter&);
+  KeyEventEmitter& operator=(const KeyEventEmitter&);
 };
 
 } // namespace uinpp

@@ -14,23 +14,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ui_rel_event_emitter.hpp"
+#ifndef HEADER_UINPP_EVENT_COLLECTOR_HPP
+#define HEADER_UINPP_EVENT_COLLECTOR_HPP
 
-#include "ui_rel_event_collector.hpp"
+#include <cstdint>
+#include <memory>
+#include <vector>
+
+#include "fwd.hpp"
+#include "event_emitter.hpp"
 
 namespace uinpp {
 
-UIRelEventEmitter::UIRelEventEmitter(UIRelEventCollector& collector) :
-  m_collector(collector)
+class EventCollector
 {
-}
+protected:
+  MultiDevice& m_uinput;
+  uint32_t m_device_id;
+  int m_type;
+  int m_code;
 
-void
-UIRelEventEmitter::send(int value)
-{
-  m_collector.send(value);
-}
+public:
+  EventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code);
+  virtual ~EventCollector();
+
+  uint32_t get_device_id() const { return m_device_id; }
+  int      get_type() const { return m_type; }
+  int      get_code() const { return m_code; }
+
+  virtual EventEmitter* create_emitter() = 0;
+  virtual void sync() = 0;
+
+private:
+  EventCollector(const EventCollector&);
+  EventCollector& operator=(const EventCollector&);
+};
 
 } // namespace uinpp
+
+#endif
 
 /* EOF */

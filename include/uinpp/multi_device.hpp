@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_UINPUT_HPP
-#define HEADER_UINPP_UINPUT_HPP
+#ifndef HEADER_NPP_MULTI_DEVICE_HPP
+#define HEADER_NPP_MULTI_DEVICE_HPP
 
 #include <map>
 
 #include "fwd.hpp"
 #include "device.hpp"
-#include "ui_event.hpp"
+#include "event.hpp"
 
 namespace uinpp {
 
@@ -44,10 +44,10 @@ public:
   void set_device_usbids(const std::map<uint32_t, struct input_id>& device_usbids);
   void set_ff_callback(int device_id, const std::function<void (uint8_t, uint8_t)>& callback);
 
-  UIEventEmitter* add(const UIEvent& ev);
-  UIEventEmitter* add_rel(uint32_t device_id, int ev_code);
-  UIEventEmitter* add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat);
-  UIEventEmitter* add_key(uint32_t device_id, int ev_code);
+  EventEmitter* add(const Event& ev);
+  EventEmitter* add_rel(uint32_t device_id, int ev_code);
+  EventEmitter* add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat);
+  EventEmitter* add_key(uint32_t device_id, int ev_code);
   void add_ff(uint32_t device_id, uint16_t code);
 
   /** needs to be called to finish device creation and create the
@@ -58,7 +58,7 @@ public:
   /** Send events to the kernel
       @{*/
   void send(uint32_t device_id, int ev_type, int ev_code, int value);
-  void send_rel_repetitive(const UIEvent& code, float value, int repeat_interval);
+  void send_rel_repetitive(const Event& code, float value, int repeat_interval);
 
   /** should be called to signal that all events of the current frame
       have been send */
@@ -80,12 +80,12 @@ private:
   std::string get_device_name(uint32_t device_id) const;
   struct input_id get_device_usbid(uint32_t device_id) const;
 
-  UIEventEmitter* create_emitter(int device_id, int type, int code);
+  EventEmitter* create_emitter(int device_id, int type, int code);
 
 private:
   struct RelRepeat
   {
-    UIEvent code;
+    Event code;
     float value;
     float rest;
     int time_count;
@@ -96,9 +96,9 @@ private:
   std::map<uint32_t, std::unique_ptr<Device> > m_devices;
   std::map<uint32_t, std::string> m_device_names;
   std::map<uint32_t, struct input_id> m_device_usbids;
-  std::vector<std::unique_ptr<UIEventCollector>> m_collectors;
+  std::vector<std::unique_ptr<EventCollector>> m_collectors;
 
-  std::map<UIEvent, RelRepeat> m_rel_repeat_lst;
+  std::map<Event, RelRepeat> m_rel_repeat_lst;
 
   bool m_extra_events;
 

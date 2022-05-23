@@ -14,35 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_UI_ABS_EVENT_EMITTER_HPP
-#define HEADER_UINPP_UI_ABS_EVENT_EMITTER_HPP
+#include "rel_event_emitter.hpp"
 
-#include "ui_event_emitter.hpp"
-
-#include "fwd.hpp"
+#include "rel_event_collector.hpp"
 
 namespace uinpp {
 
-class UIAbsEventCollector;
-
-class UIAbsEventEmitter : public UIEventEmitter
+RelEventEmitter::RelEventEmitter(RelEventCollector& collector) :
+  m_collector(collector)
 {
-public:
-  UIAbsEventEmitter(UIAbsEventCollector& collector);
+}
 
-  void send(int value) override;
-
-private:
-  UIAbsEventCollector& m_collector;
-  int m_value;
-
-private:
-  UIAbsEventEmitter(const UIAbsEventEmitter&);
-  UIAbsEventEmitter& operator=(const UIAbsEventEmitter&);
-};
+void
+RelEventEmitter::send(int value)
+{
+  m_collector.send(value);
+}
 
 } // namespace uinpp
-
-#endif
 
 /* EOF */

@@ -23,7 +23,7 @@
 #include <fmt/format.h>
 #include <strut/split.hpp>
 
-#include "ui_event.hpp"
+#include "event.hpp"
 
 namespace uinpp {
 

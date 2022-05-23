@@ -27,9 +27,9 @@
 #include <logmich/log.hpp>
 
 #include "parse.hpp"
-#include "ui_abs_event_collector.hpp"
-#include "ui_key_event_collector.hpp"
-#include "ui_rel_event_collector.hpp"
+#include "abs_event_collector.hpp"
+#include "key_event_collector.hpp"
+#include "rel_event_collector.hpp"
 
 namespace uinpp {
 
@@ -244,8 +244,8 @@ MultiDevice::create_uinput_device(uint32_t device_id)
   }
 }
 
-UIEventEmitter*
-MultiDevice::add(const UIEvent& ev)
+EventEmitter*
+MultiDevice::add(const Event& ev)
 {
   Device* dev = create_uinput_device(ev.get_device_id());
 
@@ -268,7 +268,7 @@ MultiDevice::add(const UIEvent& ev)
   return create_emitter(ev.get_device_id(), ev.get_type(), ev.get_code());
 }
 
-UIEventEmitter*
+EventEmitter*
 MultiDevice::add_key(uint32_t device_id, int ev_code)
 {
   Device* dev = create_uinput_device(device_id);
@@ -277,7 +277,7 @@ MultiDevice::add_key(uint32_t device_id, int ev_code)
   return create_emitter(device_id, EV_KEY, ev_code);
 }
 
-UIEventEmitter*
+EventEmitter*
 MultiDevice::add_rel(uint32_t device_id, int ev_code)
 {
   Device* dev = create_uinput_device(device_id);
@@ -286,7 +286,7 @@ MultiDevice::add_rel(uint32_t device_id, int ev_code)
   return create_emitter(device_id, EV_REL, ev_code);
 }
 
-UIEventEmitter*
+EventEmitter*
 MultiDevice::add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat)
 {
   Device* dev = create_uinput_device(device_id);
@@ -302,7 +302,7 @@ MultiDevice::add_ff(uint32_t device_id, uint16_t code)
   dev->add_ff(code);
 }
 
-UIEventEmitter*
+EventEmitter*
 MultiDevice::create_emitter(int device_id, int type, int code)
 {
   // search for an already existing emitter
@@ -321,19 +321,19 @@ MultiDevice::create_emitter(int device_id, int type, int code)
   {
     case EV_ABS:
       {
-        m_collectors.push_back(std::make_unique<UIAbsEventCollector>(*this, device_id, type, code));
+        m_collectors.push_back(std::make_unique<AbsEventCollector>(*this, device_id, type, code));
         return m_collectors.back()->create_emitter();
       }
 
     case EV_KEY:
       {
-        m_collectors.push_back(std::make_unique<UIKeyEventCollector>(*this, device_id, type, code));
+        m_collectors.push_back(std::make_unique<KeyEventCollector>(*this, device_id, type, code));
         return m_collectors.back()->create_emitter();
       }
 
     case EV_REL:
       {
-        m_collectors.push_back(std::make_unique<UIRelEventCollector>(*this, device_id, type, code));
+        m_collectors.push_back(std::make_unique<RelEventCollector>(*this, device_id, type, code));
         return m_collectors.back()->create_emitter();
       }
 
@@ -411,7 +411,7 @@ MultiDevice::sync()
 }
 
 void
-MultiDevice::send_rel_repetitive(const UIEvent& code, float value, int repeat_interval)
+MultiDevice::send_rel_repetitive(const Event& code, float value, int repeat_interval)
 {
   if (repeat_interval < 0)
   { // remove rel_repeats from list
@@ -431,7 +431,7 @@ MultiDevice::send_rel_repetitive(const UIEvent& code, float value, int repeat_in
       rel_rep.rest  = 0.0f;
       rel_rep.time_count = 0;
       rel_rep.repeat_interval = repeat_interval;
-      m_rel_repeat_lst.insert(std::pair<UIEvent, RelRepeat>(code, rel_rep));
+      m_rel_repeat_lst.insert(std::pair<Event, RelRepeat>(code, rel_rep));
 
       // Send the event once
       get_uinput(code.get_device_id())->send(EV_REL, static_cast<uint16_t>(code.code), static_cast<int32_t>(value));

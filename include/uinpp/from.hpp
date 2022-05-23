@@ -14,31 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_FROM_HPP
-#define HEADER_UINPP_FROM_HPP
+#ifndef HEADER_NPP_FROM_HPP
+#define HEADER_NPP_FROM_HPP
 
 #include <linux/input.h>
 #include <vector>
 
 #include <strut/split.hpp>
-#include <uinpp/ui_event.hpp>
-#include <uinpp/ui_event_sequence.hpp>
+#include <uinpp/event.hpp>
+#include <uinpp/event_sequence.hpp>
 
 #include "evdev_helper.hpp"
 
 namespace uinpp {
 
 inline
-UIEvent
-UIEvent_from_char(char c)
+Event
+Event_from_char(char c)
 {
-  UIEvent ev;
+  Event ev;
   ev.m_slot_id = SLOTID_AUTO;
   ev.m_device_id = DEVICEID_AUTO;
   ev.m_device_id_resolved = false;
   ev.type = EV_KEY;
 
-  // FIXME: not very complete, should use UIEventSequence and do a bit more magic
+  // FIXME: not very complete, should use EventSequence and do a bit more magic
   switch(c)
   {
     case 'a': ev.code = str2key("XK_a"); break;
@@ -88,8 +88,8 @@ UIEvent_from_char(char c)
 }
 
 inline
-UIEvent
-UIEvent_from_string(const std::string& str)
+Event
+Event_from_string(const std::string& str)
 {
   switch(get_event_type(str))
   {
@@ -101,10 +101,10 @@ UIEvent_from_string(const std::string& str)
 }
 
 inline
-UIEventSequence
-UIEventSequence_from_string(const std::string& value)
+EventSequence
+EventSequence_from_string(const std::string& value)
 {
-  std::vector<UIEvent> sequence;
+  std::vector<Event> sequence;
 
   auto ev_tokens = strut::split(value, '+');
   int k = 0;
@@ -117,79 +117,79 @@ UIEventSequence_from_string(const std::string& value)
 }
 
 inline
-UIEventSequence
-UIEventSequence_from_char(char c)
+EventSequence
+EventSequence_from_char(char c)
 {
   switch(c)
   {
-    case 'A': return UIEventSequence_from_string("XK_Shift_L+XK_a");
-    case 'B': return UIEventSequence_from_string("XK_Shift_L+XK_b");
-    case 'C': return UIEventSequence_from_string("XK_Shift_L+XK_c");
-    case 'D': return UIEventSequence_from_string("XK_Shift_L+XK_d");
-    case 'E': return UIEventSequence_from_string("XK_Shift_L+XK_e");
-    case 'F': return UIEventSequence_from_string("XK_Shift_L+XK_f");
-    case 'G': return UIEventSequence_from_string("XK_Shift_L+XK_g");
-    case 'H': return UIEventSequence_from_string("XK_Shift_L+XK_h");
-    case 'I': return UIEventSequence_from_string("XK_Shift_L+XK_i");
-    case 'J': return UIEventSequence_from_string("XK_Shift_L+XK_j");
-    case 'K': return UIEventSequence_from_string("XK_Shift_L+XK_k");
-    case 'L': return UIEventSequence_from_string("XK_Shift_L+XK_l");
-    case 'M': return UIEventSequence_from_string("XK_Shift_L+XK_m");
-    case 'N': return UIEventSequence_from_string("XK_Shift_L+XK_n");
-    case 'O': return UIEventSequence_from_string("XK_Shift_L+XK_o");
-    case 'P': return UIEventSequence_from_string("XK_Shift_L+XK_p");
-    case 'Q': return UIEventSequence_from_string("XK_Shift_L+XK_q");
-    case 'R': return UIEventSequence_from_string("XK_Shift_L+XK_r");
-    case 'S': return UIEventSequence_from_string("XK_Shift_L+XK_s");
-    case 'T': return UIEventSequence_from_string("XK_Shift_L+XK_t");
-    case 'U': return UIEventSequence_from_string("XK_Shift_L+XK_u");
-    case 'V': return UIEventSequence_from_string("XK_Shift_L+XK_v");
-    case 'W': return UIEventSequence_from_string("XK_Shift_L+XK_w");
-    case 'X': return UIEventSequence_from_string("XK_Shift_L+XK_x");
-    case 'Y': return UIEventSequence_from_string("XK_Shift_L+XK_y");
-    case 'Z': return UIEventSequence_from_string("XK_Shift_L+XK_z");
+    case 'A': return EventSequence_from_string("XK_Shift_L+XK_a");
+    case 'B': return EventSequence_from_string("XK_Shift_L+XK_b");
+    case 'C': return EventSequence_from_string("XK_Shift_L+XK_c");
+    case 'D': return EventSequence_from_string("XK_Shift_L+XK_d");
+    case 'E': return EventSequence_from_string("XK_Shift_L+XK_e");
+    case 'F': return EventSequence_from_string("XK_Shift_L+XK_f");
+    case 'G': return EventSequence_from_string("XK_Shift_L+XK_g");
+    case 'H': return EventSequence_from_string("XK_Shift_L+XK_h");
+    case 'I': return EventSequence_from_string("XK_Shift_L+XK_i");
+    case 'J': return EventSequence_from_string("XK_Shift_L+XK_j");
+    case 'K': return EventSequence_from_string("XK_Shift_L+XK_k");
+    case 'L': return EventSequence_from_string("XK_Shift_L+XK_l");
+    case 'M': return EventSequence_from_string("XK_Shift_L+XK_m");
+    case 'N': return EventSequence_from_string("XK_Shift_L+XK_n");
+    case 'O': return EventSequence_from_string("XK_Shift_L+XK_o");
+    case 'P': return EventSequence_from_string("XK_Shift_L+XK_p");
+    case 'Q': return EventSequence_from_string("XK_Shift_L+XK_q");
+    case 'R': return EventSequence_from_string("XK_Shift_L+XK_r");
+    case 'S': return EventSequence_from_string("XK_Shift_L+XK_s");
+    case 'T': return EventSequence_from_string("XK_Shift_L+XK_t");
+    case 'U': return EventSequence_from_string("XK_Shift_L+XK_u");
+    case 'V': return EventSequence_from_string("XK_Shift_L+XK_v");
+    case 'W': return EventSequence_from_string("XK_Shift_L+XK_w");
+    case 'X': return EventSequence_from_string("XK_Shift_L+XK_x");
+    case 'Y': return EventSequence_from_string("XK_Shift_L+XK_y");
+    case 'Z': return EventSequence_from_string("XK_Shift_L+XK_z");
 
-    case 'a': return UIEventSequence_from_string("XK_a");
-    case 'b': return UIEventSequence_from_string("XK_b");
-    case 'c': return UIEventSequence_from_string("XK_c");
-    case 'd': return UIEventSequence_from_string("XK_d");
-    case 'e': return UIEventSequence_from_string("XK_e");
-    case 'f': return UIEventSequence_from_string("XK_f");
-    case 'g': return UIEventSequence_from_string("XK_g");
-    case 'h': return UIEventSequence_from_string("XK_h");
-    case 'i': return UIEventSequence_from_string("XK_i");
-    case 'j': return UIEventSequence_from_string("XK_j");
-    case 'k': return UIEventSequence_from_string("XK_k");
-    case 'l': return UIEventSequence_from_string("XK_l");
-    case 'm': return UIEventSequence_from_string("XK_m");
-    case 'n': return UIEventSequence_from_string("XK_n");
-    case 'o': return UIEventSequence_from_string("XK_o");
-    case 'p': return UIEventSequence_from_string("XK_p");
-    case 'q': return UIEventSequence_from_string("XK_q");
-    case 'r': return UIEventSequence_from_string("XK_r");
-    case 's': return UIEventSequence_from_string("XK_s");
-    case 't': return UIEventSequence_from_string("XK_t");
-    case 'u': return UIEventSequence_from_string("XK_u");
-    case 'v': return UIEventSequence_from_string("XK_v");
-    case 'w': return UIEventSequence_from_string("XK_w");
-    case 'x': return UIEventSequence_from_string("XK_x");
-    case 'y': return UIEventSequence_from_string("XK_y");
-    case 'z': return UIEventSequence_from_string("XK_z");
+    case 'a': return EventSequence_from_string("XK_a");
+    case 'b': return EventSequence_from_string("XK_b");
+    case 'c': return EventSequence_from_string("XK_c");
+    case 'd': return EventSequence_from_string("XK_d");
+    case 'e': return EventSequence_from_string("XK_e");
+    case 'f': return EventSequence_from_string("XK_f");
+    case 'g': return EventSequence_from_string("XK_g");
+    case 'h': return EventSequence_from_string("XK_h");
+    case 'i': return EventSequence_from_string("XK_i");
+    case 'j': return EventSequence_from_string("XK_j");
+    case 'k': return EventSequence_from_string("XK_k");
+    case 'l': return EventSequence_from_string("XK_l");
+    case 'm': return EventSequence_from_string("XK_m");
+    case 'n': return EventSequence_from_string("XK_n");
+    case 'o': return EventSequence_from_string("XK_o");
+    case 'p': return EventSequence_from_string("XK_p");
+    case 'q': return EventSequence_from_string("XK_q");
+    case 'r': return EventSequence_from_string("XK_r");
+    case 's': return EventSequence_from_string("XK_s");
+    case 't': return EventSequence_from_string("XK_t");
+    case 'u': return EventSequence_from_string("XK_u");
+    case 'v': return EventSequence_from_string("XK_v");
+    case 'w': return EventSequence_from_string("XK_w");
+    case 'x': return EventSequence_from_string("XK_x");
+    case 'y': return EventSequence_from_string("XK_y");
+    case 'z': return EventSequence_from_string("XK_z");
 
-    case '0': return UIEventSequence_from_string("XK_0");
-    case '1': return UIEventSequence_from_string("XK_1");
-    case '2': return UIEventSequence_from_string("XK_2");
-    case '3': return UIEventSequence_from_string("XK_3");
-    case '4': return UIEventSequence_from_string("XK_4");
-    case '5': return UIEventSequence_from_string("XK_5");
-    case '6': return UIEventSequence_from_string("XK_6");
-    case '7': return UIEventSequence_from_string("XK_7");
-    case '8': return UIEventSequence_from_string("XK_8");
-    case '9': return UIEventSequence_from_string("XK_9");
-    case '.': return UIEventSequence_from_string("XK_period");
-    case '\n': return UIEventSequence_from_string("XK_enter");
+    case '0': return EventSequence_from_string("XK_0");
+    case '1': return EventSequence_from_string("XK_1");
+    case '2': return EventSequence_from_string("XK_2");
+    case '3': return EventSequence_from_string("XK_3");
+    case '4': return EventSequence_from_string("XK_4");
+    case '5': return EventSequence_from_string("XK_5");
+    case '6': return EventSequence_from_string("XK_6");
+    case '7': return EventSequence_from_string("XK_7");
+    case '8': return EventSequence_from_string("XK_8");
+    case '9': return EventSequence_from_string("XK_9");
+    case '.': return EventSequence_from_string("XK_period");
+    case '\n': return EventSequence_from_string("XK_enter");
 
-    default:  return UIEventSequence_from_string("XK_space"); break;
+    default:  return EventSequence_from_string("XK_space"); break;
   }
 }
 

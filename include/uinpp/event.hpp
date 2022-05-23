@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_UI_EVENT_HPP
-#define HEADER_UINPP_UI_EVENT_HPP
+#ifndef HEADER_UINPP_EVENT_HPP
+#define HEADER_UINPP_EVENT_HPP
 
 #include <cstdint>
 #include <string>
@@ -34,15 +34,15 @@ enum {
   SLOTID_AUTO = static_cast<uint16_t>(-1)
 };
 
-class UIEvent
+class Event
 {
 public:
-  static UIEvent create(uint16_t device_id, int type, int code);
-  static UIEvent invalid();
+  static Event create(uint16_t device_id, int type, int code);
+  static Event invalid();
 
 public:
   void resolve_device_id(int slot, bool extra_devices);
-  bool operator<(const UIEvent& rhs)  const;
+  bool operator<(const Event& rhs)  const;
 
   int type;
   int code;

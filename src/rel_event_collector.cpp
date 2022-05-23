@@ -14,26 +14,34 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ui_abs_event_emitter.hpp"
+#include "rel_event_collector.hpp"
 
-#include "ui_abs_event_collector.hpp"
+#include "multi_device.hpp"
 
 namespace uinpp {
 
-UIAbsEventEmitter::UIAbsEventEmitter(UIAbsEventCollector& collector) :
-  m_collector(collector),
-  m_value(0)
+RelEventCollector::RelEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code) :
+  EventCollector(uinput, device_id, type, code),
+  m_emitters()
 {
 }
 
-void
-UIAbsEventEmitter::send(int value)
+EventEmitter*
+RelEventCollector::create_emitter()
 {
-  if (m_value != value)
-  {
-    m_value = value;
-    m_collector.send(m_value);
-  }
+  m_emitters.emplace_back(std::make_unique<RelEventEmitter>(*this));
+  return m_emitters.back().get();
+}
+
+void
+RelEventCollector::send(int value)
+{
+  m_uinput.send(get_device_id(), get_type(), get_code(), value);
+}
+
+void
+RelEventCollector::sync()
+{
 }
 
 } // namespace uinpp

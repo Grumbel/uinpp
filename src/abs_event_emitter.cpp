@@ -14,31 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_UI_EVENT_EMITTER_HPP
-#define HEADER_UINPP_UI_EVENT_EMITTER_HPP
+#include "abs_event_emitter.hpp"
 
-#include <cstdint>
-#include <memory>
-
-#include "fwd.hpp"
+#include "abs_event_collector.hpp"
 
 namespace uinpp {
 
-class UIEventEmitter
+AbsEventEmitter::AbsEventEmitter(AbsEventCollector& collector) :
+  m_collector(collector),
+  m_value(0)
 {
-public:
-  UIEventEmitter() {}
-  virtual ~UIEventEmitter() {}
+}
 
-  virtual void send(int value) = 0;
-
-private:
-  UIEventEmitter(const UIEventEmitter&);
-  UIEventEmitter& operator=(const UIEventEmitter&);
-};
+void
+AbsEventEmitter::send(int value)
+{
+  if (m_value != value)
+  {
+    m_value = value;
+    m_collector.send(m_value);
+  }
+}
 
 } // namespace uinpp
-
-#endif
 
 /* EOF */

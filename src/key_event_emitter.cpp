@@ -14,22 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "ui_key_event_emitter.hpp"
+#include "key_event_emitter.hpp"
 
 #include <cassert>
 
-#include "ui_key_event_collector.hpp"
+#include "key_event_collector.hpp"
 
 namespace uinpp {
 
-UIKeyEventEmitter::UIKeyEventEmitter(UIKeyEventCollector& collector) :
+KeyEventEmitter::KeyEventEmitter(KeyEventCollector& collector) :
   m_collector(collector),
   m_value(0)
 {
 }
 
 void
-UIKeyEventEmitter::send(int value)
+KeyEventEmitter::send(int value)
 {
   assert(value == 0 || value == 1);
 
