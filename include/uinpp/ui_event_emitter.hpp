@@ -37,14 +37,6 @@ private:
   UIEventEmitter& operator=(const UIEventEmitter&);
 };
 
-class UIRelEmitter
-{
-private:
-
-public:
-  UIRelEmitter();
-};
-
 } // namespace uinpp
 
 #endif
