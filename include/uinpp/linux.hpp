@@ -19,6 +19,9 @@
 
 namespace uinpp {
 
+bool is_mouse_button(int ev_code);
+bool is_keyboard_button(int ev_code);
+
 /** guess the number of the next unused /dev/input/jsX device */
 int find_jsdev_number();
 

@@ -25,7 +25,6 @@
 #include <unistd.h>
 
 #include <logmich/log.hpp>
-#include <strut/split.hpp>
 
 #include "parse.hpp"
 #include "ui_abs_event_collector.hpp"

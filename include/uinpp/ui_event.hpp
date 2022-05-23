@@ -41,10 +41,6 @@ public:
   static UIEvent invalid();
 
 public:
-  static bool is_mouse_button(int ev_code);
-  static bool is_keyboard_button(int ev_code);
-
-public:
   void resolve_device_id(int slot, bool extra_devices);
   bool operator<(const UIEvent& rhs)  const;
 

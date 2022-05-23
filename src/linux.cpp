@@ -16,10 +16,24 @@
 
 #include "linux.hpp"
 
+#include <cstdio>
+#include <linux/input.h>
+#include <unistd.h>
+#include <vector>
+
 namespace uinpp {
 
-int
-UInput::find_jsdev_number()
+bool is_mouse_button(int ev_code)
+{
+  return  (ev_code >= BTN_MOUSE && ev_code <= BTN_TASK);
+}
+
+bool is_keyboard_button(int ev_code)
+{
+  return (ev_code < 256);
+}
+
+int find_jsdev_number()
 {
   for(int i = 0; ; ++i)
   {
@@ -34,8 +48,7 @@ UInput::find_jsdev_number()
   }
 }
 
-int
-UInput::find_evdev_number()
+int find_evdev_number()
 {
   for(int i = 0; ; ++i)
   {

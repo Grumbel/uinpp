@@ -16,6 +16,15 @@
 
 #include "parse.hpp"
 
+#include <limits>
+#include <sstream>
+#include <vector>
+
+#include <fmt/format.h>
+#include <strut/split.hpp>
+
+#include "ui_event.hpp"
+
 namespace uinpp {
 
 namespace {
@@ -110,7 +119,7 @@ parse_device_id(const std::string& str)
     slot_id   = str2slotid(str.substr(p+1));
   }
 
-  return UInput::create_device_id(slot_id, device_id);
+  return create_device_id(slot_id, device_id);
 }
 
 uint16_t str2deviceid(const std::string& device)

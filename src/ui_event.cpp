@@ -24,18 +24,6 @@
 
 namespace uinpp {
 
-bool
-UIEvent::is_mouse_button(int ev_code)
-{
-  return  (ev_code >= BTN_MOUSE && ev_code <= BTN_TASK);
-}
-
-bool
-UIEvent::is_keyboard_button(int ev_code)
-{
-  return (ev_code < 256);
-}
-
 UIEvent
 UIEvent::create(uint16_t device_id, int type, int code)
 {
