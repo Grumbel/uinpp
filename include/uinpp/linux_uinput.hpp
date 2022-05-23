@@ -19,10 +19,10 @@
 #ifndef HEADER_LINUX_UINPUT_HPP
 #define HEADER_LINUX_UINPUT_HPP
 
-#include <string>
+#include <cstdint>
 #include <functional>
 #include <linux/uinput.h>
-#include <cstdint>
+#include <string>
 
 #include "fwd.hpp"
 

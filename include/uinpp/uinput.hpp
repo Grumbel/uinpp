@@ -22,8 +22,8 @@
 #include <map>
 
 #include "fwd.hpp"
-#include "ui_event.hpp"
 #include "linux_uinput.hpp"
+#include "ui_event.hpp"
 
 namespace uinpp {
 

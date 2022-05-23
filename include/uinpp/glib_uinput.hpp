@@ -5,8 +5,8 @@
 
 #include <glib.h>
 
-#include <uinpp/uinput.hpp>
 #include <uinpp/linux_uinput.hpp>
+#include <uinpp/uinput.hpp>
 
 namespace uinpp {
 

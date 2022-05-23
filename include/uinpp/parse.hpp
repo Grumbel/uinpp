@@ -19,8 +19,8 @@
 #ifndef HEADER_UINPP_PARSE_HPP
 #define HEADER_UINPP_PARSE_HPP
 
-#include <linux/input.h>
 #include <cstdint>
+#include <linux/input.h>
 #include <string>
 
 namespace uinpp {

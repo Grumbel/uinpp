@@ -1,8 +1,8 @@
 #ifndef HEADER_UINPP_FROM_HPP
 #define HEADER_UINPP_FROM_HPP
 
-#include <vector>
 #include <linux/input.h>
+#include <vector>
 
 #include <strut/split.hpp>
 #include <uinpp/ui_event.hpp>

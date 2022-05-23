@@ -18,8 +18,9 @@
 
 #include "ui_event_sequence.hpp"
 
-#include <strut/split.hpp>
 #include <sstream>
+
+#include <strut/split.hpp>
 
 #include "ui_event.hpp"
 #include "uinput.hpp"

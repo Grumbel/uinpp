@@ -20,6 +20,7 @@
 #define HEADER_XBOXDRV_UI_ABS_EVENT_COLLECTOR_CPP
 
 #include "ui_event_collector.hpp"
+
 #include "ui_abs_event_emitter.hpp"
 
 namespace uinpp {

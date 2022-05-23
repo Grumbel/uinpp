@@ -18,7 +18,7 @@
 
 #include "ui_key_event_emitter.hpp"
 
-#include <assert.h>
+#include <cassert>
 
 #include "ui_key_event_collector.hpp"
 

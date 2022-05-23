@@ -18,12 +18,12 @@
 
 #include "linux_uinput.hpp"
 
-#include <assert.h>
+#include <cassert>
 #include <errno.h>
 #include <fcntl.h>
 #include <sstream>
-#include <unistd.h>
 #include <stdexcept>
+#include <unistd.h>
 
 #include <fmt/format.h>
 #include <logmich/log.hpp>

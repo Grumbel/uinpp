@@ -18,7 +18,7 @@
 
 #include "ui_event.hpp"
 
-#include <assert.h>
+#include <cassert>
 #include <fmt/format.h>
 
 #include "parse.hpp"

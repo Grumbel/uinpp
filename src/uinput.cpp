@@ -18,16 +18,16 @@
 
 #include "uinput.hpp"
 
-#include <assert.h>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <iostream>
-#include <math.h>
-#include <stdexcept>
-#include <stdio.h>
-#include <unistd.h>
 #include <sstream>
+#include <stdexcept>
+#include <unistd.h>
 
-#include <strut/split.hpp>
 #include <logmich/log.hpp>
+#include <strut/split.hpp>
 
 #include "parse.hpp"
 #include "ui_abs_event_collector.hpp"
