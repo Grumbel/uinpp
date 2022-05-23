@@ -20,7 +20,7 @@
 #define HEADER_XBOXDRV_UI_EVENT_EMITTER_HPP
 
 #include <memory>
-#include <stdint.h>
+#include <cstdint>
 
 #include "fwd.hpp"
 

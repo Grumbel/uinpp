@@ -20,7 +20,7 @@
 #define HEADER_UINPP_PARSE_HPP
 
 #include <linux/input.h>
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 namespace uinpp {

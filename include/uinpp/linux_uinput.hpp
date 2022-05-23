@@ -22,7 +22,7 @@
 #include <string>
 #include <functional>
 #include <linux/uinput.h>
-#include <stdint.h>
+#include <cstdint>
 
 #include "fwd.hpp"
 
