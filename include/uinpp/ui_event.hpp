@@ -63,17 +63,6 @@ public: // FIXME: temporarily made public for compatiblity
   bool m_device_id_resolved;
 };
 
-/** in: "BTN_A@2"
-    out: "BTN_A", SLOTID_AUTO, 2
-
-    in: "BTN_A@mouse.2"
-    out: "BTN_A", 3, DEVICEID_MOUSE
- */
-void split_event_name(const std::string& str, std::string* event_str, int* slot_id, int* device_id);
-
-uint16_t str2deviceid(const std::string& device);
-uint16_t str2slotid(const std::string& slot);
-
 } // namespace uinpp
 
 #endif

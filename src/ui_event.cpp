@@ -21,6 +21,7 @@
 #include <assert.h>
 #include <fmt/format.h>
 
+#include "parse.hpp"
 #include "uinput.hpp"
 
 namespace uinpp {
@@ -144,88 +145,7 @@ UIEvent::get_device_id() const
 {
   assert(m_device_id_resolved);
 
-  return UInput::create_device_id(m_slot_id, m_device_id);
-}
-
-uint16_t str2deviceid(const std::string& device)
-{
-  if (device == "auto" || device.empty())
-  {
-    return DEVICEID_AUTO;
-  }
-  else if (device == "mouse")
-  {
-    return DEVICEID_MOUSE;
-  }
-  else if (device == "keyboard" || device == "key")
-  {
-    return DEVICEID_KEYBOARD;
-  }
-  else if (device == "joystick" || device == "joy")
-  {
-    return DEVICEID_JOYSTICK;
-  }
-  else
-  {
-    int result = std::stoi(device);
-    if (result < 0 || result > std::numeric_limits<uint16_t>::max())
-    {
-      throw std::runtime_error(fmt::format("str2deviceid(): out of range: '{}'", device));
-    }
-    else
-    {
-      return static_cast<uint16_t>(result);
-    }
-  }
-}
-
-uint16_t str2slotid(const std::string& slot)
-{
-  if (slot == "auto" || slot.empty())
-  {
-    return SLOTID_AUTO;
-  }
-  else
-  {
-    int result = std::stoi(slot);
-    if (result < 0 || result > std::numeric_limits<uint16_t>::max())
-    {
-      throw std::runtime_error(fmt::format("str2deviceid(): out of range: '{}'", slot));
-    }
-    else
-    {
-      return static_cast<uint16_t>(result);
-    }
-  }
-}
-
-void split_event_name(const std::string& str, std::string* event_str, int* slot_id, int* device_id)
-{
-  std::string::size_type p = str.find('@');
-  if (p == std::string::npos)
-  {
-    *event_str = str;
-    *slot_id   = SLOTID_AUTO;
-    *device_id = DEVICEID_AUTO;
-  }
-  else
-  {
-    *event_str = str.substr(0, p);
-    std::string device = str.substr(p+1);
-
-    p = device.find(".");
-
-    if (p == std::string::npos)
-    {
-      *slot_id   = SLOTID_AUTO;
-      *device_id = str2deviceid(device);
-    }
-    else
-    {
-      *slot_id   = str2slotid(device.substr(p+1));
-      *device_id = str2deviceid(device.substr(0, p));
-    }
-  }
+  return create_device_id(m_slot_id, m_device_id);
 }
 
 } // namespace uinpp

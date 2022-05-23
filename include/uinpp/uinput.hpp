@@ -34,28 +34,11 @@ namespace uinpp {
 class UInput
 {
 public:
-  static struct input_id parse_input_id(const std::string& str);
-  static uint32_t parse_device_id(const std::string& str);
-
-  static inline uint32_t create_device_id(uint16_t slot_id, uint16_t type_id)
-  {
-    return (slot_id << 16) | type_id;
-  }
-
-  static inline uint16_t get_type_id(uint32_t device_id)
-  {
-    return static_cast<uint16_t>(device_id & 0xffff);
-  }
-
-  static inline uint16_t get_slot_id(uint32_t device_id)
-  {
-    return static_cast<uint16_t>(((device_id) >> 16) & 0xffff);
-  }
-
-public:
   UInput();
   ~UInput();
 
+  /** Device construction functions
+      @{*/
   /** Create the usual events that would be present for a device of the given type automatically */
   void set_extra_events(bool extra_events);
 
@@ -63,8 +46,6 @@ public:
   void set_device_usbids(const std::map<uint32_t, struct input_id>& device_usbids);
   void set_ff_callback(int device_id, const std::function<void (uint8_t, uint8_t)>& callback);
 
-  /** Device construction functions
-      @{*/
   UIEventEmitter* add(const UIEvent& ev);
   UIEventEmitter* add_rel(uint32_t device_id, int ev_code);
   UIEventEmitter* add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat);

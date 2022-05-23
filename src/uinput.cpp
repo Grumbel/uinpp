@@ -29,107 +29,12 @@
 #include <strut/split.hpp>
 #include <logmich/log.hpp>
 
+#include "parse.hpp"
 #include "ui_abs_event_collector.hpp"
 #include "ui_key_event_collector.hpp"
 #include "ui_rel_event_collector.hpp"
 
 namespace uinpp {
-
-namespace {
-
-int hexstr2int(const std::string& str)
-{
-  unsigned int value = 0;
-  if (sscanf(str.c_str(), "%x", &value) == 1)
-  {
-    return value;
-  }
-  else if (sscanf(str.c_str(), "0x%x", &value) == 1)
-  {
-    return value;
-  }
-  else
-  {
-    std::ostringstream err;
-    err << "couldn't convert '" << str << "' to int";
-    throw std::runtime_error(err.str());
-  }
-}
-
-uint16_t hexstr2uint16(const std::string& str)
-{
-  return static_cast<uint16_t>(hexstr2int(str));
-}
-
-} // namespace
-
-struct input_id
-UInput::parse_input_id(const std::string& str)
-{
-  struct input_id usbid;
-
-  // default values
-  usbid.bustype = BUS_USB;
-  usbid.vendor  = 0;
-  usbid.product = 0;
-  usbid.version = 0;
-
-  // split string at ':'
-  std::vector<std::string> args = strut::split(str, ':');
-
-  if (args.size() == 2)
-  { // VENDOR:PRODUCT
-    usbid.vendor  = hexstr2uint16(args[0]);
-    usbid.product = hexstr2uint16(args[1]);
-  }
-  else if (args.size() == 3)
-  { // VENDOR:PRODUCT:VERSION
-    usbid.vendor  = hexstr2uint16(args[0]);
-    usbid.product = hexstr2uint16(args[1]);
-    usbid.version = hexstr2uint16(args[2]);
-  }
-  else if (args.size() == 4)
-  { // VENDOR:PRODUCT:VERSION:BUS
-    usbid.vendor  = hexstr2uint16(args[0]);
-    usbid.product = hexstr2uint16(args[1]);
-    usbid.version = hexstr2uint16(args[2]);
-    usbid.bustype = hexstr2uint16(args[3]);
-  }
-  else
-  {
-    throw std::runtime_error("incorrect number of arguments");
-  }
-
-  return usbid;
-}
-
-uint32_t
-UInput::parse_device_id(const std::string& str)
-{
-  // FIXME: insert magic to resolve symbolic names, merge with same code in set_device_name
-  std::string::size_type p = str.find('.');
-
-  uint16_t device_id;
-  uint16_t slot_id;
-
-  if (p == std::string::npos)
-  {
-    device_id = str2deviceid(str.substr());
-    slot_id   = SLOTID_AUTO;
-  }
-  else if (p == 0)
-  {
-    device_id = DEVICEID_AUTO;
-    slot_id   = str2slotid(str.substr(p+1));
-  }
-  else
-  {
-    device_id = str2deviceid(str.substr(0, p));
-    slot_id   = str2slotid(str.substr(p+1));
-  }
-
-  return UInput::create_device_id(slot_id, device_id);
-}
 
 UInput::UInput() :
   m_uinput_devs(),
