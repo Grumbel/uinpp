@@ -16,8 +16,8 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef HEADER_XBOXDRV_UI_ABS_EVENT_EMITTER_HPP
-#define HEADER_XBOXDRV_UI_ABS_EVENT_EMITTER_HPP
+#ifndef HEADER_UINPP_UI_ABS_EVENT_EMITTER_HPP
+#define HEADER_UINPP_UI_ABS_EVENT_EMITTER_HPP
 
 #include "ui_event_emitter.hpp"
 

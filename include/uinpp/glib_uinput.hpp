@@ -1,5 +1,5 @@
-#ifndef HEADER_GLIB_UINPUT_HPP
-#define HEADER_GLIB_UINPUT_HPP
+#ifndef HEADER_UINPP_GLIB_UINPUT_HPP
+#define HEADER_UINPP_GLIB_UINPUT_HPP
 
 #include <iostream>
 

@@ -16,8 +16,8 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef HEADER_FF_HANDLER_HPP
-#define HEADER_FF_HANDLER_HPP
+#ifndef HEADER_UINPP_FORCE_FEEDBACK_HANDLER_HPP
+#define HEADER_UINPP_FORCE_FEEDBACK_HANDLER_HPP
 
 #include <linux/input.h>
 #include <map>

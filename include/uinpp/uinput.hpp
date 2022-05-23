@@ -16,8 +16,8 @@
 **  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef HEADER_UINPUT_HPP
-#define HEADER_UINPUT_HPP
+#ifndef HEADER_UINPP_UINPUT_HPP
+#define HEADER_UINPP_UINPUT_HPP
 
 #include <map>
 
