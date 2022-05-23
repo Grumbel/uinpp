@@ -52,12 +52,6 @@ public:
     return static_cast<uint16_t>(((device_id) >> 16) & 0xffff);
   }
 
-  /** guess the number of the next unused /dev/input/jsX device */
-  static int  find_jsdev_number();
-
-  /** guess the number of the next unused /dev/input/eventX device */
-  static int  find_evdev_number();
-
 public:
   UInput();
   ~UInput();
