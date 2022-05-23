@@ -76,29 +76,29 @@ public:
 
 private:
   DeviceType  m_device_type;
-  std::string name;
-  struct input_id usbid;
+  std::string m_name;
+  input_id m_usbid;
 
   bool m_finished;
 
   int m_fd;
 
-  uinput_user_dev user_dev;
-  bool key_bit;
-  bool rel_bit;
-  bool abs_bit;
-  bool led_bit;
-  bool ff_bit;
+  uinput_user_dev m_user_dev;
+  bool m_key_bit;
+  bool m_rel_bit;
+  bool m_abs_bit;
+  bool m_led_bit;
+  bool m_ff_bit;
 
-  bool abs_lst[ABS_CNT];
-  bool rel_lst[REL_CNT];
-  bool key_lst[KEY_CNT];
-  bool ff_lst[FF_CNT];
+  bool m_abs_lst[ABS_CNT];
+  bool m_rel_lst[REL_CNT];
+  bool m_key_lst[KEY_CNT];
+  bool m_ff_lst[FF_CNT];
 
   ForceFeedbackHandler* m_ff_handler;
   std::function<void (uint8_t, uint8_t)> m_ff_callback;
 
-  bool needs_sync;
+  bool m_needs_sync;
 
 private:
   LinuxUinput (const LinuxUinput&) = delete;

@@ -33,28 +33,28 @@ namespace uinpp {
 LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
                          const struct input_id& usbid_) :
   m_device_type(device_type),
-  name(name_),
-  usbid(usbid_),
+  m_name(name_),
+  m_usbid(usbid_),
   m_finished(false),
   m_fd(-1),
-  user_dev(),
-  key_bit(false),
-  rel_bit(false),
-  abs_bit(false),
-  led_bit(false),
-  ff_bit(false),
+  m_user_dev(),
+  m_key_bit(false),
+  m_rel_bit(false),
+  m_abs_bit(false),
+  m_led_bit(false),
+  m_ff_bit(false),
   m_ff_handler(nullptr),
   m_ff_callback(),
-  needs_sync(true)
+  m_needs_sync(true)
 {
-  log_debug("{} {}:{}", name, usbid.vendor, usbid.product);
+  log_debug("{} {}:{}", m_name, m_usbid.vendor, m_usbid.product);
 
-  std::fill_n(abs_lst, ABS_CNT, false);
-  std::fill_n(rel_lst, REL_CNT, false);
-  std::fill_n(key_lst, KEY_CNT, false);
-  std::fill_n(ff_lst,  FF_CNT,  false);
+  std::fill_n(m_abs_lst, ABS_CNT, false);
+  std::fill_n(m_rel_lst, REL_CNT, false);
+  std::fill_n(m_key_lst, KEY_CNT, false);
+  std::fill_n(m_ff_lst,  FF_CNT,  false);
 
-  memset(&user_dev, 0, sizeof(uinput_user_dev));
+  memset(&m_user_dev, 0, sizeof(uinput_user_dev));
 
   // Open the input device
   const char* uinput_filename[] = { "/dev/input/uinput", "/dev/uinput", "/dev/misc/uinput" };
@@ -102,38 +102,38 @@ LinuxUinput::add_abs(uint16_t code, int min, int max, int fuzz, int flat)
 {
   log_debug("add_abs: {} ({}, {})", code, min, max);
 
-  if (!abs_lst[code])
+  if (!m_abs_lst[code])
   {
-    abs_lst[code] = true;
+    m_abs_lst[code] = true;
 
-    if (!abs_bit)
+    if (!m_abs_bit)
     {
       ioctl(m_fd, UI_SET_EVBIT, EV_ABS);
-      abs_bit = true;
+      m_abs_bit = true;
     }
 
     ioctl(m_fd, UI_SET_ABSBIT, code);
 
-    user_dev.absmin[code] = min;
-    user_dev.absmax[code] = max;
-    user_dev.absfuzz[code] = fuzz;
-    user_dev.absflat[code] = flat;
+    m_user_dev.absmin[code] = min;
+    m_user_dev.absmax[code] = max;
+    m_user_dev.absfuzz[code] = fuzz;
+    m_user_dev.absflat[code] = flat;
   }
 }
 
 void
 LinuxUinput::add_rel(uint16_t code)
 {
-  log_debug("add_rel: {} {}", code, name);
+  log_debug("add_rel: {} {}", code, m_name);
 
-  if (!rel_lst[code])
+  if (!m_rel_lst[code])
   {
-    rel_lst[code] = true;
+    m_rel_lst[code] = true;
 
-    if (!rel_bit)
+    if (!m_rel_bit)
     {
       ioctl(m_fd, UI_SET_EVBIT, EV_REL);
-      rel_bit = true;
+      m_rel_bit = true;
     }
 
     ioctl(m_fd, UI_SET_RELBIT, code);
@@ -143,16 +143,16 @@ LinuxUinput::add_rel(uint16_t code)
 void
 LinuxUinput::add_key(uint16_t code)
 {
-  log_debug("add_key: {} {}", code, name);
+  log_debug("add_key: {} {}", code, m_name);
 
-  if (!key_lst[code])
+  if (!m_key_lst[code])
   {
-    key_lst[code] = true;
+    m_key_lst[code] = true;
 
-    if (!key_bit)
+    if (!m_key_bit)
     {
       ioctl(m_fd, UI_SET_EVBIT, EV_KEY);
-      key_bit = true;
+      m_key_bit = true;
     }
 
     ioctl(m_fd, UI_SET_KEYBIT, code);
@@ -162,14 +162,14 @@ LinuxUinput::add_key(uint16_t code)
 void
 LinuxUinput::add_ff(uint16_t code)
 {
-  if (!ff_lst[code])
+  if (!m_ff_lst[code])
   {
-    ff_lst[code] = true;
+    m_ff_lst[code] = true;
 
-    if (!ff_bit)
+    if (!m_ff_bit)
     {
       ioctl(m_fd, UI_SET_EVBIT, EV_FF);
-      ff_bit = true;
+      m_ff_bit = true;
       assert(m_ff_handler == nullptr);
       m_ff_handler = new ForceFeedbackHandler();
     }
@@ -210,42 +210,42 @@ LinuxUinput::finish()
     case DeviceType::JOYSTICK:
       // the kernel and SDL have different rules for joystick
       // detection, so this is more a hack then a proper solution
-      if (!key_lst[BTN_A])
+      if (!m_key_lst[BTN_A])
       {
         add_key(BTN_A);
       }
 
-      if (!abs_lst[ABS_X])
+      if (!m_abs_lst[ABS_X])
       {
         add_abs(ABS_X, -1, 1, 0, 0);
       }
 
-      if (!abs_lst[ABS_Y])
+      if (!m_abs_lst[ABS_Y])
       {
         add_abs(ABS_Y, -1, 1, 0, 0);
       }
       break;
   }
 
-  strncpy(user_dev.name, name.c_str(), UINPUT_MAX_NAME_SIZE - 1);
-  user_dev.name[UINPUT_MAX_NAME_SIZE - 1] = '\0';
-  user_dev.id.version = usbid.version;
-  user_dev.id.bustype = usbid.bustype;
-  user_dev.id.vendor  = usbid.vendor;
-  user_dev.id.product = usbid.product;
+  strncpy(m_user_dev.name, m_name.c_str(), UINPUT_MAX_NAME_SIZE - 1);
+  m_user_dev.name[UINPUT_MAX_NAME_SIZE - 1] = '\0';
+  m_user_dev.id.version = m_usbid.version;
+  m_user_dev.id.bustype = m_usbid.bustype;
+  m_user_dev.id.vendor  = m_usbid.vendor;
+  m_user_dev.id.product = m_usbid.product;
 
-  log_debug("'{}' {}:{}", user_dev.name, user_dev.id.vendor, user_dev.id.product);
+  log_debug("'{}' {}:{}", m_user_dev.name, m_user_dev.id.vendor, m_user_dev.id.product);
 
-  if (ff_bit)
+  if (m_ff_bit)
   {
-    user_dev.ff_effects_max = m_ff_handler->get_max_effects();
+    m_user_dev.ff_effects_max = m_ff_handler->get_max_effects();
   }
 
   {
-    auto write_ret = write(m_fd, &user_dev, sizeof(user_dev));
+    auto write_ret = write(m_fd, &m_user_dev, sizeof(m_user_dev));
     if (write_ret < 0)
     {
-      throw std::runtime_error("uinput:finish: " + name + ": " + strerror(errno));
+      throw std::runtime_error("uinput:finish: " + m_name + ": " + strerror(errno));
     }
     else
     {
@@ -259,7 +259,7 @@ LinuxUinput::finish()
   log_debug("finish");
   if (ioctl(m_fd, UI_DEV_CREATE))
   {
-    throw std::runtime_error(fmt::format("unable to create uinput device: '{}': ", name, strerror(errno)));
+    throw std::runtime_error(fmt::format("unable to create uinput device: '{}': ", m_name, strerror(errno)));
   }
 
   m_finished = true;
@@ -268,7 +268,7 @@ LinuxUinput::finish()
 void
 LinuxUinput::send(uint16_t type, uint16_t code, int32_t value)
 {
-  needs_sync = true;
+  m_needs_sync = true;
 
   struct input_event ev;
   memset(&ev, 0, sizeof(ev));
@@ -288,17 +288,17 @@ LinuxUinput::send(uint16_t type, uint16_t code, int32_t value)
 void
 LinuxUinput::sync()
 {
-  if (needs_sync)
+  if (m_needs_sync)
   {
     send(EV_SYN, SYN_REPORT, 0);
-    needs_sync = false;
+    m_needs_sync = false;
   }
 }
 
 void
 LinuxUinput::update(int msec_delta)
 {
-  if (ff_bit)
+  if (m_ff_bit)
   {
     assert(m_ff_handler);
 
