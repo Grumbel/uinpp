@@ -195,21 +195,21 @@ LinuxUinput::finish()
   // to register the device as its proper type
   switch(m_device_type)
   {
-    case kGenericDevice:
+    case DeviceType::GENERIC:
       // nothing to be done
       break;
 
-    case kKeyboardDevice:
+    case DeviceType::KEYBOARD:
       // FIXME: do something clever
       break;
 
-    case kMouseDevice:
+    case DeviceType::MOUSE:
       add_rel(REL_X);
       add_rel(REL_Y);
       add_key(BTN_LEFT);
       break;
 
-    case kJoystickDevice:
+    case DeviceType::JOYSTICK:
       // the kernel and SDL have different rules for joystick
       // detection, so this is more a hack then a proper solution
       if (!key_lst[BTN_A])

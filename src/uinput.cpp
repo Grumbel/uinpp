@@ -303,30 +303,30 @@ UInput::create_uinput_device(uint32_t device_id)
   else
   {
     log_debug("create device: {}", device_id);
-    LinuxUinput::DeviceType device_type;
+    DeviceType device_type;
 
     if (!m_extra_events)
     {
-      device_type = LinuxUinput::kGenericDevice;
+      device_type = DeviceType::GENERIC;
     }
     else
     {
       switch (device_id)
       {
         case DEVICEID_JOYSTICK:
-          device_type = LinuxUinput::kJoystickDevice;
+          device_type = DeviceType::JOYSTICK;
           break;
 
         case DEVICEID_MOUSE:
-          device_type = LinuxUinput::kMouseDevice;
+          device_type = DeviceType::MOUSE;
           break;
 
         case DEVICEID_KEYBOARD:
-          device_type = LinuxUinput::kKeyboardDevice;
+          device_type = DeviceType::KEYBOARD;
           break;
 
         default:
-          device_type = LinuxUinput::kGenericDevice;
+          device_type = DeviceType::GENERIC;
           break;
       }
     }

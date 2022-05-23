@@ -28,11 +28,16 @@
 
 namespace uinpp {
 
+enum class DeviceType
+{
+  GENERIC,
+  KEYBOARD,
+  MOUSE,
+  JOYSTICK
+};
+
 class LinuxUinput
 {
-public:
-  enum DeviceType { kGenericDevice, kKeyboardDevice, kMouseDevice, kJoystickDevice };
-
 public:
   LinuxUinput(DeviceType device_type, const std::string& name,
               const struct input_id& usbid_);
