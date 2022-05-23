@@ -21,24 +21,24 @@
 
 #include <glib.h>
 
-#include <uinpp/linux_uinput.hpp>
+#include <uinpp/device.hpp>
 #include <uinpp/uinput.hpp>
 
 namespace uinpp {
 
-class GlibLinuxUinput;
+class GlibDevice;
 
-/** Wrap LinuxUinput for Glib */
-class GlibLinuxUinput
+/** Wrap Device for Glib */
+class GlibDevice
 {
 public:
-  GlibLinuxUinput(LinuxUinput& linux_uinput) :
-    m_linux_uinput(linux_uinput),
+  GlibDevice(Device& device) :
+    m_device(device),
     m_io_channel(),
     m_source_id()
   {
     // start g_io_channel
-    m_io_channel = g_io_channel_unix_new(m_linux_uinput.get_fd());
+    m_io_channel = g_io_channel_unix_new(m_device.get_fd());
 
     // set encoding to binary
     GError* error = NULL;
@@ -53,24 +53,24 @@ public:
     m_source_id = g_io_add_watch(m_io_channel,
                                  static_cast<GIOCondition>(G_IO_IN | G_IO_ERR | G_IO_HUP),
                                  [](GIOChannel* source, GIOCondition condition, gpointer userdata) -> gboolean {
-                                   static_cast<LinuxUinput*>(userdata)->read();
+                                   static_cast<Device*>(userdata)->read();
                                    return TRUE;
                                  }, this);
   }
 
-  ~GlibLinuxUinput()
+  ~GlibDevice()
   {
     g_source_remove(m_source_id);
   }
 
 private:
-  LinuxUinput& m_linux_uinput;
+  Device& m_device;
   GIOChannel* m_io_channel;
   guint m_source_id;
 
 public:
-  GlibLinuxUinput(const GlibLinuxUinput&) = delete;
-  GlibLinuxUinput& operator=(const GlibLinuxUinput&) = delete;
+  GlibDevice(const GlibDevice&) = delete;
+  GlibDevice& operator=(const GlibDevice&) = delete;
 };
 
 /** Wrap UInput for use with Glib */
@@ -94,14 +94,14 @@ public:
         return true; // do not remove the callback
       }, this);
 
-    for (auto& linux_uinput : m_uinput.get_linux_uinputs()) {
-      m_linux_uinputs.emplace_back(std::make_unique<GlibLinuxUinput>(*linux_uinput));
+    for (auto& device : m_uinput.get_devices()) {
+      m_devices.emplace_back(std::make_unique<GlibDevice>(*device));
     }
   }
 
   ~GlibUInput()
   {
-    m_linux_uinputs.clear();
+    m_devices.clear();
 
     g_source_remove(m_timeout_id);
     g_timer_destroy(m_timer);
@@ -112,7 +112,7 @@ public:
   guint m_timeout_id;
   GTimer* m_timer;
 
-  std::vector<std::unique_ptr<GlibLinuxUinput>> m_linux_uinputs;
+  std::vector<std::unique_ptr<GlibDevice>> m_devices;
 
 public:
   GlibUInput(const GlibUInput&) = delete;

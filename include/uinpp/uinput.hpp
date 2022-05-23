@@ -20,12 +20,12 @@
 #include <map>
 
 #include "fwd.hpp"
-#include "linux_uinput.hpp"
+#include "device.hpp"
 #include "ui_event.hpp"
 
 namespace uinpp {
 
-/** UInput bundle multiple LinuxUinput devices to make it easier to create
+/** UInput bundle multiple devices to make it easier to create
     virtual devices that spread across different categories of input, e.g. a
     keyboard with a trackball would both need a mouse device as well as
     a keyboard one */
@@ -65,17 +65,17 @@ public:
   void sync();
   /** @} */
 
-  std::vector<LinuxUinput*> get_linux_uinputs() const;
+  std::vector<Device*> get_devices() const;
 
   void update(int msec_delta);
 
 private:
-  /** create a LinuxUinput with the given device_id, if some already
+  /** create a Device with the given device_id, if some already
       exist return a pointer to it */
-  LinuxUinput* create_uinput_device(uint32_t device_id);
+  Device* create_uinput_device(uint32_t device_id);
 
   /** must only be called with a valid device_id */
-  LinuxUinput* get_uinput(uint32_t device_id) const;
+  Device* get_uinput(uint32_t device_id) const;
 
   std::string get_device_name(uint32_t device_id) const;
   struct input_id get_device_usbid(uint32_t device_id) const;
@@ -93,7 +93,7 @@ private:
   };
 
 private:
-  std::map<uint32_t, std::unique_ptr<LinuxUinput> > m_uinput_devs;
+  std::map<uint32_t, std::unique_ptr<Device> > m_devices;
   std::map<uint32_t, std::string> m_device_names;
   std::map<uint32_t, struct input_id> m_device_usbids;
   std::vector<std::unique_ptr<UIEventCollector>> m_collectors;

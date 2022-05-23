@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef HEADER_UINPP_LINUX_UINPUT_HPP
-#define HEADER_UINPP_LINUX_UINPUT_HPP
+#ifndef HEADER_UINPP_DEVICE_HPP
+#define HEADER_UINPP_DEVICE_HPP
 
 #include <cstdint>
 #include <functional>
@@ -34,12 +34,12 @@ enum class DeviceType
   JOYSTICK
 };
 
-class LinuxUinput
+class Device
 {
 public:
-  LinuxUinput(DeviceType device_type, const std::string& name,
-              const struct input_id& usbid_);
-  ~LinuxUinput();
+  Device(DeviceType device_type, const std::string& name,
+         const struct input_id& usbid_);
+  ~Device();
 
   /*@{*/
   /** Create an absolute axis */
@@ -101,8 +101,8 @@ private:
   bool m_needs_sync;
 
 private:
-  LinuxUinput (const LinuxUinput&) = delete;
-  LinuxUinput& operator= (const LinuxUinput&) = delete;
+  Device (const Device&) = delete;
+  Device& operator= (const Device&) = delete;
 };
 
 } // namespace uinpp

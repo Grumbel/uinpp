@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "linux_uinput.hpp"
+#include "device.hpp"
 
 #include <cassert>
 #include <errno.h>
@@ -30,7 +30,7 @@
 
 namespace uinpp {
 
-LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
+Device::Device(DeviceType device_type, const std::string& name_,
                          const struct input_id& usbid_) :
   m_device_type(device_type),
   m_name(name_),
@@ -91,14 +91,14 @@ LinuxUinput::LinuxUinput(DeviceType device_type, const std::string& name_,
   }
 }
 
-LinuxUinput::~LinuxUinput()
+Device::~Device()
 {
   ioctl(m_fd, UI_DEV_DESTROY);
   close(m_fd);
 }
 
 void
-LinuxUinput::add_abs(uint16_t code, int min, int max, int fuzz, int flat)
+Device::add_abs(uint16_t code, int min, int max, int fuzz, int flat)
 {
   log_debug("add_abs: {} ({}, {})", code, min, max);
 
@@ -122,7 +122,7 @@ LinuxUinput::add_abs(uint16_t code, int min, int max, int fuzz, int flat)
 }
 
 void
-LinuxUinput::add_rel(uint16_t code)
+Device::add_rel(uint16_t code)
 {
   log_debug("add_rel: {} {}", code, m_name);
 
@@ -141,7 +141,7 @@ LinuxUinput::add_rel(uint16_t code)
 }
 
 void
-LinuxUinput::add_key(uint16_t code)
+Device::add_key(uint16_t code)
 {
   log_debug("add_key: {} {}", code, m_name);
 
@@ -160,7 +160,7 @@ LinuxUinput::add_key(uint16_t code)
 }
 
 void
-LinuxUinput::add_ff(uint16_t code)
+Device::add_ff(uint16_t code)
 {
   if (!m_ff_lst[code])
   {
@@ -179,13 +179,13 @@ LinuxUinput::add_ff(uint16_t code)
 }
 
 void
-LinuxUinput::set_ff_callback(const std::function<void (uint8_t, uint8_t)>& callback)
+Device::set_ff_callback(const std::function<void (uint8_t, uint8_t)>& callback)
 {
   m_ff_callback = callback;
 }
 
 void
-LinuxUinput::finish()
+Device::finish()
 {
   assert(!m_finished);
 
@@ -266,7 +266,7 @@ LinuxUinput::finish()
 }
 
 void
-LinuxUinput::send(uint16_t type, uint16_t code, int32_t value)
+Device::send(uint16_t type, uint16_t code, int32_t value)
 {
   m_needs_sync = true;
 
@@ -286,7 +286,7 @@ LinuxUinput::send(uint16_t type, uint16_t code, int32_t value)
 }
 
 void
-LinuxUinput::sync()
+Device::sync()
 {
   if (m_needs_sync)
   {
@@ -296,7 +296,7 @@ LinuxUinput::sync()
 }
 
 void
-LinuxUinput::update(int msec_delta)
+Device::update(int msec_delta)
 {
   if (m_ff_bit)
   {
@@ -315,7 +315,7 @@ LinuxUinput::update(int msec_delta)
 }
 
 void
-LinuxUinput::read()
+Device::read()
 {
   struct input_event ev;
   ssize_t ret;

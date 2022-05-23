@@ -19,6 +19,7 @@
 #include <cassert>
 #include <fmt/format.h>
 
+#include "linux.hpp"
 #include "parse.hpp"
 #include "uinput.hpp"
 

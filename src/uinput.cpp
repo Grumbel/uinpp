@@ -34,7 +34,7 @@
 namespace uinpp {
 
 UInput::UInput() :
-  m_uinput_devs(),
+  m_devices(),
   m_device_names(),
   m_device_usbids(),
   m_collectors(),
@@ -189,15 +189,15 @@ UInput::get_device_name(uint32_t device_id) const
   }
 }
 
-LinuxUinput*
+Device*
 UInput::create_uinput_device(uint32_t device_id)
 {
   // DEVICEID_AUTO should not happen at this point as the user should
   // have called resolve_device_id()
   assert(device_id != DEVICEID_AUTO);
 
-  auto const it = m_uinput_devs.find(device_id);
-  if (it != m_uinput_devs.end())
+  auto const it = m_devices.find(device_id);
+  if (it != m_devices.end())
   {
     // device already exist, so return it
     return it->second.get();
@@ -234,9 +234,9 @@ UInput::create_uinput_device(uint32_t device_id)
     }
 
     std::string dev_name = get_device_name(device_id);
-    auto dev = std::make_unique<LinuxUinput>(device_type, dev_name, get_device_usbid(device_id));
-    LinuxUinput* dev_tmp = dev.get();
-    m_uinput_devs.insert(std::pair<int, std::unique_ptr<LinuxUinput> >(device_id, std::move(dev)));
+    auto dev = std::make_unique<Device>(device_type, dev_name, get_device_usbid(device_id));
+    Device* dev_tmp = dev.get();
+    m_devices.insert(std::pair<int, std::unique_ptr<Device> >(device_id, std::move(dev)));
 
     log_debug("created uinput device: {} - '{}`", device_id, dev_name);
 
@@ -247,7 +247,7 @@ UInput::create_uinput_device(uint32_t device_id)
 UIEventEmitter*
 UInput::add(const UIEvent& ev)
 {
-  LinuxUinput* dev = create_uinput_device(ev.get_device_id());
+  Device* dev = create_uinput_device(ev.get_device_id());
 
   switch(ev.get_type())
   {
@@ -271,7 +271,7 @@ UInput::add(const UIEvent& ev)
 UIEventEmitter*
 UInput::add_key(uint32_t device_id, int ev_code)
 {
-  LinuxUinput* dev = create_uinput_device(device_id);
+  Device* dev = create_uinput_device(device_id);
   dev->add_key(static_cast<uint16_t>(ev_code));
 
   return create_emitter(device_id, EV_KEY, ev_code);
@@ -280,7 +280,7 @@ UInput::add_key(uint32_t device_id, int ev_code)
 UIEventEmitter*
 UInput::add_rel(uint32_t device_id, int ev_code)
 {
-  LinuxUinput* dev = create_uinput_device(device_id);
+  Device* dev = create_uinput_device(device_id);
   dev->add_rel(static_cast<uint16_t>(ev_code));
 
   return create_emitter(device_id, EV_REL, ev_code);
@@ -289,7 +289,7 @@ UInput::add_rel(uint32_t device_id, int ev_code)
 UIEventEmitter*
 UInput::add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat)
 {
-  LinuxUinput* dev = create_uinput_device(device_id);
+  Device* dev = create_uinput_device(device_id);
   dev->add_abs(static_cast<uint16_t>(ev_code), min, max, fuzz, flat);
 
   return create_emitter(device_id, EV_ABS, ev_code);
@@ -298,7 +298,7 @@ UInput::add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int
 void
 UInput::add_ff(uint32_t device_id, uint16_t code)
 {
-  LinuxUinput* dev = create_uinput_device(device_id);
+  Device* dev = create_uinput_device(device_id);
   dev->add_ff(code);
 }
 
@@ -346,17 +346,17 @@ UInput::create_emitter(int device_id, int type, int code)
 void
 UInput::finish()
 {
-  for(auto i = m_uinput_devs.begin(); i != m_uinput_devs.end(); ++i)
+  for(auto i = m_devices.begin(); i != m_devices.end(); ++i)
   {
     i->second->finish();
   }
 }
 
-std::vector<LinuxUinput*>
-UInput::get_linux_uinputs() const
+std::vector<Device*>
+UInput::get_devices() const
 {
-  std::vector<LinuxUinput*> result;
-  for (auto& it : m_uinput_devs) {
+  std::vector<Device*> result;
+  for (auto& it : m_devices) {
     result.emplace_back(it.second.get());
   }
   return result;
@@ -390,7 +390,7 @@ UInput::update(int msec_delta)
     }
   }
 
-  for(auto i = m_uinput_devs.begin(); i != m_uinput_devs.end(); ++i)
+  for(auto i = m_devices.begin(); i != m_devices.end(); ++i)
   {
     i->second->update(msec_delta);
   }
@@ -404,7 +404,7 @@ UInput::sync()
     (*i)->sync();
   }
 
-  for(auto i = m_uinput_devs.begin(); i != m_uinput_devs.end(); ++i)
+  for(auto i = m_devices.begin(); i != m_devices.end(); ++i)
   {
     i->second->sync();
   }
@@ -448,11 +448,11 @@ UInput::send_rel_repetitive(const UIEvent& code, float value, int repeat_interva
   }
 }
 
-LinuxUinput*
+Device*
 UInput::get_uinput(uint32_t device_id) const
 {
-  auto const it = m_uinput_devs.find(device_id);
-  if (it != m_uinput_devs.end())
+  auto const it = m_devices.find(device_id);
+  if (it != m_devices.end())
   {
     return it->second.get();
   }
