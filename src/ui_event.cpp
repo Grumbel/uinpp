@@ -20,8 +20,8 @@
 #include <fmt/format.h>
 
 #include "linux.hpp"
+#include "multi_device.hpp"
 #include "parse.hpp"
-#include "uinput.hpp"
 
 namespace uinpp {
 

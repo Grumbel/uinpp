@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "uinput.hpp"
+#include "multi_device.hpp"
 
 #include <cassert>
 #include <cmath>
@@ -33,7 +33,7 @@
 
 namespace uinpp {
 
-UInput::UInput() :
+MultiDevice::MultiDevice() :
   m_devices(),
   m_device_names(),
   m_device_usbids(),
@@ -43,18 +43,18 @@ UInput::UInput() :
 {
 }
 
-UInput::~UInput()
+MultiDevice::~MultiDevice()
 {
 }
 
 void
-UInput::set_extra_events(bool extra_events)
+MultiDevice::set_extra_events(bool extra_events)
 {
   m_extra_events = extra_events;
 }
 
 struct input_id
-UInput::get_device_usbid(uint32_t device_id) const
+MultiDevice::get_device_usbid(uint32_t device_id) const
 {
   uint16_t slot_id = get_slot_id(device_id);
   uint16_t type_id = get_type_id(device_id);
@@ -93,7 +93,7 @@ UInput::get_device_usbid(uint32_t device_id) const
 }
 
 std::string
-UInput::get_device_name(uint32_t device_id) const
+MultiDevice::get_device_name(uint32_t device_id) const
 {
   uint16_t slot_id = get_slot_id(device_id);
   uint16_t type_id = get_type_id(device_id);
@@ -190,7 +190,7 @@ UInput::get_device_name(uint32_t device_id) const
 }
 
 Device*
-UInput::create_uinput_device(uint32_t device_id)
+MultiDevice::create_uinput_device(uint32_t device_id)
 {
   // DEVICEID_AUTO should not happen at this point as the user should
   // have called resolve_device_id()
@@ -245,7 +245,7 @@ UInput::create_uinput_device(uint32_t device_id)
 }
 
 UIEventEmitter*
-UInput::add(const UIEvent& ev)
+MultiDevice::add(const UIEvent& ev)
 {
   Device* dev = create_uinput_device(ev.get_device_id());
 
@@ -269,7 +269,7 @@ UInput::add(const UIEvent& ev)
 }
 
 UIEventEmitter*
-UInput::add_key(uint32_t device_id, int ev_code)
+MultiDevice::add_key(uint32_t device_id, int ev_code)
 {
   Device* dev = create_uinput_device(device_id);
   dev->add_key(static_cast<uint16_t>(ev_code));
@@ -278,7 +278,7 @@ UInput::add_key(uint32_t device_id, int ev_code)
 }
 
 UIEventEmitter*
-UInput::add_rel(uint32_t device_id, int ev_code)
+MultiDevice::add_rel(uint32_t device_id, int ev_code)
 {
   Device* dev = create_uinput_device(device_id);
   dev->add_rel(static_cast<uint16_t>(ev_code));
@@ -287,7 +287,7 @@ UInput::add_rel(uint32_t device_id, int ev_code)
 }
 
 UIEventEmitter*
-UInput::add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat)
+MultiDevice::add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat)
 {
   Device* dev = create_uinput_device(device_id);
   dev->add_abs(static_cast<uint16_t>(ev_code), min, max, fuzz, flat);
@@ -296,14 +296,14 @@ UInput::add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int
 }
 
 void
-UInput::add_ff(uint32_t device_id, uint16_t code)
+MultiDevice::add_ff(uint32_t device_id, uint16_t code)
 {
   Device* dev = create_uinput_device(device_id);
   dev->add_ff(code);
 }
 
 UIEventEmitter*
-UInput::create_emitter(int device_id, int type, int code)
+MultiDevice::create_emitter(int device_id, int type, int code)
 {
   // search for an already existing emitter
   for(auto i = m_collectors.begin(); i != m_collectors.end(); ++i)
@@ -344,7 +344,7 @@ UInput::create_emitter(int device_id, int type, int code)
 }
 
 void
-UInput::finish()
+MultiDevice::finish()
 {
   for(auto i = m_devices.begin(); i != m_devices.end(); ++i)
   {
@@ -353,7 +353,7 @@ UInput::finish()
 }
 
 std::vector<Device*>
-UInput::get_devices() const
+MultiDevice::get_devices() const
 {
   std::vector<Device*> result;
   for (auto& it : m_devices) {
@@ -363,13 +363,13 @@ UInput::get_devices() const
 }
 
 void
-UInput::send(uint32_t device_id, int ev_type, int ev_code, int value)
+MultiDevice::send(uint32_t device_id, int ev_type, int ev_code, int value)
 {
   get_uinput(device_id)->send(static_cast<uint16_t>(ev_type), static_cast<uint16_t>(ev_code), value);
 }
 
 void
-UInput::update(int msec_delta)
+MultiDevice::update(int msec_delta)
 {
   for(auto i = m_rel_repeat_lst.begin(); i != m_rel_repeat_lst.end(); ++i)
   {
@@ -397,7 +397,7 @@ UInput::update(int msec_delta)
 }
 
 void
-UInput::sync()
+MultiDevice::sync()
 {
   for(auto i = m_collectors.begin(); i != m_collectors.end(); ++i)
   {
@@ -411,7 +411,7 @@ UInput::sync()
 }
 
 void
-UInput::send_rel_repetitive(const UIEvent& code, float value, int repeat_interval)
+MultiDevice::send_rel_repetitive(const UIEvent& code, float value, int repeat_interval)
 {
   if (repeat_interval < 0)
   { // remove rel_repeats from list
@@ -449,7 +449,7 @@ UInput::send_rel_repetitive(const UIEvent& code, float value, int repeat_interva
 }
 
 Device*
-UInput::get_uinput(uint32_t device_id) const
+MultiDevice::get_uinput(uint32_t device_id) const
 {
   auto const it = m_devices.find(device_id);
   if (it != m_devices.end())
@@ -466,19 +466,19 @@ UInput::get_uinput(uint32_t device_id) const
 }
 
 void
-UInput::set_device_usbids(const std::map<uint32_t, struct input_id>& device_usbids)
+MultiDevice::set_device_usbids(const std::map<uint32_t, struct input_id>& device_usbids)
 {
   m_device_usbids = device_usbids;
 }
 
 void
-UInput::set_device_names(const std::map<uint32_t, std::string>& device_names)
+MultiDevice::set_device_names(const std::map<uint32_t, std::string>& device_names)
 {
   m_device_names = device_names;
 }
 
 void
-UInput::set_ff_callback(int device_id, const std::function<void (uint8_t, uint8_t)>& callback)
+MultiDevice::set_ff_callback(int device_id, const std::function<void (uint8_t, uint8_t)>& callback)
 {
   get_uinput(device_id)->set_ff_callback(callback);
 }

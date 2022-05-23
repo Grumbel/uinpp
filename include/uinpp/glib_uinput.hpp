@@ -74,20 +74,20 @@ public:
 };
 
 /** Wrap UInput for use with Glib */
-class GlibUInput
+class GlibMultiDevice
 {
 public:
-  GlibUInput(UInput& uinput) :
+  GlibMultiDevice(MultiDevice& uinput) :
     m_uinput(uinput),
     m_timeout_id(),
     m_timer(g_timer_new())
   {
     // FIXME: hardcoded timeout is kind of evil
-    // FIXME: would be nicer if UInput didn't depend on glib
+    // FIXME: would be nicer if MultiDevice didn't depend on glib
     m_timeout_id = g_timeout_add(
       10,
       [](gpointer data) -> gboolean {
-        GlibUInput* const self = static_cast<GlibUInput*>(data);
+        GlibMultiDevice* const self = static_cast<GlibMultiDevice*>(data);
         int const msec_delta = static_cast<int>(g_timer_elapsed(self->m_timer, NULL) * 1000.0f);
         g_timer_reset(self->m_timer);
         self->m_uinput.update(msec_delta);
@@ -99,7 +99,7 @@ public:
     }
   }
 
-  ~GlibUInput()
+  ~GlibMultiDevice()
   {
     m_devices.clear();
 
@@ -108,15 +108,15 @@ public:
   }
 
 public:
-  UInput& m_uinput;
+  MultiDevice& m_uinput;
   guint m_timeout_id;
   GTimer* m_timer;
 
   std::vector<std::unique_ptr<GlibDevice>> m_devices;
 
 public:
-  GlibUInput(const GlibUInput&) = delete;
-  GlibUInput& operator=(const GlibUInput&) = delete;
+  GlibMultiDevice(const GlibMultiDevice&) = delete;
+  GlibMultiDevice& operator=(const GlibMultiDevice&) = delete;
 };
 
 } //  namespace uinpp

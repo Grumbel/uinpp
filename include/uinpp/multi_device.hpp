@@ -25,15 +25,15 @@
 
 namespace uinpp {
 
-/** UInput bundle multiple devices to make it easier to create
+/** MultiDevice bundle multiple devices to make it easier to create
     virtual devices that spread across different categories of input, e.g. a
     keyboard with a trackball would both need a mouse device as well as
     a keyboard one */
-class UInput
+class MultiDevice
 {
 public:
-  UInput();
-  ~UInput();
+  MultiDevice();
+  ~MultiDevice();
 
   /** Device construction functions
       @{*/
@@ -103,8 +103,8 @@ private:
   bool m_extra_events;
 
 private:
-  UInput(const UInput&);
-  UInput& operator=(const UInput&);
+  MultiDevice(const MultiDevice&);
+  MultiDevice& operator=(const MultiDevice&);
 };
 
 } // namespace uinpp

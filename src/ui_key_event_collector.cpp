@@ -20,11 +20,11 @@
 
 #include <logmich/log.hpp>
 
-#include "uinput.hpp"
+#include "multi_device.hpp"
 
 namespace uinpp {
 
-UIKeyEventCollector::UIKeyEventCollector(UInput& uinput, uint32_t device_id, int type, int code) :
+UIKeyEventCollector::UIKeyEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code) :
   UIEventCollector(uinput, device_id, type, code),
   m_emitters(),
   m_value(0)

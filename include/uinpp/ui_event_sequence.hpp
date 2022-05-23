@@ -36,7 +36,7 @@ public:
   UIEventSequence(std::vector<UIEvent> const& sequence);
   UIEventSequence(UIEvent const& event);
 
-  void init(UInput& uinput, int slot, bool extra_devices);
+  void init(MultiDevice& uinput, int slot, bool extra_devices);
   void send(int value);
 
   void clear();

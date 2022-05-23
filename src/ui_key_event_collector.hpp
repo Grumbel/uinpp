@@ -27,7 +27,7 @@ namespace uinpp {
 class UIKeyEventCollector : public UIEventCollector
 {
 public:
-  UIKeyEventCollector(UInput& uinput, uint32_t device_id, int type, int code);
+  UIKeyEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code);
 
   UIEventEmitter* create_emitter() override;
   void sync() override;

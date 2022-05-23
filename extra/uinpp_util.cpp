@@ -2,19 +2,19 @@
 #include <linux/input.h>
 #include <unistd.h>
 
-#include "uinput.hpp"
+#include "multi_device.hpp"
 
 int main()
 {
-  uinpp::UInput uinput;
-  uinput.add_key(uinpp::DEVICEID_KEYBOARD, KEY_A);
-  uinput.finish();
+  uinpp::MultiDevice device;
+  device.add_key(uinpp::DEVICEID_KEYBOARD, KEY_A);
+  device.finish();
 
   while(1) {
-    uinput.send(uinpp::DEVICEID_KEYBOARD, EV_KEY, KEY_A, 1);
-    uinput.sync();
-    uinput.send(uinpp::DEVICEID_KEYBOARD, EV_KEY, KEY_A, 0);
-    uinput.sync();
+    device.send(uinpp::DEVICEID_KEYBOARD, EV_KEY, KEY_A, 1);
+    device.sync();
+    device.send(uinpp::DEVICEID_KEYBOARD, EV_KEY, KEY_A, 0);
+    device.sync();
     sleep(1);
   }
 

@@ -24,7 +24,8 @@ namespace uinpp {
 class ForceFeedbackHandler;
 class UIEventCollector;
 class UIEventEmitter;
-class UInput;
+class MultiDevice;
+class Device;
 
 } // namespace uinpp
 

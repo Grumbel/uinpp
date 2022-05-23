@@ -21,7 +21,7 @@
 #include <strut/split.hpp>
 
 #include "ui_event.hpp"
-#include "uinput.hpp"
+#include "multi_device.hpp"
 
 namespace uinpp {
 
@@ -44,7 +44,7 @@ UIEventSequence::UIEventSequence(UIEvent const& event) :
 }
 
 void
-UIEventSequence::init(UInput& uinput, int slot, bool extra_devices)
+UIEventSequence::init(MultiDevice& uinput, int slot, bool extra_devices)
 {
   for(auto i = m_sequence.begin(); i != m_sequence.end(); ++i)
   {

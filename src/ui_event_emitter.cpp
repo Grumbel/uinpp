@@ -20,6 +20,6 @@
 
 #include <logmich/log.hpp>
 
-#include "uinput.hpp"
+#include "multi_device.hpp"
 
 /* EOF */

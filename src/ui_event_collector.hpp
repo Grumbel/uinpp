@@ -29,13 +29,13 @@ namespace uinpp {
 class UIEventCollector
 {
 protected:
-  UInput& m_uinput;
+  MultiDevice& m_uinput;
   uint32_t m_device_id;
   int m_type;
   int m_code;
 
 public:
-  UIEventCollector(UInput& uinput, uint32_t device_id, int type, int code);
+  UIEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code);
   virtual ~UIEventCollector();
 
   uint32_t get_device_id() const { return m_device_id; }

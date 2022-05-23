@@ -26,7 +26,7 @@ namespace uinpp {
 class UIAbsEventCollector : public UIEventCollector
 {
 public:
-  UIAbsEventCollector(UInput& uinput, uint32_t device_id, int type, int code);
+  UIAbsEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code);
 
   UIEventEmitter* create_emitter() override;
   void sync() override;

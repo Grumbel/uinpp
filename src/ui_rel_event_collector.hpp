@@ -25,7 +25,7 @@ namespace uinpp {
 class UIRelEventCollector : public UIEventCollector
 {
 public:
-  UIRelEventCollector(UInput& uinput, uint32_t device_id, int type, int code);
+  UIRelEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code);
 
   UIEventEmitter* create_emitter() override;
   void sync() override;

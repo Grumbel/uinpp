@@ -16,11 +16,11 @@
 
 #include "ui_abs_event_collector.hpp"
 
-#include "uinput.hpp"
+#include "multi_device.hpp"
 
 namespace uinpp {
 
-UIAbsEventCollector::UIAbsEventCollector(UInput& uinput, uint32_t device_id, int type, int code) :
+UIAbsEventCollector::UIAbsEventCollector(MultiDevice& uinput, uint32_t device_id, int type, int code) :
   UIEventCollector(uinput, device_id, type, code),
   m_emitters()
 {
