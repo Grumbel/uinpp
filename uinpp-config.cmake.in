@@ -4,6 +4,6 @@ include("${CMAKE_CURRENT_LIST_DIR}/uinpp-config-version.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/uinpp-targets.cmake")
 
 find_dependency(logmich)
-find_package(strutcpp)
+find_package(strut)
 
 # EOF #

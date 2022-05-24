@@ -30,8 +30,8 @@ include(ClangTidy)
 function(build_dependencies)
   set(BUILD_TESTS OFF)
 
-  find_package(strutcpp QUIET)
-  if(NOT TARGET strut)
+  find_package(strut QUIET)
+  if(NOT TARGET strut::strut)
     add_subdirectory(external/strutcpp/ EXCLUDE_FROM_ALL)
   endif()
 
