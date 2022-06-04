@@ -26,6 +26,10 @@ include(GNUInstallDirs)
 include(MaximumWarnings)
 include(ClangTidy)
 
+list(APPEND WARNINGS_CXX_FLAGS
+  -Wno-stringop-overread # produces bogus warnings
+  )
+
 # Build dependencies
 function(build_dependencies)
   set(BUILD_TESTS OFF)
