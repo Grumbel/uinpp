@@ -33,7 +33,44 @@
 
 namespace uinpp {
 
+VirtualDevice::VirtualDevice(MultiDevice& parent, uint32_t device_id) :
+  m_parent(parent),
+  m_device_id(device_id)
+{
+}
+
+void
+VirtualDevice::set_name(std::string_view name)
+{
+  m_parent.set_device_name(m_device_id, name);
+}
+
+void
+VirtualDevice::set_usbid(uint16_t bustype, uint16_t vendor, uint16_t product, uint16_t version)
+{
+  m_parent.set_device_usbid(m_device_id, { bustype, vendor, product, version });
+}
+
+EventEmitter*
+VirtualDevice::add_rel(int ev_code)
+{
+  return m_parent.add_rel(m_device_id, ev_code);
+}
+
+EventEmitter*
+VirtualDevice::add_abs(int ev_code, int min, int max, int fuzz, int flat)
+{
+  return m_parent.add_abs(m_device_id, ev_code, min, max, fuzz, flat);
+}
+
+EventEmitter*
+VirtualDevice::add_key(int ev_code)
+{
+  return m_parent.add_key(m_device_id, ev_code);
+}
+
 MultiDevice::MultiDevice() :
+  m_virtual_devices(),
   m_devices(),
   m_device_names(),
   m_device_usbids(),
@@ -186,6 +223,22 @@ MultiDevice::get_device_name(uint32_t device_id) const
         return str.str();
       }
     }
+  }
+}
+
+VirtualDevice*
+MultiDevice::create_device(int slot, DeviceType type)
+{
+  uint32_t const device_id = create_device_id(static_cast<uint16_t>(slot), static_cast<uint16_t>(type));
+  auto const it = m_virtual_devices.find(device_id);
+
+  if (it != m_virtual_devices.end()) {
+    return it->second.get();
+  } else {
+    auto vdev = std::make_unique<VirtualDevice>(*this, device_id);
+    VirtualDevice* tmp = vdev.get();
+    m_virtual_devices[device_id] = std::move(vdev);
+    return tmp;
   }
 }
 
@@ -463,6 +516,18 @@ MultiDevice::get_uinput(uint32_t device_id) const
     str << "Couldn't find uinput device: " << device_id;
     throw std::runtime_error(str.str());
   }
+}
+
+void
+MultiDevice::set_device_name(uint32_t device_id, std::string_view name)
+{
+  m_device_names[device_id] = name;
+}
+
+void
+MultiDevice::set_device_usbid(uint32_t device_id, input_id id)
+{
+  m_device_usbids[device_id] = id;
 }
 
 void

@@ -18,12 +18,30 @@
 #define HEADER_NPP_MULTI_DEVICE_HPP
 
 #include <map>
+#include <string_view>
 
 #include "fwd.hpp"
 #include "device.hpp"
 #include "event.hpp"
 
 namespace uinpp {
+
+class VirtualDevice
+{
+public:
+  VirtualDevice(MultiDevice& parent, uint32_t device_id);
+
+  void set_name(std::string_view name);
+  void set_usbid(uint16_t bustype, uint16_t vendor, uint16_t product, uint16_t version);
+
+  EventEmitter* add_rel(int ev_code);
+  EventEmitter* add_abs(int ev_code, int min, int max, int fuzz, int flat);
+  EventEmitter* add_key(int ev_code);
+
+private:
+  MultiDevice& m_parent;
+  uint32_t m_device_id;
+};
 
 /** MultiDevice bundle multiple devices to make it easier to create
     virtual devices that spread across different categories of input, e.g. a
@@ -40,14 +58,21 @@ public:
   /** Create the usual events that would be present for a device of the given type automatically */
   void set_extra_events(bool extra_events);
 
-  void set_device_names(const std::map<uint32_t, std::string>& device_names);
-  void set_device_usbids(const std::map<uint32_t, struct input_id>& device_usbids);
-  void set_ff_callback(int device_id, const std::function<void (uint8_t, uint8_t)>& callback);
+  void set_device_names(std::map<uint32_t, std::string> const& device_names);
+  void set_device_usbids(std::map<uint32_t, struct input_id> const& device_usbids);
+
+  void set_device_name(uint32_t device_id, std::string_view name);
+  void set_device_usbid(uint32_t device_id, input_id id);
+
+  void set_ff_callback(int device_id, std::function<void (uint8_t, uint8_t)> const& callback);
+
+  VirtualDevice* create_device(int slot, DeviceType type);
 
   EventEmitter* add(const Event& ev);
   EventEmitter* add_rel(uint32_t device_id, int ev_code);
   EventEmitter* add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat);
   EventEmitter* add_key(uint32_t device_id, int ev_code);
+
   void add_ff(uint32_t device_id, uint16_t code);
 
   /** needs to be called to finish device creation and create the
@@ -55,7 +80,7 @@ public:
   void finish();
   /** @} */
 
-  /** Send events to the kernel
+  /** Send events directly to the kernel
       @{*/
   void send(uint32_t device_id, int ev_type, int ev_code, int value);
   void send_rel_repetitive(const Event& code, float value, int repeat_interval);
@@ -93,6 +118,7 @@ private:
   };
 
 private:
+  std::map<uint32_t, std::unique_ptr<VirtualDevice> > m_virtual_devices;
   std::map<uint32_t, std::unique_ptr<Device> > m_devices;
   std::map<uint32_t, std::string> m_device_names;
   std::map<uint32_t, struct input_id> m_device_usbids;
