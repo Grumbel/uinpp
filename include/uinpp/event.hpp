@@ -42,7 +42,7 @@ public:
 
 public:
   void resolve_device_id(int slot, bool extra_devices);
-  bool operator<(const Event& rhs)  const;
+  bool operator<(Event const& rhs)  const;
 
   int type;
   int code;

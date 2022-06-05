@@ -36,8 +36,8 @@ private:
   std::vector<std::unique_ptr<RelEventEmitter>> m_emitters;
 
 private:
-  RelEventCollector(const RelEventCollector&);
-  RelEventCollector& operator=(const RelEventCollector&);
+  RelEventCollector(RelEventCollector const&);
+  RelEventCollector& operator=(RelEventCollector const&);
 };
 
 } // namespace uinpp

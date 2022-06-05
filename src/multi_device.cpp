@@ -327,7 +327,7 @@ MultiDevice::create_uinput_device(uint32_t device_id)
 }
 
 EventEmitter*
-MultiDevice::add(const Event& ev)
+MultiDevice::add(Event const& ev)
 {
   Device* dev = create_uinput_device(ev.get_device_id());
 
@@ -493,7 +493,7 @@ MultiDevice::sync()
 }
 
 void
-MultiDevice::send_rel_repetitive(const Event& code, float value, int repeat_interval)
+MultiDevice::send_rel_repetitive(Event const& code, float value, int repeat_interval)
 {
   if (repeat_interval < 0)
   { // remove rel_repeats from list

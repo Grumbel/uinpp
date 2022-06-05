@@ -35,8 +35,8 @@ private:
   bool m_value;
 
 private:
-  KeyEventEmitter(const KeyEventEmitter&);
-  KeyEventEmitter& operator=(const KeyEventEmitter&);
+  KeyEventEmitter(KeyEventEmitter const&);
+  KeyEventEmitter& operator=(KeyEventEmitter const&);
 };
 
 } // namespace uinpp

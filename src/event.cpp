@@ -50,7 +50,7 @@ Event::invalid()
 }
 
 bool
-Event::operator<(const Event& rhs)  const
+Event::operator<(Event const& rhs)  const
 {
   // BROKEN: must take all members into account
   if (m_device_id == rhs.m_device_id)

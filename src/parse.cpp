@@ -29,7 +29,7 @@ namespace uinpp {
 
 namespace {
 
-int hexstr2int(const std::string& str)
+int hexstr2int(std::string const& str)
 {
   unsigned int value = 0;
   if (sscanf(str.c_str(), "%x", &value) == 1)
@@ -48,14 +48,14 @@ int hexstr2int(const std::string& str)
   }
 }
 
-uint16_t hexstr2uint16(const std::string& str)
+uint16_t hexstr2uint16(std::string const& str)
 {
   return static_cast<uint16_t>(hexstr2int(str));
 }
 
 } // namespace
 
-input_id parse_input_id(const std::string& str)
+input_id parse_input_id(std::string const& str)
 {
   struct input_id usbid;
 
@@ -95,7 +95,7 @@ input_id parse_input_id(const std::string& str)
 }
 
 uint32_t
-parse_device_id(const std::string& str)
+parse_device_id(std::string const& str)
 {
   // FIXME: insert magic to resolve symbolic names, merge with same code in set_device_name
   std::string::size_type p = str.find('.');
@@ -122,7 +122,7 @@ parse_device_id(const std::string& str)
   return create_device_id(slot_id, device_id);
 }
 
-uint16_t str2deviceid(const std::string& device)
+uint16_t str2deviceid(std::string const& device)
 {
   if (device == "auto" || device.empty())
   {
@@ -154,7 +154,7 @@ uint16_t str2deviceid(const std::string& device)
   }
 }
 
-uint16_t str2slotid(const std::string& slot)
+uint16_t str2slotid(std::string const& slot)
 {
   if (slot == "auto" || slot.empty())
   {
@@ -174,7 +174,7 @@ uint16_t str2slotid(const std::string& slot)
   }
 }
 
-void split_event_name(const std::string& str, std::string* event_str, int* slot_id, int* device_id)
+void split_event_name(std::string const& str, std::string* event_str, int* slot_id, int* device_id)
 {
   std::string::size_type p = str.find('@');
   if (p == std::string::npos)

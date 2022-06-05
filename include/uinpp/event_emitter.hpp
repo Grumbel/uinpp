@@ -33,8 +33,8 @@ public:
   virtual void send(int value) = 0;
 
 private:
-  EventEmitter(const EventEmitter&);
-  EventEmitter& operator=(const EventEmitter&);
+  EventEmitter(EventEmitter const&);
+  EventEmitter& operator=(EventEmitter const&);
 };
 
 } // namespace uinpp

@@ -23,8 +23,8 @@
 
 namespace uinpp {
 
-input_id parse_input_id(const std::string& str);
-uint32_t parse_device_id(const std::string& str);
+input_id parse_input_id(std::string const& str);
+uint32_t parse_device_id(std::string const& str);
 
 inline uint32_t create_device_id(uint16_t slot_id, uint16_t type_id)
 {
@@ -47,10 +47,10 @@ inline uint16_t get_slot_id(uint32_t device_id)
     in: "BTN_A@mouse.2"
     out: "BTN_A", 3, DEVICEID_MOUSE
  */
-void split_event_name(const std::string& str, std::string* event_str, int* slot_id, int* device_id);
+void split_event_name(std::string const& str, std::string* event_str, int* slot_id, int* device_id);
 
-uint16_t str2deviceid(const std::string& device);
-uint16_t str2slotid(const std::string& slot);
+uint16_t str2deviceid(std::string const& device);
+uint16_t str2slotid(std::string const& slot);
 
 } // namespace uinpp
 

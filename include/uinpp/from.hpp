@@ -89,7 +89,7 @@ Event_from_char(char c)
 
 inline
 Event
-Event_from_string(const std::string& str)
+Event_from_string(std::string const& str)
 {
   switch(get_event_type(str))
   {
@@ -102,7 +102,7 @@ Event_from_string(const std::string& str)
 
 inline
 EventSequence
-EventSequence_from_string(const std::string& value)
+EventSequence_from_string(std::string const& value)
 {
   std::vector<Event> sequence;
 

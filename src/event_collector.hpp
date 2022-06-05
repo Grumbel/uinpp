@@ -46,8 +46,8 @@ public:
   virtual void sync() = 0;
 
 private:
-  EventCollector(const EventCollector&);
-  EventCollector& operator=(const EventCollector&);
+  EventCollector(EventCollector const&);
+  EventCollector& operator=(EventCollector const&);
 };
 
 } // namespace uinpp

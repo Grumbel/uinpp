@@ -30,7 +30,7 @@
 
 namespace uinpp {
 
-Device::Device(DeviceType device_type, const std::string& name,
+Device::Device(DeviceType device_type, std::string const& name,
                const struct input_id& iid) :
   m_device_type(device_type),
   m_iid(iid),
@@ -54,8 +54,8 @@ Device::Device(DeviceType device_type, const std::string& name,
   std::fill_n(m_ff_lst,  FF_CNT,  false);
 
   // Open the input device
-  const char* uinput_filename[] = { "/dev/input/uinput", "/dev/uinput", "/dev/misc/uinput" };
-  const int uinput_filename_count = static_cast<int>(sizeof(uinput_filename)/sizeof(const char*));
+  char const* uinput_filename[] = { "/dev/input/uinput", "/dev/uinput", "/dev/misc/uinput" };
+  const int uinput_filename_count = static_cast<int>(sizeof(uinput_filename)/sizeof(char const*));
 
   std::ostringstream str;
   for (int i = 0; i < uinput_filename_count; ++i)

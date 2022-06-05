@@ -39,8 +39,8 @@ private:
   int m_value;
 
 private:
-  KeyEventCollector(const KeyEventCollector&);
-  KeyEventCollector& operator=(const KeyEventCollector&);
+  KeyEventCollector(KeyEventCollector const&);
+  KeyEventCollector& operator=(KeyEventCollector const&);
 };
 
 } // namespace uinpp

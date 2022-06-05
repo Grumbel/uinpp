@@ -69,8 +69,8 @@ private:
   guint m_source_id;
 
 public:
-  GlibDevice(const GlibDevice&) = delete;
-  GlibDevice& operator=(const GlibDevice&) = delete;
+  GlibDevice(GlibDevice const&) = delete;
+  GlibDevice& operator=(GlibDevice const&) = delete;
 };
 
 /** Wrap UInput for use with Glib */
@@ -115,8 +115,8 @@ public:
   std::vector<std::unique_ptr<GlibDevice>> m_devices;
 
 public:
-  GlibMultiDevice(const GlibMultiDevice&) = delete;
-  GlibMultiDevice& operator=(const GlibMultiDevice&) = delete;
+  GlibMultiDevice(GlibMultiDevice const&) = delete;
+  GlibMultiDevice& operator=(GlibMultiDevice const&) = delete;
 };
 
 } //  namespace uinpp

@@ -37,8 +37,8 @@ private:
   int m_value;
 
 private:
-  AbsEventEmitter(const AbsEventEmitter&);
-  AbsEventEmitter& operator=(const AbsEventEmitter&);
+  AbsEventEmitter(AbsEventEmitter const&);
+  AbsEventEmitter& operator=(AbsEventEmitter const&);
 };
 
 } // namespace uinpp

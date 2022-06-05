@@ -37,8 +37,8 @@ private:
   std::vector<std::unique_ptr<AbsEventEmitter>> m_emitters;
 
 private:
-  AbsEventCollector(const AbsEventCollector&);
-  AbsEventCollector& operator=(const AbsEventCollector&);
+  AbsEventCollector(AbsEventCollector const&);
+  AbsEventCollector& operator=(AbsEventCollector const&);
 };
 
 } // namespace uinpp

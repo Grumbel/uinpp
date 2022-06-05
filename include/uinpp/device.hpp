@@ -37,7 +37,7 @@ enum class DeviceType
 class Device
 {
 public:
-  Device(DeviceType device_type, const std::string& name,
+  Device(DeviceType device_type, std::string const& name,
          const struct input_id& iid);
   ~Device();
 
@@ -103,8 +103,8 @@ private:
   bool m_needs_sync;
 
 private:
-  Device (const Device&) = delete;
-  Device& operator= (const Device&) = delete;
+  Device (Device const&) = delete;
+  Device& operator= (Device const&) = delete;
 };
 
 } // namespace uinpp

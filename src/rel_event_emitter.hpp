@@ -34,8 +34,8 @@ public:
   void send(int value) override;
 
 private:
-  RelEventEmitter(const RelEventEmitter&);
-  RelEventEmitter& operator=(const RelEventEmitter&);
+  RelEventEmitter(RelEventEmitter const&);
+  RelEventEmitter& operator=(RelEventEmitter const&);
 };
 
 } // namespace uinpp

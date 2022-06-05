@@ -72,7 +72,7 @@ public:
 
   VirtualDevice* create_device(int slot, DeviceType type);
 
-  EventEmitter* add(const Event& ev);
+  EventEmitter* add(Event const& ev);
   EventEmitter* add_rel(uint32_t device_id, int ev_code);
   EventEmitter* add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat, int resolution);
   EventEmitter* add_key(uint32_t device_id, int ev_code);
@@ -87,7 +87,7 @@ public:
   /** Send events directly to the kernel
       @{*/
   void send(uint32_t device_id, int ev_type, int ev_code, int value);
-  void send_rel_repetitive(const Event& code, float value, int repeat_interval);
+  void send_rel_repetitive(Event const& code, float value, int repeat_interval);
 
   /** should be called to signal that all events of the current frame
       have been send */
@@ -135,8 +135,8 @@ private:
   bool m_extra_events;
 
 private:
-  MultiDevice(const MultiDevice&);
-  MultiDevice& operator=(const MultiDevice&);
+  MultiDevice(MultiDevice const&);
+  MultiDevice& operator=(MultiDevice const&);
 };
 
 } // namespace uinpp
