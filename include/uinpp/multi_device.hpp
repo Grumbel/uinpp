@@ -37,7 +37,7 @@ public:
   void set_usbid(uint16_t bustype, uint16_t vendor, uint16_t product, uint16_t version);
 
   EventEmitter* add_rel(int ev_code);
-  EventEmitter* add_abs(int ev_code, int min, int max, int fuzz, int flat);
+  EventEmitter* add_abs(int ev_code, int min, int max, int fuzz, int flat, int resolution);
   EventEmitter* add_key(int ev_code);
 
 private:
@@ -74,7 +74,7 @@ public:
 
   EventEmitter* add(const Event& ev);
   EventEmitter* add_rel(uint32_t device_id, int ev_code);
-  EventEmitter* add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat);
+  EventEmitter* add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat, int resolution);
   EventEmitter* add_key(uint32_t device_id, int ev_code);
 
   void add_ff(uint32_t device_id, uint16_t code);

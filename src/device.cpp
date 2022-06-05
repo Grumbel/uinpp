@@ -30,14 +30,13 @@
 
 namespace uinpp {
 
-Device::Device(DeviceType device_type, const std::string& name_,
-                         const struct input_id& usbid_) :
+Device::Device(DeviceType device_type, const std::string& name,
+               const struct input_id& iid) :
   m_device_type(device_type),
-  m_name(name_),
-  m_usbid(usbid_),
+  m_iid(iid),
+  m_name(name),
   m_finished(false),
   m_fd(-1),
-  m_user_dev(),
   m_key_bit(false),
   m_rel_bit(false),
   m_abs_bit(false),
@@ -47,14 +46,12 @@ Device::Device(DeviceType device_type, const std::string& name_,
   m_ff_callback(),
   m_needs_sync(true)
 {
-  log_debug("{} {}:{}", m_name, m_usbid.vendor, m_usbid.product);
+  log_debug("{} {}:{}", m_name, iid.vendor, iid.product);
 
   std::fill_n(m_abs_lst, ABS_CNT, false);
   std::fill_n(m_rel_lst, REL_CNT, false);
   std::fill_n(m_key_lst, KEY_CNT, false);
   std::fill_n(m_ff_lst,  FF_CNT,  false);
-
-  memset(&m_user_dev, 0, sizeof(uinput_user_dev));
 
   // Open the input device
   const char* uinput_filename[] = { "/dev/input/uinput", "/dev/uinput", "/dev/misc/uinput" };
@@ -115,7 +112,7 @@ Device::set_prop(int value)
 }
 
 void
-Device::add_abs(uint16_t code, int min, int max, int fuzz, int flat)
+Device::add_abs(uint16_t code, int min, int max, int fuzz, int flat, int resolution)
 {
   log_debug("add_abs: {} ({}, {})", code, min, max);
 
@@ -129,12 +126,19 @@ Device::add_abs(uint16_t code, int min, int max, int fuzz, int flat)
       m_abs_bit = true;
     }
 
-    ioctl(m_fd, UI_SET_ABSBIT, code);
+    uinput_abs_setup abs_setup;
+    memset(&abs_setup, 0, sizeof(abs_setup));
 
-    m_user_dev.absmin[code] = min;
-    m_user_dev.absmax[code] = max;
-    m_user_dev.absfuzz[code] = fuzz;
-    m_user_dev.absflat[code] = flat;
+    abs_setup.code = code;
+    abs_setup.absinfo.minimum = min;
+    abs_setup.absinfo.maximum = max;
+    abs_setup.absinfo.fuzz = fuzz;
+    abs_setup.absinfo.flat = flat;
+    abs_setup.absinfo.resolution = resolution;
+
+    if (ioctl(m_fd, UI_ABS_SETUP, &abs_setup) < 0) {
+      throw std::runtime_error(fmt::format("UI_ABS_SETUP failed: {}", strerror(errno)));
+    }
   }
 }
 
@@ -244,29 +248,25 @@ Device::finish()
       break;
   }
 
-  strncpy(m_user_dev.name, m_name.c_str(), UINPUT_MAX_NAME_SIZE - 1);
-  m_user_dev.name[UINPUT_MAX_NAME_SIZE - 1] = '\0';
-  m_user_dev.id.version = m_usbid.version;
-  m_user_dev.id.bustype = m_usbid.bustype;
-  m_user_dev.id.vendor  = m_usbid.vendor;
-  m_user_dev.id.product = m_usbid.product;
-
-  log_debug("'{}' {}:{}", m_user_dev.name, m_user_dev.id.vendor, m_user_dev.id.product);
-
-  if (m_ff_bit)
   {
-    m_user_dev.ff_effects_max = m_ff_handler->get_max_effects();
-  }
+    uinput_setup setup;
+    memset(&setup, 0, sizeof(setup));
 
-  {
-    auto write_ret = write(m_fd, &m_user_dev, sizeof(m_user_dev));
-    if (write_ret < 0)
-    {
-      throw std::runtime_error("uinput:finish: " + m_name + ": " + strerror(errno));
+    setup.id = m_iid;
+
+    strncpy(setup.name, m_name.c_str(), UINPUT_MAX_NAME_SIZE - 1);
+    setup.name[UINPUT_MAX_NAME_SIZE - 1] = '\0';
+
+    if (m_ff_bit) {
+      setup.ff_effects_max = m_ff_handler->get_max_effects();
+    } else {
+      setup.ff_effects_max = 0;
     }
-    else
-    {
-      log_debug("write return value: {}", write_ret);
+
+    log_debug("'{}' {}:{}", setup.name, setup.id.vendor, setup.id.product);
+
+    if (ioctl(m_fd, UI_DEV_SETUP, &setup) < 0) {
+      throw std::runtime_error(fmt::format("UI_DEV_SETUP failed: {}", strerror(errno)));
     }
   }
 

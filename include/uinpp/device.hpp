@@ -38,7 +38,7 @@ class Device
 {
 public:
   Device(DeviceType device_type, const std::string& name,
-         const struct input_id& usbid_);
+         const struct input_id& iid);
   ~Device();
 
   /*@{*/
@@ -46,7 +46,7 @@ public:
   void set_prop(int value);
 
   /** Create an absolute axis */
-  void add_abs(uint16_t code, int min, int max, int fuzz = 0, int flat = 0);
+  void add_abs(uint16_t code, int min, int max, int fuzz = 0, int flat = 0, int resolution = 0);
 
   /** Create an button */
   void add_key(uint16_t code);
@@ -79,14 +79,13 @@ public:
 
 private:
   DeviceType  m_device_type;
+  input_id m_iid;
   std::string m_name;
-  input_id m_usbid;
 
   bool m_finished;
 
   int m_fd;
 
-  uinput_user_dev m_user_dev;
   bool m_key_bit;
   bool m_rel_bit;
   bool m_abs_bit;

@@ -70,9 +70,9 @@ VirtualDevice::add_rel(int ev_code)
 }
 
 EventEmitter*
-VirtualDevice::add_abs(int ev_code, int min, int max, int fuzz, int flat)
+VirtualDevice::add_abs(int ev_code, int min, int max, int fuzz, int flat, int resolution)
 {
-  return m_parent.add_abs(m_device_id, ev_code, min, max, fuzz, flat);
+  return m_parent.add_abs(m_device_id, ev_code, min, max, fuzz, flat, resolution);
 }
 
 EventEmitter*
@@ -369,10 +369,10 @@ MultiDevice::add_rel(uint32_t device_id, int ev_code)
 }
 
 EventEmitter*
-MultiDevice::add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat)
+MultiDevice::add_abs(uint32_t device_id, int ev_code, int min, int max, int fuzz, int flat, int resolution)
 {
   Device* dev = create_uinput_device(device_id);
-  dev->add_abs(static_cast<uint16_t>(ev_code), min, max, fuzz, flat);
+  dev->add_abs(static_cast<uint16_t>(ev_code), min, max, fuzz, flat, resolution);
 
   return create_emitter(device_id, EV_ABS, ev_code);
 }
