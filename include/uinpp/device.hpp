@@ -42,6 +42,9 @@ public:
   ~Device();
 
   /*@{*/
+  void set_phys(std::string_view phys);
+  void set_prop(int value);
+
   /** Create an absolute axis */
   void add_abs(uint16_t code, int min, int max, int fuzz = 0, int flat = 0);
 

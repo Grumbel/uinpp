@@ -32,6 +32,8 @@ public:
   VirtualDevice(MultiDevice& parent, uint32_t device_id);
 
   void set_name(std::string_view name);
+  void set_phys(std::string_view phys);
+  void set_prop(int prop);
   void set_usbid(uint16_t bustype, uint16_t vendor, uint16_t product, uint16_t version);
 
   EventEmitter* add_rel(int ev_code);
@@ -62,6 +64,8 @@ public:
   void set_device_usbids(std::map<uint32_t, struct input_id> const& device_usbids);
 
   void set_device_name(uint32_t device_id, std::string_view name);
+  void set_device_phys(uint32_t device_id, std::string_view phys);
+  void set_device_prop(uint32_t device_id, int prop);
   void set_device_usbid(uint32_t device_id, input_id id);
 
   void set_ff_callback(int device_id, std::function<void (uint8_t, uint8_t)> const& callback);
@@ -122,6 +126,8 @@ private:
   std::map<uint32_t, std::unique_ptr<Device> > m_devices;
   std::map<uint32_t, std::string> m_device_names;
   std::map<uint32_t, struct input_id> m_device_usbids;
+  std::map<uint32_t, std::string> m_device_phys;
+  std::map<uint32_t, int> m_device_prop;
   std::vector<std::unique_ptr<EventCollector>> m_collectors;
 
   std::map<Event, RelRepeat> m_rel_repeat_lst;

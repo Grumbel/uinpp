@@ -46,6 +46,18 @@ VirtualDevice::set_name(std::string_view name)
 }
 
 void
+VirtualDevice::set_phys(std::string_view phys)
+{
+  m_parent.set_device_phys(m_device_id, phys);
+}
+
+void
+VirtualDevice::set_prop(int prop)
+{
+  m_parent.set_device_prop(m_device_id, prop);
+}
+
+void
 VirtualDevice::set_usbid(uint16_t bustype, uint16_t vendor, uint16_t product, uint16_t version)
 {
   m_parent.set_device_usbid(m_device_id, { bustype, vendor, product, version });
@@ -74,6 +86,8 @@ MultiDevice::MultiDevice() :
   m_devices(),
   m_device_names(),
   m_device_usbids(),
+  m_device_phys(),
+  m_device_prop(),
   m_collectors(),
   m_rel_repeat_lst(),
   m_extra_events(true)
@@ -288,8 +302,23 @@ MultiDevice::create_uinput_device(uint32_t device_id)
 
     std::string dev_name = get_device_name(device_id);
     auto dev = std::make_unique<Device>(device_type, dev_name, get_device_usbid(device_id));
+
+    {
+      auto prop_it = m_device_prop.find(device_id);
+      if (prop_it != m_device_prop.end()) {
+        dev->set_prop(prop_it->second);
+      }
+    }
+
+    {
+      auto phys_it = m_device_phys.find(device_id);
+      if (phys_it != m_device_phys.end()) {
+        dev->set_phys(phys_it->second);
+      }
+    }
+
     Device* dev_tmp = dev.get();
-    m_devices.insert(std::pair<int, std::unique_ptr<Device> >(device_id, std::move(dev)));
+    m_devices[device_id] = std::move(dev);
 
     log_debug("created uinput device: {} - '{}`", device_id, dev_name);
 
@@ -522,6 +551,18 @@ void
 MultiDevice::set_device_name(uint32_t device_id, std::string_view name)
 {
   m_device_names[device_id] = name;
+}
+
+void
+MultiDevice::set_device_phys(uint32_t device_id, std::string_view phys)
+{
+  m_device_phys[device_id] = phys;
+}
+
+void
+MultiDevice::set_device_prop(uint32_t device_id, int prop)
+{
+  m_device_prop[device_id] = prop;
 }
 
 void
