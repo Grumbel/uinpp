@@ -24,8 +24,10 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-      in rec {
-        packages = flake-utils.lib.flattenTree {
+      in {
+        packages = rec {
+          default = uinpp;
+
           uinpp = pkgs.stdenv.mkDerivation {
             pname = "uinpp";
             version = "0.1.0";
@@ -47,6 +49,6 @@
             ];
            };
         };
-        defaultPackage = packages.uinpp;
-      });
+      }
+    );
 }
