@@ -39,9 +39,9 @@
               pkgs.pkgconfig
             ];
             buildInputs = [
-              tinycmmc.defaultPackage.${system}
-              logmich.defaultPackage.${system}
-              strutcpp.defaultPackage.${system}
+              tinycmmc.packages.${system}.default
+              logmich.packages.${system}.default
+              strutcpp.packages.${system}.default
 
               pkgs.util-linux
               pkgs.gtest
