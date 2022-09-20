@@ -45,7 +45,7 @@
 
               pkgs.util-linux
               pkgs.gtest
-              pkgs.fmt
+              pkgs.fmt_8
             ];
            };
         };
