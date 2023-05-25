@@ -16,6 +16,7 @@
 
 #include "force_feedback_handler.hpp"
 
+#include <algorithm>
 #include <cmath>
 
 #include <logmich/log.hpp>
