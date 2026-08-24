@@ -11,11 +11,9 @@
 
     strutcpp.url = "github:grumbel/strutcpp";
     strutcpp.inputs.nixpkgs.follows = "nixpkgs";
-    strutcpp.inputs.tinycmmc.follows = "tinycmmc";
 
     logmich.url = "github:logmich/logmich";
     logmich.inputs.nixpkgs.follows = "nixpkgs";
-    logmich.inputs.tinycmmc.follows = "tinycmmc";
   };
 
   outputs = { self, nixpkgs, flake-utils, tinycmmc, strutcpp, logmich }:
@@ -43,7 +41,6 @@
 
               pkgs.util-linux
               pkgs.gtest
-              pkgs.fmt
             ];
            };
         };

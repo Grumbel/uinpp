@@ -18,21 +18,55 @@
         "type": "github"
       }
     },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_3": {
+      "inputs": {
+        "systems": "systems_3"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "logmich": {
       "inputs": {
+        "flake-utils": "flake-utils_2",
         "nixpkgs": [
           "nixpkgs"
-        ],
-        "tinycmmc": [
-          "tinycmmc"
         ]
       },
       "locked": {
-        "lastModified": 1753120025,
-        "narHash": "sha256-e8k/ZzPAfLgNF30wmXHDX5ovK/msTH6sgzxWKzZhtOY=",
+        "lastModified": 1787239001,
+        "narHash": "sha256-p3BHIMo/2SaN5eyfhn8XUysO5+DY0F98wAK8WYMDceY=",
         "owner": "logmich",
         "repo": "logmich",
-        "rev": "c73c7b7d6cd050d1bcc42d522ce80a2eb86da5c8",
+        "rev": "8f8774b30c70b820e079484df638fd2667615a47",
         "type": "github"
       },
       "original": {
@@ -43,11 +77,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1762977756,
-        "narHash": "sha256-4PqRErxfe+2toFJFgcRKZ0UI9NSIOJa+7RXVtBhy4KE=",
+        "lastModified": 1787498568,
+        "narHash": "sha256-9i/VTdusq/+NM/tz+J1Re+ojkMB8MBf0QshnYfzHz30=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c5ae371f1a6a7fd27823bc500d9390b38c05fa55",
+        "rev": "56c02bc00adcf003215cc4bd996d6efaf4cff188",
         "type": "github"
       },
       "original": {
@@ -68,19 +102,17 @@
     },
     "strutcpp": {
       "inputs": {
+        "flake-utils": "flake-utils_3",
         "nixpkgs": [
           "nixpkgs"
-        ],
-        "tinycmmc": [
-          "tinycmmc"
         ]
       },
       "locked": {
-        "lastModified": 1753121687,
-        "narHash": "sha256-pyLNbjvhGjEOGcj4Krtcm/Rms2rvBfWD1lqrEmm7gnI=",
+        "lastModified": 1786385206,
+        "narHash": "sha256-HyZl9g1wnk3QFqQuawtTe29LXgSWq92zMZcCi6zg584=",
         "owner": "grumbel",
         "repo": "strutcpp",
-        "rev": "3c9cbf6cd0e09b34e464a0ff01aca99290d79870",
+        "rev": "81bbd72b9a5ecc67dbcf18ffa9117cdf6f21262a",
         "type": "github"
       },
       "original": {
@@ -90,6 +122,36 @@
       }
     },
     "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_3": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
@@ -114,11 +176,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1762385311,
-        "narHash": "sha256-B3XPPjn9S1YpIZmHyBBbXwaP0JVKBhYvCmNt6oauj+M=",
+        "lastModified": 1787260639,
+        "narHash": "sha256-fKg/K22LM5QVIUn6E7DC3c1g9B9vnXNZK6ZZJAR0+4Q=",
         "owner": "grumbel",
         "repo": "tinycmmc",
-        "rev": "2ad2d2ab7dce012bb1c9d1dbb8bdb5abd9232ecd",
+        "rev": "7bb25c7bb0229e717c0de963ac80f3e923500d88",
         "type": "github"
       },
       "original": {
